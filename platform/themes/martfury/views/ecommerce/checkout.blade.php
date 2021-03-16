@@ -243,30 +243,9 @@
                                 information is never stored on our servers.</p>
                             <div class="checkout_form">
 
-
-                                @if (!empty($shipping))
-                                    <div class="payment-checkout-form">
-                                        <input type="hidden" name="shipping_option" value="{{ old('shipping_option', $defaultShippingOption) }}">
-                                        <ul class="list-group list_payment_method">
-                                            @foreach ($shipping as $shippingKey => $shippingItem)
-                                                @foreach($shippingItem as $subShippingKey => $subShippingItem)
-                                                    @include('plugins/ecommerce::orders.partials.shipping-option', [
-                                                         'defaultShippingMethod' => $defaultShippingMethod,
-                                                         'defaultShippingOption' => $defaultShippingOption,
-                                                         'shippingOption'        => $subShippingKey,
-                                                         'shippingItem'          => $subShippingItem,
-                                                    ])
-                                                @endforeach
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @else
-                                    <p>{{ __('No shipping methods available!') }}</p>
-                                @endif
-
-
-                                @if (setting('payment_stripe_status') == 1)
                                     <div class="payment_form"  @if (!setting('default_payment_method') || setting('default_payment_method') == \Botble\Payment\Enums\PaymentMethodEnum::STRIPE) show @endif">
+
+                                    @if (setting('payment_stripe_status') == 1)
                                         <div class="payment_list_row1 payment_check active">
                                             <div class="payment_list">
                                                 <input type="radio" id="card" name="payment_method" value="stripe" checked>
@@ -305,11 +284,12 @@
                                             </div>
                                             <div id="payment-stripe-key" data-value="{{ setting('payment_stripe_client_id') }}"></div>
                                         </div>
+                                    @endif
                                         <div class="payment_list_row payment_check">
                                             <div class="payment_list payment_input">
                                                 <input type="radio" id="payment_method" name="payment_method"
                                                        value="bank_transfer" >
-                                                <label for="banktransfer">
+                                                <label for="payment_method">
                                                     Direct Bank Transfer
                                                 </label>
                                                 <div class="check"></div>
@@ -330,7 +310,7 @@
                                             </div>
                                         @endif
                                     </div>
-                                @endif
+
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -340,16 +320,47 @@
                                         $product = $products->where('id', $cartItem->id)->first();
                                     @endphp
                                     @if(!empty($product))
+                                        <div id="main-checkout-product-info">
                                         <div class="cart_totals-list">
                                             <h3 class="order_title">Order Details</h3>
                                             <div class="table_div">
                                                 <table class="table-module">
                                                     <tbody>
+
+                                                    @if (session('applied_coupon_code'))
+                                                        <tr class="shipping-totals">
+                                                            <th>
+                                                                {{ __('Coupon code') }}:
+                                                            </th>
+                                                            <td>
+                                                                {{ session('applied_coupon_code') }}
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                    @if ($couponDiscountAmount > 0)
+                                                        <tr class="shipping-totals">
+                                                            <th>
+                                                                <p>{{ __('Coupon code discount amount') }}:</p>
+                                                            </th>
+                                                           <th>
+                                                                <p class="price-text total-discount-amount-text"> {{ format_price($couponDiscountAmount) }} </p>
+                                                            </th>
+                                                        </tr>
+                                                    @endif
+                                                    @if ($promotionDiscountAmount > 0)
+                                                        <tr class="shipping-totals">
+                                                            <th>
+                                                                <p>{{ __('Promotion discount amount') }}:</p>
+                                                            </th>
+                                                            <th>
+                                                                <p class="price-text"> {{ format_price($promotionDiscountAmount) }} </p>
+                                                            </th>
+                                                        </tr>
+                                                    @endif
                                                     <tr class="cart-subtotal">
                                                         <th>Subtotal</th>
                                                         <td>
-                                                <span class="Price-amount amount"><span
-                                                        class="Price-currencySymbol">$</span>14.23</span>
+                                                        <span class="Price-amount amount">{{ format_price(Cart::instance('cart')->rawSubTotal()) }}</span>
                                                         </td>
                                                     </tr>
                                                     <tr class="shipping-totals">
@@ -363,10 +374,9 @@
                                                     <tr class="order-total">
                                                         <th>Grand Total</th>
                                                         <td><strong>
-                                            <span class="Price-amount amount">
-{{--                                            <span class="Price-currencySymbol">$</span>--}}
-                                                {{ format_price(Cart::instance('cart')->rawSubTotal()) }}
-                                            </span>
+                                                        <span class="Price-amount amount">
+                                                            {{ ($promotionDiscountAmount + $couponDiscountAmount - $shippingAmount) > Cart::instance('cart')->rawTotal() ? format_price(0) : format_price(Cart::instance('cart')->rawTotal() - $promotionDiscountAmount - $couponDiscountAmount + $shippingAmount) }}
+                                                        </span>
                                                             </strong>
                                                         </td>
                                                     </tr>
@@ -383,8 +393,10 @@
                                                     <div class="coupon-error-msg">
                                                         <span class="text-danger"></span>
                                                     </div>
+                                                    <button class="btn btn-md btn-gray btn-info apply-coupon-code float-right" data-url="{{ route('public.coupon.apply') }}" type="button"> {{ __('Apply') }}</button>--}}
                                                 </div>
                                             </div>
+                                        </div>
                                         </div>
 {{--                                        <div class="promocode_form">--}}
 {{--                                            <h3 class="promocode_title">Promocode</h3>--}}

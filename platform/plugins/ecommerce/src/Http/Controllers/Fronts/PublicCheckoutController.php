@@ -119,6 +119,7 @@ class PublicCheckoutController
         ProductInterface $productRepository,
         DiscountInterface $discountRepository
     ) {
+//dd(\Route::currentRouteAction());
         $this->taxRepository = $taxRepository;
         $this->orderRepository = $orderRepository;
         $this->orderProductRepository = $orderProductRepository;
@@ -218,6 +219,8 @@ class PublicCheckoutController
         Arr::set($sessionCheckoutData, 'shipping_amount', $shippingAmount);
         OrderHelper::setOrderSessionData($token, $sessionCheckoutData);
 
+
+
         if (session()->has('applied_coupon_code')) {
             if (!$request->input('applied_coupon')) {
                 $discount = $applyCouponService->getCouponData(session('applied_coupon_code'), $sessionCheckoutData);
@@ -228,6 +231,7 @@ class PublicCheckoutController
                 }
             } else {
                 $shippingAmount = Arr::get($sessionCheckoutData, 'is_free_ship') ? 0 : $shippingAmount;
+//                dd($shippingAmount);
             }
         }
 
