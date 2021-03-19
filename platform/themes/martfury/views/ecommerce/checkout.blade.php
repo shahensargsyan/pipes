@@ -213,7 +213,7 @@
                                                 <input type="radio" id="card" name="payment_method" value="stripe">
                                                 <label for="card">Credit Card
                                                     <div class="cards_img">
-                                                        <img class="master" src="/themes/pipes/images/cards.png">
+                                                        <img class="master" src="{!! Theme::asset()->url('/pipes/images/cards.png') !!}">
                                                     </div>
                                                 </label>
                                                 <div class="check"></div>
@@ -264,7 +264,7 @@
                                                            @if (setting('default_payment_method') == \Botble\Payment\Enums\PaymentMethodEnum::PAYPAL) checked @endif>
                                                     <label for="paypal">PayPal Express
                                                         <div class="cards_img2">
-                                                            <img class="paypal" src="/themes/pipes/images/paypal-express@2x.png">
+                                                            <img class="paypal" src="{!! Theme::asset()->url('/pipes/images/paypal-express@2x.png') !!}">
                                                         </div>
                                                     </label>
                                                     <div class="check"></div>

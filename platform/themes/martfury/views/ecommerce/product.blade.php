@@ -70,21 +70,21 @@
     <div class="container">
         <div class="lnd_sect2_info">
             <div class="lnd_sect2_info_item">
-                <img src="/themes/pipes/images/easy-to-use.svg">
+                <img src="{!! Theme::asset()->url('/pipes/images/easy-to-use.svg') !!}">
                 <div>
                     <h3>Easy to use</h3>
                     <p>Catered to your busy lifestyle with just 20 minutes a day!</p>
                 </div>
             </div>
             <div class="lnd_sect2_info_item">
-                <img src="/themes/pipes/images/reliable-robust.svg">
+                <img src="{!! Theme::asset()->url('/pipes/images/reliable-robust.svg') !!}">
                 <div>
                     <h3>Reliable and Robust</h3>
                     <p>Clinically proven results can see and feel in just weeks.</p>
                 </div>
             </div>
             <div class="lnd_sect2_info_item">
-                <img src="/themes/pipes/images/flexible.svg">
+                <img src="{!! Theme::asset()->url('/pipes/images/flexible.svg') !!}">
                 <div>
                     <h3>Flexible</h3>
                     <p>It is a long established fact that a reader will be distracted.</p>
@@ -204,21 +204,21 @@
                         <div class="row">
                             <div class="col__left">
                                 <div class="lnd_sect3_bottom">
-                                    <img src="/themes/pipes/images/free-delivery.svg">
+                                    <img src="{!! Theme::asset()->url('/pipes/images/free-delivery.svg') !!}">
                                     <p>Free delivery</p>
                                 </div>
                                 <div class="lnd_sect3_bottom">
-                                    <img src="/themes/pipes/images/payment-security.svg">
+                                    <img src="{!! Theme::asset()->url('/pipes/images/payment-security.svg') !!}">
                                     <p>Payment Security</p>
                                 </div>
                             </div>
                             <div class="col__right">
                                 <div class="lnd_sect3_bottom">
-                                    <img src="/themes/pipes/images/24-7.svg">
+                                    <img src="{!! Theme::asset()->url('/pipes/images/24-7.svg') !!}">
                                     <p>24/7 Customer Service</p>
                                 </div>
                                 <div class="lnd_sect3_bottom">
-                                    <img src="/themes/pipes/images/money-back-guarantee.svg">
+                                    <img src="{!! Theme::asset()->url('/pipes/images/money-back-guarantee.svg') !!}">
                                     <p>14 Days Money Back Guarantee</p>
                                 </div>
                             </div>
@@ -238,8 +238,8 @@
             <div class="faq-area">
                 @foreach($faqs as $faq)
                     <button class="accordion">{{ $faq->question }}
-                        <img class="faq_plus" src="/themes/pipes/images/plus.svg">
-                        <img class="faq_minus" src="/themes/pipes/images/minus.svg">
+                        <img class="faq_plus" src="{!! Theme::asset()->url('/pipes/images/plus.svg') !!}">
+                        <img class="faq_minus" src="{!! Theme::asset()->url('/pipes/images/minus.svg') !!}">
                         <div class="panel" style="display: none;">
                             {!! clean($faq->answer) !!}
                         </div>
@@ -255,7 +255,7 @@
 <div class="lnd_section5">
     <div class="container">
         <div class="lnd_sect5_left">
-            <img src="/themes/pipes/images/banner@2x.png">
+            <img src="{!! Theme::asset()->url('/pipes/images/banner@2x.png') !!}">
         </div>
         <div class="lnd_sect5_right">
             <h1 class="sect5_title">{{ $product->middle_title }}</h1>
@@ -271,7 +271,6 @@
             <h2 class="reviews_title">REVIEWS</h2>
             <div id="carousel" class="reviews_div slider">
                 @foreach($reviews as $review)
-{{--                    {{dd($reviews,star)}}--}}
                     <div class="slider-item reviews_item">
                         <div class="rev_product_img">
                             <img src="/storage/{{$review->user->avatar}}">

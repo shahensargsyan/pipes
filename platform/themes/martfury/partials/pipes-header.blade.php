@@ -19,7 +19,7 @@
     <!-- Main CSS -->
     <link href="{!! Theme::asset()->url('/pipes/css/style.css') !!}" rel="stylesheet">
 
-    <link href="{!! Theme::asset()->url('/pipes/martfury/css/custom.css') !!}" rel="stylesheet">
+    <link href="{!! Theme::asset()->url('/css/custom.css') !!}" rel="stylesheet">
 
 </head>
 

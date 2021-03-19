@@ -86,7 +86,7 @@
 
                                                 </div>
                                                 <div class="cart_delete_btn">
-                                                    <a href="{{ route('public.cart.remove', $cartItem->rowId) }}" class="remove-cart-button"><img src="/themes/pipes/images/delete.svg"></a>
+                                                    <a href="{{ route('public.cart.remove', $cartItem->rowId) }}" class="remove-cart-button"><img src="{!! Theme::asset()->url('/pipes/images/delete.svg') !!}"></a>
                                                 </div>
                                             </div>
 
