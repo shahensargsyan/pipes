@@ -50,6 +50,7 @@ export class DiscountManagement {
                         if (data.responseJSON.errors !== 'undefined') {
                             $.each(data.responseJSON.errors, (index, el) => {
                                 $.each(el, (key, item) => {
+                                    console.log(item)
                                     $('.coupon-error-msg .text-danger').text(item);
                                 });
                             });

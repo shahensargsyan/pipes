@@ -1,20 +1,18 @@
 @php
     $crossSellProducts = [];
     Theme::layout('pipes');
-    //Theme::set('stickyHeader', 'false');
-    //dd(Route::current()->uri)
 @endphp
 
 <div class="cart_page">
     <div class="container">
         <h2 class="cart_title">{{ __('YOUR CAR') }}T</h2>
         <div class="row">
+            @if (Cart::instance('cart')->count() > 0)
             <div class="col-md-8">
                 <div class="cart_product">
 
                     <form class="form--shopping-cart" method="post" action="{{ route('public.cart.update') }}">
                         @csrf
-                        @if (Cart::instance('cart')->count() > 0)
                             @php
                                 $productIds = Cart::instance('cart')->content()->pluck('id')->toArray();
 
@@ -51,11 +49,11 @@
                                                         <div class="quant_btn_row">
                                                             <div class="quantity product__qty">
                                                                 <div class="custom_qty "><span
-                                                                        class="product_count_numb product_count_numb_min minus down" id="mins">-</span> <label
+                                                                        class="product_count_numb product_count_numb_min minus down" key="{{ $key }}" id="mins">-</span> <label
                                                                         class="screen-reader-text" for="quantity"></label>
-                                                                    <input type="number" id="quantity" class="input-text qty text" min="1" max="" readonly
+                                                                    <input type="number" id="quantity_{{ $key }}" class="input-text qty text" min="1" max="" readonly
                                                                            name="items[{{ $key }}][values][qty]" value="{{ $cartItem->qty }}" title="Qty" size="4" placeholder=""/>
-                                                                    <span class="product_count_numb product_count_numb_plus plus up" id="plus">+</span></div>
+                                                                    <span class="product_count_numb product_count_numb_plus plus up" key="{{ $key }}" id="plus">+</span></div>
 {{--                                                                <input type="text" class="form-control qty-input" value="{{ $cartItem->qty }}" title="{{ __('Qty') }}"  >--}}
                                                             </div>
                                                             @if (Cart::instance('cart')->count() > 0)
@@ -91,13 +89,12 @@
                                                     <a href="{{ route('public.cart.remove', $cartItem->rowId) }}" class="remove-cart-button"><img src="/themes/pipes/images/delete.svg"></a>
                                                 </div>
                                             </div>
-                                    </form>
-                            @endif
-                        @endforeach
-                    @endif
-                    @else
-                        <p class="text-center">{{ __('Your cart is empty!') }}</p>
-                    @endif
+
+
+                                @endif
+                            @endforeach
+                        @endif
+                    </form>
                 </div>
             </div>
             <div class="col-md-4">
@@ -141,6 +138,9 @@
                     <a href="{{ route('public.checkout.information', OrderHelper::getOrderSessionToken()) }}">{{ __('Proceed to checkout') }}</a>
                 </div>
             </div>
+            @else
+                <p class="text-center">{{ __('Your cart is empty!') }}</p>
+            @endif
         </div>
     </div>
 </div>

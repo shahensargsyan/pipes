@@ -12,10 +12,13 @@ use Botble\Ecommerce\Repositories\Interfaces\ReviewInterface;
 use Botble\Ecommerce\Services\Products\GetProductService;
 use Botble\Page\Models\Page;
 use Botble\Page\Services\PageService;
+use Botble\Theme\Events\RenderingSingleEvent;
 use Botble\Theme\Http\Controllers\PublicController;
 use Cart;
 use EmailHandler;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Theme;
 use Theme\Martfury\Http\Requests\SendDownloadAppLinksRequest;
 use Theme\Martfury\Http\Resources\BrandResource;
@@ -24,7 +27,7 @@ use Theme\Martfury\Http\Resources\ProductCategoryResource;
 use Theme\Martfury\Http\Resources\ReviewResource;
 use BaseHelper;
 use SlugHelper;
-
+//dd(\Route::currentRouteAction());
 class MartfuryController extends PublicController
 {
     /**
@@ -503,5 +506,49 @@ class MartfuryController extends PublicController
     public function getproducts()
     {
         die('okkk');
+    }
+
+    /**
+     * @param string $key
+     * @return \Illuminate\Http\RedirectResponse|Response
+     * @throws FileNotFoundException
+     */
+    public function getView($key = null)
+    {
+        if (empty($key)) {
+            return $this->getIndex();
+        }
+
+        $slug = SlugHelper::getSlug($key, '');
+
+        if (!$slug) {
+            abort(404);
+        }
+
+        if (defined('PAGE_MODULE_SCREEN_NAME')) {
+            if ($slug->reference_type == Page::class && BaseHelper::isHomepage($slug->reference_id)) {
+                return redirect()->to('/');
+            }
+        }
+
+        $result = apply_filters(BASE_FILTER_PUBLIC_SINGLE_DATA, $slug);
+//        dd($result);
+        if (isset($result['slug']) && $result['slug'] !== $key) {
+            return redirect()->route('public.single', $result['slug']);
+        }
+
+        event(new RenderingSingleEvent($slug));
+
+//        return Theme::scope(
+//            'ecommerce.thank-you', compact('order')
+//        )->render();
+
+        Theme::layout('pipes');
+
+        if (!empty($result) && is_array($result)) {
+            return Theme::scope($result['view'], $result['data'], Arr::get($result, 'default_view'))->render();
+        }
+
+        abort(404);
     }
 }

@@ -743,10 +743,12 @@ class PublicCheckoutController
         if ($token !== session('tracked_start_checkout') || !$order) {
             return $response->setNextUrl(url('/'));
         }
-
-        OrderHelper::clearSessions($token);
-
-        return view('plugins/ecommerce::orders.thank-you', compact('order'));
+//        die(\Route::current()->uri);
+        //OrderHelper::clearSessions($token);
+//die;
+        return Theme::scope(
+            'ecommerce.thank-you', compact('order')
+        )->render();
     }
 
     /**

@@ -59,14 +59,23 @@ Route::group(['namespace' => 'Theme\Martfury\Http\Controllers', 'middleware' => 
 });
 
 Theme::routes();
+Route::group(['namespace' => 'Botble\Ecommerce\Http\Controllers\Fronts', 'middleware' => ['web', 'core']], function () {
+    Route::group(apply_filters(BASE_FILTER_GROUP_PUBLIC_ROUTE, []), function () {
 
+
+        Route::get('/', 'PublicProductController@getPipeProduct')
+            ->name('public.index');
+
+
+    });
+});
 Route::group(['namespace' => 'Theme\Martfury\Http\Controllers', 'middleware' => ['web', 'core']], function () {
     Route::group(apply_filters(BASE_FILTER_GROUP_PUBLIC_ROUTE, []), function () {
 
 //        Route::get('/products/{slug}', 'MartfuryController@getproducts');
 
-        Route::get('/', 'MartfuryController@getIndex')
-            ->name('public.index');
+//        Route::get('/', 'MartfuryController@getPipeProduct')
+//            ->name('public.index');
 
         Route::get('sitemap.xml', 'MartfuryController@getSiteMap')
             ->name('public.sitemap');
