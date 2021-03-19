@@ -45,16 +45,17 @@
     <div class="container">
     {!! Form::open(['route' => ['public.checkout.process', $token], 'class' => 'checkout-form payment-checkout-form', 'id' => 'checkout-form']) !!}
         <input type="hidden" name="checkout-token" id="checkout-token" value="{{ $token }}">
-
+        <input class="magic-radio" type="hidden" name="shipping_method"  value="default" data-option="1">
         @php
-            $productIds = Cart::instance('cart')->content()->pluck('id')->toArray();
-            if ($productIds) {
-                $products = get_products([
-                    'condition' => [
-                        ['ec_products.id', 'IN', $productIds],
-                    ],
-                ]);
-            }
+            $products = [];
+                $productIds = Cart::instance('cart')->content()->pluck('id')->toArray();
+                if ($productIds) {
+                    $products = get_products([
+                        'condition' => [
+                            ['ec_products.id', 'IN', $productIds],
+                        ],
+                    ]);
+                }
         @endphp
 
         <!-- design process steps-->
@@ -67,7 +68,7 @@
                 </a>
             </li>
             <li role="presentation">
-                <a href="#payment" aria-controls="payment" role="tab" data-toggle="tab"><span>2</span>
+                <a href="#payment" id="payment-tub" aria-controls="payment" role="tab" data-toggle="tab"><span>2</span>
                     <p>PAYMENT METHOD</p>
                 </a>
             </li>
@@ -175,53 +176,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="cart_totals-list">
-                                <h3 class="order_title">Order Details</h3>
-                                <div class="table_div">
-                                    <table class="table-module">
-                                        <tbody>
-                                        <tr class="cart-subtotal">
-                                            <th>Subtotal</th>
-                                            <td>
-                                    <span class="Price-amount amount"><span
-                                            class="Price-currencySymbol">$</span>14.23</span>
-                                            </td>
-                                        </tr>
-                                        <tr class="shipping-totals">
-                                            <th>
-                                                Shipping
-                                            </th>
-                                            <td>
-                                                Free
-                                            </td>
-                                        </tr>
-                                        <tr class="order-total">
-                                            <th>Grand Total</th>
-                                            <td><strong>
-                                <span class="Price-amount amount">
-                                <span class="Price-currencySymbol">$</span>
-                                    14.23</span>
-                                                </strong>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                        @if (isset($products) && $products)
+                            <div class="col-md-4">
+
+                                <div class="payment_btn_row">
+                                    <button type="button" class="btn" onclick="$( '#payment-tub' ).trigger( 'click' )">COUNTINUE</button>
                                 </div>
                             </div>
-                            <div class="promocode_form">
-                                <h3 class="promocode_title">Promocode</h3>
-                                <div class="promocode_form_div">
-                                    <div class="promocode-input">
-                                        <input type="text" placeholder="Enter Code">
-                                        <input type="button" value="Apply">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="payment_btn_row">
-                                <button class="btn">COUNTINUE</button>
-                            </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -243,33 +205,12 @@
                                 information is never stored on our servers.</p>
                             <div class="checkout_form">
 
-
-                                @if (!empty($shipping))
-                                    <div class="payment-checkout-form">
-                                        <input type="hidden" name="shipping_option" value="{{ old('shipping_option', $defaultShippingOption) }}">
-                                        <ul class="list-group list_payment_method">
-                                            @foreach ($shipping as $shippingKey => $shippingItem)
-                                                @foreach($shippingItem as $subShippingKey => $subShippingItem)
-                                                    @include('plugins/ecommerce::orders.partials.shipping-option', [
-                                                         'defaultShippingMethod' => $defaultShippingMethod,
-                                                         'defaultShippingOption' => $defaultShippingOption,
-                                                         'shippingOption'        => $subShippingKey,
-                                                         'shippingItem'          => $subShippingItem,
-                                                    ])
-                                                @endforeach
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @else
-                                    <p>{{ __('No shipping methods available!') }}</p>
-                                @endif
-
-
-                                @if (setting('payment_stripe_status') == 1)
                                     <div class="payment_form"  @if (!setting('default_payment_method') || setting('default_payment_method') == \Botble\Payment\Enums\PaymentMethodEnum::STRIPE) show @endif">
+
+                                    @if (setting('payment_stripe_status') == 1)
                                         <div class="payment_list_row1 payment_check active">
                                             <div class="payment_list">
-                                                <input type="radio" id="card" name="payment_method" value="stripe" checked>
+                                                <input type="radio" id="card" name="payment_method" value="stripe">
                                                 <label for="card">Credit Card
                                                     <div class="cards_img">
                                                         <img class="master" src="/themes/pipes/images/cards.png">
@@ -305,11 +246,12 @@
                                             </div>
                                             <div id="payment-stripe-key" data-value="{{ setting('payment_stripe_client_id') }}"></div>
                                         </div>
+                                    @endif
                                         <div class="payment_list_row payment_check">
                                             <div class="payment_list payment_input">
-                                                <input type="radio" id="payment_method" name="payment_method"
+                                                <input type="radio" id="bank_transfer" name="payment_method"
                                                        value="bank_transfer" >
-                                                <label for="banktransfer">
+                                                <label for="bank_transfer">
                                                     Direct Bank Transfer
                                                 </label>
                                                 <div class="check"></div>
@@ -318,7 +260,7 @@
                                         @if (setting('payment_paypal_status') == 1)
                                             <div class="payment_list_row payment_check">
                                                 <div class="payment_list payment_input">
-                                                    <input type="radio" id="payment_method" name="Card" value="paypal"
+                                                    <input type="radio" id="paypal" name="payment_method" value="paypal"
                                                            @if (setting('default_payment_method') == \Botble\Payment\Enums\PaymentMethodEnum::PAYPAL) checked @endif>
                                                     <label for="paypal">PayPal Express
                                                         <div class="cards_img2">
@@ -330,96 +272,17 @@
                                             </div>
                                         @endif
                                     </div>
-                                @endif
+
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            @if (isset($products) && $products)
-                                @foreach(Cart::instance('cart')->content() as $key => $cartItem)
-                                    @php
-                                        $product = $products->where('id', $cartItem->id)->first();
-                                    @endphp
-                                    @if(!empty($product))
-                                        <div class="cart_totals-list">
-                                            <h3 class="order_title">Order Details</h3>
-                                            <div class="table_div">
-                                                <table class="table-module">
-                                                    <tbody>
-                                                    <tr class="cart-subtotal">
-                                                        <th>Subtotal</th>
-                                                        <td>
-                                                <span class="Price-amount amount"><span
-                                                        class="Price-currencySymbol">$</span>14.23</span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="shipping-totals">
-                                                        <th>
-                                                            Shipping
-                                                        </th>
-                                                        <td>
-                                                            Free
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="order-total">
-                                                        <th>Grand Total</th>
-                                                        <td><strong>
-                                            <span class="Price-amount amount">
-{{--                                            <span class="Price-currencySymbol">$</span>--}}
-                                                {{ format_price(Cart::instance('cart')->rawSubTotal()) }}
-                                            </span>
-                                                            </strong>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div class="promocode_form">
-                                            <h3 class="promocode_title">Promocode</h3>
-                                            <div class="promocode_form_div">
-                                                <div class="promocode-input coupon-wrapper">
-                                                    <input type="text" class="form-control coupon-code input-md checkout-input" name="coupon_code" placeholder="Enter Code">
-                                                    <input class="apply-coupon-code" value="Apply" data-url="{{ route('public.coupon.apply') }}" type="button"> {{ __('Apply') }}
-                                                    <div class="coupon-error-msg">
-                                                        <span class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-{{--                                        <div class="promocode_form">--}}
-{{--                                            <h3 class="promocode_title">Promocode</h3>--}}
-{{--                                            <div class="promocode_form_div">--}}
-{{--                                                <div class="promocode-input coupon-wrapper">--}}
-{{--                                                    <input type="text" name="coupon_code" class="form-control coupon-code input-md checkout-input" value="{{ old('coupon_code') }}" placeholder="{{ __('Enter coupon code...') }}">--}}
-{{--                                                    <div class="coupon-error-msg">--}}
-{{--                                                        <span class="text-danger"></span>--}}
-{{--                                                    </div>--}}
-{{--                                                    <button class="btn btn-md btn-gray btn-info apply-coupon-code float-right" data-url="{{ route('public.coupon.apply') }}" type="button" style="margin-top: 0;padding: 10px 20px;><i class="><i class="fa fa-gift"></i> {{ __('Apply') }}</button>--}}
-
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-
-{{--                                        <div class="promocode_form">--}}
-{{--                                            <h3 class="promocode_title">Promocode</h3>--}}
-{{--                                            <div class="promocode_form_div">--}}
-{{--                                                <div class="promocode-input coupon-wrapper">--}}
-{{--                                                    <input type="text" name="coupon_code" class="form-control coupon-code input-md checkout-input" value="{{ old('coupon_code') }}" placeholder="{{ __('Enter coupon code...') }}">--}}
-{{--                                                    <div class="coupon-error-msg">--}}
-{{--                                                        <span class="text-danger"></span>--}}
-{{--                                                    </div>--}}
-{{--                                                    <button class="btn btn-md btn-gray btn-info apply-coupon-code float-right" data-url="{{ route('public.coupon.apply') }}" type="button"> {{ __('Apply') }}</button>--}}
-
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-                                        <div class="payment_btn_row">
-                                            <button class="btn">PLACE ORDER</button>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            @endif
-                        </div>
+                        @if (isset($products) && $products)
+                            <div class="col-md-4">
+                                @include(Theme::getThemeNamespace() . '::views/ecommerce/orders/partisals/chechout-order-details', $products)
+                                <div class="payment_btn_row">
+                                    <button class="btn">PLACE ORDER</button>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

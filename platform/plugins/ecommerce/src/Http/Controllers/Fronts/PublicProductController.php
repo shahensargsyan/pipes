@@ -221,6 +221,85 @@ class PublicProductController
     }
 
     /**
+     * @return \Illuminate\Http\RedirectResponse|Response
+     */
+    public function getPipeProduct()
+    {
+
+
+        $condition = [
+            'ec_products.id'     => 1,
+            'ec_products.status' => BaseStatusEnum::PUBLISHED,
+        ];
+
+        if (Auth::check() && request()->input('preview')) {
+            Arr::forget($condition, 'status');
+        }
+
+        $product = get_products([
+            'condition' => $condition,
+            'take'      => 1,
+            'with'      => [
+                'defaultProductAttributes',
+                'slugable',
+                'tags',
+                'tags.slugable',
+            ],
+        ]);
+
+        if (!$product) {
+            abort(404);
+        }
+
+//        if ($product->slugable->key !== $slug->key) {
+//            return redirect()->to($product->url);
+//        }
+
+        SeoHelper::setTitle($product->name)->setDescription($product->description);
+
+        $meta = new SeoOpenGraph;
+        if ($product->image) {
+            $meta->setImage(RvMedia::getImageUrl($product->image));
+        }
+        $meta->setDescription($product->description);
+        $meta->setUrl($product->url);
+        $meta->setTitle($product->name);
+
+        SeoHelper::setSeoOpenGraph($meta);
+
+//        Helper::handleViewCount($product, 'viewed_product');
+
+//        Theme::breadcrumb()->add(__('Home'), url('/'))
+//            ->add(__('Products'), route('public.products'));
+
+        $category = $product->categories->first();
+//        if ($category) {
+//            Theme::breadcrumb()->add($category->name, $category->url);
+//        }
+
+//        Theme::breadcrumb()->add($product->name, $product->url);
+
+//        admin_bar()
+//            ->registerLink(trans('plugins/ecommerce::products.edit_this_product'),
+//                route('products.edit', $product->id));
+
+        do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, PRODUCT_CATEGORY_MODULE_SCREEN_NAME, $product);
+
+        $faqs = $this->faqRepository->all();
+
+        $reviews = $this->reviewRepository->advancedGet([
+            'condition' => [
+                'status'     => BaseStatusEnum::PUBLISHED,
+                'product_id' => $product->id,
+            ],
+            'with'  => ['user'],
+            'order_by'  => ['created_at' => 'desc'],
+        ]);
+
+        return Theme::scope('ecommerce.product', compact('product', 'faqs', 'reviews'), 'plugins/ecommerce::themes.product')->render();
+    }
+
+    /**
      * @param string $slug
      * @param Request $request
      * @param ProductTagInterface $tagRepository
@@ -436,7 +515,7 @@ class PublicProductController
                 'display_sale_price'         => format_price($product->front_sale_price),
                 'sale_percentage'            => get_sale_percentage($product->price, $product->front_sale_price),
             ])
-            ->setMessage(__(':number product(s) available', ['number' => ($product->with_storehouse_management && $product->quantity) ? $product->quantity : '> 10']));
+            ->setMessage(__('Only :number left in stock', ['number' => $product->quantity]));
     }
 
     /**
