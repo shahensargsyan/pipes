@@ -8,18 +8,18 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Wash Pipe </title>
     <!-- Bootstrap core CSS -->
-    <link href="/themes/pipes/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/themes/pipes/lib/css/font-awesome.css" rel="stylesheet">
-    <link href="/themes/pipes/lib/css/slick.css" rel="stylesheet">
-    <link href="/themes/pipes/lib/css/slick-theme.css" rel="stylesheet">
+    <link href="{!! Theme::asset()->url('/pipes/lib/bootstrap/css/bootstrap.min.css') !!}" rel="stylesheet">
+    <link href="{!! Theme::asset()->url('/pipes/lib/css/font-awesome.css') !!}" rel="stylesheet">
+    <link href="{!! Theme::asset()->url('/pipes/lib/css/slick.css') !!}" rel="stylesheet">
+    <link href="{!! Theme::asset()->url('/pipes/lib/css/slick-theme.css') !!}/" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
     <!-- Main CSS -->
-    <link href="/themes/pipes/css/style.css" rel="stylesheet">
+    <link href="{!! Theme::asset()->url('/pipes/css/style.css') !!}" rel="stylesheet">
 
-    <link href="/themes/martfury/css/custom.css?" rel="stylesheet">
+    <link href="{!! Theme::asset()->url('/pipes/martfury/css/custom.css') !!}" rel="stylesheet">
 
 </head>
 
