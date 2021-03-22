@@ -279,7 +279,7 @@
                             <div class="col-md-4">
                                 @include(Theme::getThemeNamespace() . '::views/ecommerce/orders/partisals/chechout-order-details', $products)
                                 <div class="payment_btn_row">
-                                    <button class="btn">PLACE ORDER</button>
+                                    <button class="btn payment-checkout-btn payment-checkout-btn-step">PLACE ORDER</button>
                                 </div>
                             </div>
                         @endif

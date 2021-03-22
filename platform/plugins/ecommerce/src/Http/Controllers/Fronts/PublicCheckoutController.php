@@ -744,7 +744,7 @@ class PublicCheckoutController
             return $response->setNextUrl(url('/'));
         }
 //        die(\Route::current()->uri);
-        //OrderHelper::clearSessions($token);
+        OrderHelper::clearSessions($token);
 //die;
         return Theme::scope(
             'ecommerce.thank-you', compact('order')
