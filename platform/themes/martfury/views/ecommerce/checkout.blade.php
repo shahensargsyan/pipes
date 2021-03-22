@@ -279,7 +279,9 @@
                             <div class="col-md-4">
                                 @include(Theme::getThemeNamespace() . '::views/ecommerce/orders/partisals/chechout-order-details', $products)
                                 <div class="payment_btn_row">
-                                    <button class="btn payment-checkout-btn payment-checkout-btn-step">PLACE ORDER</button>
+                                    <button class="btn payment-checkout-btn payment-checkout-btn-step"  data-processing-text="{{ __('Processing. Please wait...') }}" data-error-header="{{ __('Error') }}">
+                                        {{ __('PLACE ORDER') }}
+                                    </button>
                                 </div>
                             </div>
                         @endif
