@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4bae7f468f74351b3e422a03ff942a94",
+    "content-hash": "75a13f33befbe42b7f067586f28fb01f",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -740,6 +740,60 @@
                 }
             ],
             "time": "2021-01-20T22:51:39+00:00"
+        },
+        {
+            "name": "cartsguru/cartsguru",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://bitbucket.org/market-wave/cartsguru-lib-php.git",
+                "reference": "4fb2f5e76f9a163e8c5245dd9f6ac166ffde6e28"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/market-wave/cartsguru-lib-php/get/4fb2f5e76f9a163e8c5245dd9f6ac166ffde6e28.zip",
+                "reference": "4fb2f5e76f9a163e8c5245dd9f6ac166ffde6e28",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "phpdocumentor/phpdocumentor": "2.*",
+                "phpunit/phpunit": "5.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CartsGuru\\CartsGuru\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Carts Guru",
+                    "email": "hi+php@carts.guru",
+                    "homepage": "http://carts.guru"
+                }
+            ],
+            "description": "Carts Guru - Multichannel solution to convert abandoned shopping carts into sales.",
+            "homepage": "https://carts.guru",
+            "keywords": [
+                "Marketing Automation",
+                "abandoned shopping cart",
+                "cart abandonment",
+                "conversion rate",
+                "ecommerce",
+                "email remarketing",
+                "retargeting"
+            ],
+            "support": {
+                "source": "https://bitbucket.org/market-wave/cartsguru-lib-php/src/4fb2f5e76f9a163e8c5245dd9f6ac166ffde6e28/?at=master"
+            },
+            "time": "2018-07-12T08:27:58+00:00"
         },
         {
             "name": "composer/ca-bundle",

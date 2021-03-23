@@ -39,7 +39,7 @@
                                 <h5>Contact information</h5>
                                 <ul>
                                     <li><a href="mailto:info@washpipepro.com"><img src="{!! Theme::asset()->url('/pipes/images/phone.svg') !!}">
-                                            info@washpipepro.com</a></li>
+                                            info@gardenhosepro.com</a></li>
                                     <li><a href="tel:+(323) 673-2495"><img src="{!! Theme::asset()->url('/pipes/images/mail.svg') !!}">
                                             (323) 673-2495</a>
                                     </li>
@@ -54,7 +54,7 @@
     </div>
     <div class="footer_bottom_div">
         <div class="container">
-            <div class="copyright_text"><p>© Copyright 2020 Wash Pipe Pro. All Rights Reserved</p></div>
+            <div class="copyright_text"><p>© Copyright 2021 Garden Hose Pro. All Rights Reserved</p></div>
             <div class="payments_img"><img src="{!! Theme::asset()->url('/pipes/images/payment-menthods@2x.png') !!}"></div>
         </div>
     </div>

@@ -73,21 +73,21 @@
                 <img src="{!! Theme::asset()->url('/pipes/images/easy-to-use.svg') !!}">
                 <div>
                     <h3>Easy to use</h3>
-                    <p>Catered to your busy lifestyle with just 20 minutes a day!</p>
+                    <p>The hose is very flexible, it makes it easy to move around, store and use daily. </p>
                 </div>
             </div>
             <div class="lnd_sect2_info_item">
                 <img src="{!! Theme::asset()->url('/pipes/images/reliable-robust.svg') !!}">
                 <div>
-                    <h3>Reliable and Robust</h3>
-                    <p>Clinically proven results can see and feel in just weeks.</p>
+                    <h3>Reliable, Robust, and strong </h3>
+                    <p>This hose features 2 layers of PVC nitrile compound, which makes it very strong, durable, and ensures the longevity of the hose.</p>
                 </div>
             </div>
             <div class="lnd_sect2_info_item">
                 <img src="{!! Theme::asset()->url('/pipes/images/flexible.svg') !!}">
                 <div>
-                    <h3>Flexible</h3>
-                    <p>It is a long established fact that a reader will be distracted.</p>
+                    <h3>Flexible and tangle resistant</h3>
+                    <p>The product is very flexible and features a stylish holder. It won’t get tangled either as it features exterior longitudinal fluting.</p>
                 </div>
             </div>
         </div>
@@ -115,7 +115,7 @@
                         <div>
                             @foreach ($productImages as $img)
                                 <div class="item">
-                                    <img src="{{ RvMedia::getImageUrl($img, 'thumb') }}" alt="{{ $originalProduct->name }}"/>
+                                    <img src="{{ RvMedia::getImageUrl($img) }}" alt="{{ $originalProduct->name }}"/>
                                 </div>
                             @endforeach
                         </div>
