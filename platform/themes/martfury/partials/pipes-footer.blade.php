@@ -21,7 +21,6 @@
                             <h5>Navigation</h5>
                             <ul class="f_menu">
                                 <li><a href="/#shop_product">Shop product</a></li>
-                                <li><a href="/#benefits">Benefits</a></li>
                                 <li><a href="/#faq">FAQ</a></li>
                                 <li><a href="/#review">Review</a></li>
                             </ul>
@@ -38,9 +37,9 @@
                             <div class="f-contact_info">
                                 <h5>Contact information</h5>
                                 <ul>
-                                    <li><a href="mailto:info@washpipepro.com"><img src="{!! Theme::asset()->url('/pipes/images/phone.svg') !!}">
+                                    <li><a href="mailto:info@gardenhosepro.com"><img src="{!! Theme::asset()->url('/pipes/images/mail.svg') !!}">
                                             info@gardenhosepro.com</a></li>
-                                    <li><a href="tel:+(323) 673-2495"><img src="{!! Theme::asset()->url('/pipes/images/mail.svg') !!}">
+                                    <li><a href="tel:+(323) 673-2495"><img src="{!! Theme::asset()->url('/pipes/images/phone.svg') !!}">
                                             (323) 673-2495</a>
                                     </li>
                                 </ul>

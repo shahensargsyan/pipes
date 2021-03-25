@@ -53,7 +53,7 @@
 
 <body>
 <div id="alert-container"></div>
-<nav class="nav_bar  {{in_array(Route::current()->uri, ["cart","checkout/{token}", "checkout/{token}/success", "{slug?}"])?'nav_bar2':''}}">
+<nav class="nav_bar  nav_bar2">
     <div class="search_bar_form">
         <form>
             <input type="text" placeholder="Search.." name="search">

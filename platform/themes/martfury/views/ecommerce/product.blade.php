@@ -36,7 +36,7 @@
                     <a href="#shop_product" class="want_it_btn">I WANT IT</a>
                     <div class="video_div">
                         <button type="button" class="btn btn-primary video-btn" data-toggle="modal"
-                                data-src="/themes/pipes/images/video.mp4" data-target="#myModal">
+                                data-src=" {!! Theme::asset()->url('/pipes/images/video.mp4') !!}" data-target="#myModal">
                             WATCH VIDEO
                             <p><span><i class="fas fa-play"></i></span></p>
                         </button>
