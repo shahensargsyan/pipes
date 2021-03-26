@@ -115,8 +115,8 @@ class PublicProductController
 
             SeoHelper::setTitle(__('Search result "' . $query . '" '))
                 ->setDescription(__('Products: ') . '"' . $request->get('q') . '"');
-            Theme::breadcrumb()->add(__('Home'), url('/'))->add(__('Search'), route('public.products'));
-
+            breadcrumb()->add(__('Home'), url('/'))->add(__('Search'), route('public.products'));
+            Theme::header();
             return Theme::scope('ecommerce.search', compact('products', 'query'),
                 'plugins/ecommerce::themes.search')->render();
         }

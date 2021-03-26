@@ -45,6 +45,8 @@
     <div class="container">
     {!! Form::open(['route' => ['public.checkout.process', $token], 'class' => 'checkout-form payment-checkout-form', 'id' => 'checkout-form']) !!}
         <input type="hidden" name="checkout-token" id="checkout-token" value="{{ $token }}">
+        <input type="hidden" name="create_account" id="create_account" value="1">
+
         <input class="magic-radio" type="hidden" name="shipping_method"  value="default" data-option="1">
         @php
             $products = [];
@@ -86,13 +88,13 @@
                                     <div class="checkout_input_row">
                                         <div class="check_input @if ($errors->has('address.first_name')) has-error @endif">
                                             <label>{{ __('First Name') }}</label>
-                                            <input type="text" name="address[first_name]" id="address[name]" class="form-control address-control-item checkout-input"
+                                            <input type="text" name="address[first_name]" id="address[first_name]" class="form-control address-control-item checkout-input"
                                                    value="{{ old('address.first_name', Arr::get($sessionCheckoutData, 'first_name')) }}">
                                             {!! Form::error('address.first_name', $errors) !!}
                                         </div>
                                         <div class="check_input @if ($errors->has('address.last_name')) has-error @endif">
                                             <label>{{ __('Last Name') }}</label>
-                                            <input type="text" name="address[last_name]" id="address[name]" class="form-control address-control-item checkout-input"
+                                            <input type="text" name="address[last_name]" id="address[last_name]" class="form-control address-control-item checkout-input"
                                                    value="{{ old('address.last_name', Arr::get($sessionCheckoutData, 'last_name')) }}">
                                             {!! Form::error('address.last_name', $errors) !!}
                                         </div>
@@ -100,13 +102,13 @@
                                     <div class="checkout_input_row">
                                         <div class="check_input @if ($errors->has('address.company_name')) has-error @endif">
                                             <label>{{ __('Company Name') }}</label>
-                                            <input type="text" name="address[company_name]" id="address[name]" class="form-control address-control-item checkout-input"
+                                            <input type="text" name="address[company_name]" id="address[company_name]" class="form-control address-control-item checkout-input"
                                                    value="{{ old('address.company_name', Arr::get($sessionCheckoutData, 'company_name')) }}">
                                             {!! Form::error('address.company_name', $errors) !!}
                                         </div>
                                         <div class="check_input @if ($errors->has('address.email')) has-error @endif">
                                             <label>{{ __('Email Address*') }}</label>
-                                            <input type="text" name="address[email]" id="address[name]" class="form-control address-control-item checkout-input"
+                                            <input type="text" name="address[email]" id="address[email]" class="form-control address-control-item checkout-input"
                                                    value="{{ old('address.email', Arr::get($sessionCheckoutData, 'email')) }}">
                                             {!! Form::error('address.email', $errors) !!}
                                         </div>
@@ -114,7 +116,7 @@
                                     <div class="checkout_input_row">
                                         <div class="check_input @if ($errors->has('address.address')) has-error @endif">
                                             <label>{{ __('Street Address*') }}</label>
-                                            <input type="text" name="address[address]" id="address[name]" class="form-control address-control-item checkout-input"
+                                            <input type="text" name="address[address]" id="address[address]" class="form-control address-control-item checkout-input"
                                                    value="{{ old('address.address', Arr::get($sessionCheckoutData, 'address')) }}">
                                             {!! Form::error('address.address', $errors) !!}
                                         </div>
@@ -129,7 +131,7 @@
                                     <div class="checkout_input_row">
                                         <div class="check_input @if ($errors->has('address.city')) has-error @endif">
                                             <label>{{ __('Town / City*') }}</label>
-                                            <input type="text" name="address[city]" id="address[apartment]" class="form-control address-control-item checkout-input"
+                                            <input type="text" name="address[city]" id="address[city]" class="form-control address-control-item checkout-input"
                                                    value="{{ old('address.city', Arr::get($sessionCheckoutData, 'city')) }}">
                                             {!! Form::error('address.city', $errors) !!}
                                         </div>

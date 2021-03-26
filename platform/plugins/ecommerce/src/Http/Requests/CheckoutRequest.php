@@ -36,8 +36,8 @@ class CheckoutRequest extends Request
         }
 
         if ($this->input('create_account') == 1) {
-            $rules['password'] = 'required|min:6';
-            $rules['password_confirmation'] = 'required|same:password';
+//            $rules['password'] = 'required|min:6';
+//            $rules['password_confirmation'] = 'required|same:password';
             $rules['address.email'] = 'required|max:60|min:6|email|unique:ec_customers,email';
 //            $rules['address.name'] = 'required|min:3|max:120';
         }

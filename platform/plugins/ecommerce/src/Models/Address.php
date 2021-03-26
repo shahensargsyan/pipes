@@ -28,7 +28,6 @@ class Address extends BaseModel
         'city',
         'address',
         'apartment',
-        'post_code',
         'zip_code',
         'customer_id',
         'is_default',

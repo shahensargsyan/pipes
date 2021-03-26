@@ -96,13 +96,20 @@
 <script src="{!! Theme::asset()->url('pipes/lib/js/slick.js') !!}"></script>
 <!-- Main JS -->
 <script src="{!! Theme::asset()->url('pipes/js/main-js.js') !!}"></script>
+
+<script src="https://wchat.freshchat.com/js/widget.js"></script>
 <script>
     jQuery(function(){
-        console.log('sd')
+
         var hash = window.location.hash;
         hash && jQuery('ul.nav a[href="' + hash + '"]').tab('show');
+
+    });
+
+    window.fcWidget.init({
+        token: "677676e1-0a48-4440-8476-e5ae23b28f04",
+        host: "https://wchat.freshchat.com"
     });
 </script>
-
 </body>
 </html>

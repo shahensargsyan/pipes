@@ -2,6 +2,7 @@
 
 namespace Botble\Ecommerce\Http\Controllers\Fronts;
 
+use App\Event\OrderCreated;
 use Botble\Base\Http\Responses\BaseHttpResponse;
 use Botble\Ecommerce\Enums\OrderStatusEnum;
 use Botble\Ecommerce\Enums\ShippingMethodEnum;
@@ -262,18 +263,19 @@ class PublicCheckoutController
      */
     protected function processOrderData(string $token, array $sessionData, Request $request): array
     {
+//        dd($request->input('create_account'));
         if ($request->input('address', [])) {
             if (!isset($sessionData['created_account']) && $request->input('create_account') == 1) {
                 $customer = $this->customerRepository->createOrUpdate([
                     'name'     => $request->input('address.name'),
                     'email'    => $request->input('address.email'),
                     'phone'    => $request->input('address.phone'),
-                    'password' => bcrypt($request->input('password')),
+                    'password' => bcrypt($request->input('address.email')),
                 ]);
 
                 auth('customer')->attempt([
                     'email'    => $request->input('address.email'),
-                    'password' => $request->input('password'),
+                    'password' => $request->input('address.email'),
                 ], true);
 
                 $sessionData['created_account'] = true;
@@ -344,22 +346,24 @@ class PublicCheckoutController
         $addressData = [];
         if (!empty($address)) {
             $addressData = [
-                'name'     => $address->name,
-                'phone'    => $address->phone,
-                'email'    => $address->email,
-                'country'  => $address->country,
-                'state'    => $address->state,
-                'city'     => $address->city,
-                'address'  => $address->address,
-                'zip_code' => $address->zip_code,
-                'order_id' => $sessionData['created_order_id'],
+                'name'       => $address->name,
+                'first_name' => $address->first_name,
+                'last_name'  => $address->last_name,
+                'phone'      => $address->phone,
+                'email'      => $address->email,
+                'country'    => $address->country,
+                'state'      => $address->state,
+                'city'       => $address->city,
+                'address'    => $address->address,
+                'zip_code'   => $address->zip_code,
+                'order_id'   => $sessionData['created_order_id'],
             ];
         } elseif ((array)$request->input('address', [])) {
             $addressData = array_merge(['order_id' => $sessionData['created_order_id']],
                 (array)$request->input('address', []));
         }
-
-        if ($addressData && !empty($addressData['name']) && !empty($addressData['phone']) && !empty($addressData['address'])) {
+//dd($addressData ,  !empty($addressData['phone']) , !empty($addressData['address']), $sessionData['address_id']);
+        if ($addressData &&  !empty($addressData['phone']) && !empty($addressData['address'])) {
             if (!isset($sessionData['created_order_address'])) {
                 if ($addressData) {
                     $createdOrderAddress = $this->createOrderAddress($addressData);
@@ -427,10 +431,10 @@ class PublicCheckoutController
         }
 
         $rules = [
-            'name'    => 'required|max:255',
+//            'name'    => 'required|max:255',
             'email'   => 'email|nullable|max:60',
             'phone'   => 'required|numeric',
-            'state'   => 'required|max:120',
+//            'state'   => 'required|max:120',
             'city'    => 'required|max:120',
             'address' => 'required|max:120',
         ];
@@ -744,7 +748,9 @@ class PublicCheckoutController
             return $response->setNextUrl(url('/'));
         }
 //        die(\Route::current()->uri);
-        OrderHelper::clearSessions($token);
+//        OrderHelper::clearSessions($token);
+
+        event(new OrderCreated($order));
 //die;
         return Theme::scope(
             'ecommerce.thank-you', compact('order')

@@ -10,10 +10,10 @@
     <!-- End Google Tag Manager -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Wash Pipe </title>
+{{--    <meta name="description" content="">--}}
+{{--    <meta name="author" content="">--}}
+{{--    <title>Wash Pipe </title>--}}
     <!-- Bootstrap core CSS -->
     <link href="{!! Theme::asset()->url('pipes/lib/bootstrap/css/bootstrap.min.css') !!}" rel="stylesheet">
     <link href="{!! Theme::asset()->url('pipes/lib/css/font-awesome.css') !!}" rel="stylesheet">
@@ -49,6 +49,36 @@
                    src="https://www.facebook.com/tr?id=1334681536912597&ev=PageView&noscript=1"
         /></noscript>
     <!-- End Facebook Pixel Code -->
+
+
+        @switch(Route::current()->uri)
+            @case("/")
+                {!! SeoHelper::render() !!}
+            @break
+
+            @case("cart")
+                <title>Cart </title>
+            @break
+
+            @case("checkout/{token}")
+            <title>Checkout </title>
+            @break
+
+            @case("checkout/{token}/success")
+                <title>Thank You </title>
+            @break
+
+            @case("{slug?}")
+            <title>Garden </title>
+            @break
+
+            @default
+            Default case...
+        @endswitch
+
+        {{--{{in_array(Route::current()->uri, ["cart","checkout/{token}", "checkout/{token}/success", "{slug?}"])?'nav_bar2':''}}--}}
+
+
 </head>
 
 <body>
