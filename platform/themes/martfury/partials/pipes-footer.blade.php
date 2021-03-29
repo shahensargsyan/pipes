@@ -7,11 +7,16 @@
                         <div class="logo"><a href=""><img src="{!! Theme::asset()->url('/pipes/images/wash-pipe-pro-logo-ff.svg') !!}"></a></div>
                         <div class="logo_mob"><a href=""><img src="{!! Theme::asset()->url('/pipes/images/logo-mob2.svg') !!}"></a></div>
                         <div class="footer_soc_links">
-                            <a href="" target="_blank"> <i class="fab fa-facebook-f"></i></a>
-                            <a href="" target="_blank"><i class="fab fa-instagram"></i></a>
-                            <a href="" target="_blank"><i class="fab fa-pinterest-p"></i></a>
-                            <a href="" target="_blank"><i class="fab fa-twitter"></i></a>
-                            <a href="" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            @for($i = 1; $i <= 5; $i++)
+                                @if(theme_option('social-name-' . $i) && theme_option('social-url-' . $i) && theme_option('social-icon-' . $i))
+
+                                        <a href="{{ theme_option('social-url-' . $i) }}" target="_blank"
+                                           title="{{ theme_option('social-name-' . $i) }}" style="color: {{ theme_option('social-color-' . $i) }}">
+                                            <i class="fab {{ theme_option('social-icon-' . $i) }}"></i>
+                                        </a>
+
+                                @endif
+                            @endfor
                         </div>
                     </div>
                 </div>
@@ -27,20 +32,20 @@
                         </div>
                         <div class="col-md-4">
                             <h5>Information</h5>
-                            <ul class="f_menu">
-                                <li><a href="/terms-of-use#terms_conditions">Terms and Conditions</a></li>
-                                <li><a href="/terms-of-use#privacy_policy">Privacy Policy</a></li>
-                                <li><a href="/terms-of-use#refund_policy">Refund Policy</a></li>
+                            <ul class="f_menu @if(Route::current()->uri == "{slug?}") terms @endif">
+                                <li><a href="@if(Route::current()->uri !== "{slug?}") /terms-of-use @endif#terms_conditions" tab="#terms_conditions">Terms and Conditions</a></li>
+                                <li><a href="@if(Route::current()->uri !== "{slug?}") /terms-of-use @endif#privacy_policy" tab="#privacy_policy">Privacy Policy</a></li>
+                                <li><a href="@if(Route::current()->uri !== "{slug?}") /terms-of-use @endif#refund_policy" tab="#refund_policy">Refund Policy</a></li>
                             </ul>
                         </div>
                         <div class="col-md-4">
                             <div class="f-contact_info">
                                 <h5>Contact information</h5>
                                 <ul>
-                                    <li><a href="mailto:info@gardenhosepro.com"><img src="{!! Theme::asset()->url('/pipes/images/mail.svg') !!}">
-                                            info@gardenhosepro.com</a></li>
-                                    <li><a href="tel:+(323) 673-2495"><img src="{!! Theme::asset()->url('/pipes/images/phone.svg') !!}">
-                                            (323) 673-2495</a>
+                                    <li><a href="mailto:{{ theme_option('email') }}"><img src="{!! Theme::asset()->url('/pipes/images/mail.svg') !!}">
+                                            {{ theme_option('email') }}</a></li>
+                                    <li><a href="tel:{{ theme_option('hotline') }}"><img src="{!! Theme::asset()->url('/pipes/images/phone.svg') !!}">
+                                            {{ theme_option('hotline') }}5</a>
                                     </li>
                                 </ul>
                             </div>
@@ -64,6 +69,8 @@
         "View All": "{{ __('View All') }}",
     }
     window.siteUrl = "{{ url('') }}";
+
+
 </script>
 
 {!! Theme::footer() !!}
@@ -103,6 +110,18 @@
 
         var hash = window.location.hash;
         hash && jQuery('ul.nav a[href="' + hash + '"]').tab('show');
+
+        @if(Route::current()->uri == "{slug?}")
+
+            $(document).on('click',".terms li a",function(e)  {
+                e.stopPropagation()
+
+                let id = $(this).attr('tab');
+                $(id).trigger('click');
+                console.log(id)
+            })
+
+        @endif
 
     });
 

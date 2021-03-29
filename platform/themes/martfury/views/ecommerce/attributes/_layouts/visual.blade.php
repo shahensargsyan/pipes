@@ -1,5 +1,4 @@
 <div class="visual-swatches-wrapper attribute-swatches-wrapper form-group product__attribute product__color" data-type="visual">
-    <label class="attribute-name">{{ $set->title }}</label>
     <div class="attribute-values">
         <ul class="visual-swatch color-swatch attribute-swatch">
             @foreach($attributes->where('attribute_set_id', $set->id) as $attribute)

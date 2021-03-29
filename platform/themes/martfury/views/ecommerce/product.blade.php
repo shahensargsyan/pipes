@@ -219,7 +219,7 @@
                                 </div>
                                 <div class="lnd_sect3_bottom">
                                     <img src="{!! Theme::asset()->url('/pipes/images/money-back-guarantee.svg') !!}">
-                                    <p>14 Days Money Back Guarantee</p>
+                                    <p>30 Days Money Back Guarantee</p>
                                 </div>
                             </div>
                         </div>
