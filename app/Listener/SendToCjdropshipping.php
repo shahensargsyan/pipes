@@ -29,15 +29,13 @@ class SendToCjdropshipping
      */
     public function handle(OrderCreated $data)
     {
-
-//        dd($data->order->address->first_name);
         $products = [];
         foreach ($data->order->products as $product) {
             $products[] = [
                 "image" => \RvMedia::getImageUrl($product->product->image),
                 "quantity" => (int)$product->qty,
-                "variantId" => "71" ,
-                "productPrice" => $product->product->price,
+                "variantId" => (string)$product->product->variationInfo->cj_variant_id,
+                "productPrice" => (string)$product->product->price,
                 "shippingName" => $product->product_name
             ];
         }
@@ -51,48 +49,15 @@ class SendToCjdropshipping
                 "countryCode" => $data->order->address->country,
                 "shippingAddress1" => $data->order->address->address,
                 "city" => $data->order->address->city,
-                "country" => $data->order->address->country,
+                "country" => "United States",
                 "email" => $data->order->address->email,
-                "createdAt" => now()->timestamp,
+                "createdAt" => (int)round(microtime(true) * 1000),
                 "orderNumber" => (string)$data->order->id,
                 "province" => $data->order->address->state,
                 "products" => $products
             ]
         ];
-        var_dump(now()->timestamp);
-//        echo (json_encode($cjOrder, JSON_UNESCAPED_SLASHES));die;
 
-        '[
-            {
-                "customerName":"Drert Dfggh",
-                "uid":"55",
-                "zip":"wer",
-                "phone":"345345",
-                "countryCode":"AT",
-                "shippingAddress1":"sdfsdf",
-                "city":"sdf",
-                "country":"AT",
-                "email":"sdf@sfsf.sdf",
-                "createdAt":1534318375082,
-                "createdAt":1616679014,
-                "createdAt":1534318375082,
-                "createdAt":1616740913,
-                "orderNumber":"55",
-                "province":"sdfsf",
-                    "products":[
-                        {
-                            "image":"http://board-main.loc/storage/products/product-5-at-2x.png",
-                            "quantity":"1",
-                            "variantId":"71",
-                            "productPrice":12345678,
-                            "shippingName":"test testtest"
-                        }
-                    ]
-                }
-            ]';
-
-
-        $this->cjDropShippingRepository->createOrders(json_encode($cjOrder, JSON_UNESCAPED_SLASHES));
-        die;
+        $this->cjDropShippingRepository->createOrders($cjOrder);
     }
 }

@@ -23,6 +23,7 @@ class ProductVariation extends BaseModel
         'product_id',
         'configurable_product_id',
         'is_default',
+        'cj_variant_id',
     ];
 
     /**

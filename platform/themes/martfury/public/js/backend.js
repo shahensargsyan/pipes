@@ -591,23 +591,23 @@ var __webpack_exports__ = {};
             return false;
           }
 
-          window.showAlert('alert-success', res.message); //window.location.href = '/cart'
-
-          if (_self.prop('name') === 'checkout' && res.data.next_url !== undefined) {
-            window.location.href = res.data.next_url;
+          window.showAlert('alert-success', res.message);
+          window.location.href = '/cart';
+          /*if (_self.prop('name') === 'checkout' && res.data.next_url !== undefined) {
+              window.location.href = res.data.next_url;
           } else {
-            $.ajax({
-              url: window.siteUrl + '/ajax/cart',
-              method: 'GET',
-              success: function success(response) {
-                if (!response.error) {
-                  $('.ps-cart--mobile').html(response.data.html);
-                  $('.btn-shopping-cart span i').text(response.data.count);
-                  $('.cart_itemCount').text(response.data.count);
-                }
-              }
-            });
-          }
+              $.ajax({
+                  url: window.siteUrl + '/ajax/cart',
+                  method: 'GET',
+                  success: function (response) {
+                      if (!response.error) {
+                          $('.ps-cart--mobile').html(response.data.html);
+                          $('.btn-shopping-cart span i').text(response.data.count);
+                          $('.cart_itemCount').text(response.data.count);
+                      }
+                  }
+              });
+          }*/
         },
         error: function error(res) {
           _self.prop('disabled', false).removeClass('btn-disabled').removeClass('button-loading');

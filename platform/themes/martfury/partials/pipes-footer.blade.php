@@ -1,3 +1,4 @@
+@if(!in_array(Route::current()->uri, ["cart","checkout/{token}", "checkout/{token}/success", ]))
 <footer class="footer_banner">
     <div class="footer_top_div">
         <div class="container">
@@ -63,6 +64,7 @@
         </div>
     </div>
 </footer>
+@endif
 {{--{!! Theme::get('bottomFooter') !!}--}}
 <script>
     window.trans = {

@@ -614,8 +614,8 @@
 
                     window.showAlert('alert-success', res.message);
 
-                    //window.location.href = '/cart'
-                    if (_self.prop('name') === 'checkout' && res.data.next_url !== undefined) {
+                    window.location.href = '/cart'
+                    /*if (_self.prop('name') === 'checkout' && res.data.next_url !== undefined) {
                         window.location.href = res.data.next_url;
                     } else {
                         $.ajax({
@@ -629,7 +629,7 @@
                                 }
                             }
                         });
-                    }
+                    }*/
                 },
                 error: res => {
                     _self.prop('disabled', false).removeClass('btn-disabled').removeClass('button-loading');

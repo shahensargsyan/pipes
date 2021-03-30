@@ -30,7 +30,7 @@ class CjDropshippingRepository
             curl_setopt($ch, CURLOPT_URL, $this->url.$this->action);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload, JSON_UNESCAPED_SLASHES));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($this->payload, JSON_UNESCAPED_SLASHES));
             curl_setopt($ch, CURLOPT_HEADER , true);
 
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
@@ -57,6 +57,7 @@ class CjDropshippingRepository
             echo 'Caught exception: ', $e->getMessage(), "\n";
         }
     }
+
     public function addProduct($payload)
     {
         $this->action = '/api/product/createProducts';
@@ -72,7 +73,7 @@ class CjDropshippingRepository
     {
         $this->action = '/api/order/createOrders';
         $this->payload = $payload;
-        $this->call();
+        return $this->call();
     }
 
     public function getProductConnectList($payload = ["type" => 0])

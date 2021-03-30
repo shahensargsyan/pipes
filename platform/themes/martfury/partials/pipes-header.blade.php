@@ -31,6 +31,9 @@
     @if(Route::current()->uri == "/")
         <meta name="google-site-verification" content="r-iIt_h7Xj6R9h1nX2oMUU95ZcgZ8-mPL5rTW4CjEBU" />
     @endif
+    @if (theme_option('favicon'))
+        <link rel="shortcut icon" href="{{ RvMedia::getImageUrl(theme_option('favicon')) }}">
+    @endif
 
     <!-- Facebook Pixel Code -->
     <script>
@@ -83,6 +86,8 @@
 
 <body>
 <div id="alert-container"></div>
+@if(!in_array(Route::current()->uri, ["cart","checkout/{token}", "checkout/{token}/success", ]))
+
 <nav class="nav_bar  nav_bar2">
     <div class="search_bar_form">
         <form>
@@ -113,3 +118,4 @@
         </div>
     </div>
 </nav>
+@endif
