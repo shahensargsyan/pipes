@@ -589,9 +589,9 @@ var __webpack_exports__ = {};
 
             window.showAlert('alert-danger', res.message);
             return false;
-          }
+          } //window.showAlert('alert-success', res.message);
 
-          window.showAlert('alert-success', res.message);
+
           window.location.href = '/cart';
           /*if (_self.prop('name') === 'checkout' && res.data.next_url !== undefined) {
               window.location.href = res.data.next_url;

@@ -14,7 +14,7 @@
         $selectedAttrs = $product->defaultVariation->productAttributes->pluck('id')->all();
     }
 
-    $countRating = 0;
+    $countRating = $reviews->count();
 
     Theme::layout('pipes');
     Theme::set('stickyHeader', 'false');
@@ -104,7 +104,7 @@
                     <div class="gallery-slider__thumbnails">
                         <div>
                             @foreach ($productImages as $img)
-                                <div class="item">
+                                <div class="item slides-to-show">
                                     <img src="{{ RvMedia::getImageUrl($img, 'thumb') }}" alt="{{ $originalProduct->name }}"/>
                                 </div>
                             @endforeach
