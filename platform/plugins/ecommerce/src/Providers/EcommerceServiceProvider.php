@@ -369,7 +369,7 @@ class EcommerceServiceProvider extends ServiceProvider
             ->loadAndPublishTranslations()
             ->loadRoutes([
                 'base',
-                'tax',
+//                'tax',
                 'review',
                 'shipping',
                 'order',
@@ -378,8 +378,8 @@ class EcommerceServiceProvider extends ServiceProvider
                 'payment',
                 'cart',
                 'shipment',
-                'wishlist',
-                'compare',
+//                'wishlist',
+//                'compare',
             ])
             ->loadAndPublishConfigurations([
                 'general',
