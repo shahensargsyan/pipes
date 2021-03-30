@@ -64,7 +64,6 @@ class updateCjDropshippingProducts extends Command
         foreach ($products as $product) {
         $cjProducts = [];
             $productVariations = [];
-//            dd(\RvMedia::getImageUrl($product->image));
             foreach ($product->variations as $variation) {
 
                     $productVariations[] = [
@@ -88,10 +87,5 @@ class updateCjDropshippingProducts extends Command
             ];
             $this->cjDropshippingRepository->addProduct($cjProducts);
         }
-//        dd(json_encode($cjProducts, JSON_UNESCAPED_SLASHES));
-
-
-
-
     }
 }

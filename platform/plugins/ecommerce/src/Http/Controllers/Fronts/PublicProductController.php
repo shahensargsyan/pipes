@@ -226,7 +226,7 @@ class PublicProductController
     public function getPipeProduct()
     {
         $condition = [
-            'ec_products.id'     => 93,
+            'ec_products.id'     => 1,
             'ec_products.status' => BaseStatusEnum::PUBLISHED,
         ];
 

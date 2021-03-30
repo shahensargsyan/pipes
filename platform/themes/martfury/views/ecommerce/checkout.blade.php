@@ -218,10 +218,10 @@
                                     <div class="notif_info">
                                         <p>By clicking the Place Order button, you confirm that you have read
                                             and understood, and
-                                            accept our <a href="/terms-of-use#terms_conditions">Terms & Conditions</a>,
-                                            <a href="/terms-of-use#refund_policy">Return
+                                            accept our <a href="/terms-of-use#terms_conditions" target="_blank">Terms & Conditions</a>,
+                                            <a href="/terms-of-use#refund_policy" target="_blank">Return
                                                 Policy</a> and <a
-                                                href="/terms-of-use#privacy_policy">Privacy Policy</a>.</p>
+                                                href="/terms-of-use#privacy_policy" target="_blank">Privacy Policy</a>.</p>
                                     </div>
                                     <label class="check_btn_div "> Use this address as my billing address
                                         <input type="checkbox" checked="checked use_as_billing_address">
