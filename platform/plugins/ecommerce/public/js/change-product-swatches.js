@@ -27,8 +27,7 @@ var ChangeProductSwatches = /*#__PURE__*/function () {
         event.preventDefault();
         var $radio = $(event.currentTarget).find('input[type=radio]');
 
-        if ($radio.is(':checked')) {
-          return false;
+        if ($radio.is(':checked')) {//return false;
         }
 
         $radio.prop('checked', true);

@@ -145,7 +145,7 @@
                             </div>
                         </div>
                         <div class="reviews_text">
-                            <a href="#" class="reviews_text">
+                            <a href="/#review" class="reviews_text">
                                 <span class="rate_txt">  (64)<span class="count"></span> {{ __('Reviews') }}</span>
                             </a>
                         </div>
@@ -168,7 +168,10 @@
                                                 'view'     => Theme::getThemeNamespace() . '::views.ecommerce.attributes.swatches-renderer'
                                             ]) !!}
                                         </div>
-                                        <div class="number-items-available" style="display: none; margin-bottom: 10px;"></div>
+{{--                                    {{dd($product->variations())}}--}}
+                                        <div class="number-items-available" style="display: block; margin-bottom: 10px;">
+                                            (Only {{$product->variations()->count()}} left in stock)
+                                        </div>
                                     @endif
                                 </div>
                             </div>

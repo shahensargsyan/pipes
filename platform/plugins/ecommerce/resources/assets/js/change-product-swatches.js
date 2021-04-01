@@ -15,7 +15,7 @@ class ChangeProductSwatches {
             let $radio = $(event.currentTarget).find('input[type=radio]');
 
             if ($radio.is(':checked')) {
-                return false;
+                //return false;
             }
 
             $radio.prop('checked', true);
