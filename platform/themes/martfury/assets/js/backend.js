@@ -128,7 +128,7 @@
                 $('.hidden-product-id').val('');
             } else {
                 $('.add-to-cart-form').find('.error-message').hide();
-                $('.ps-product__price span').text(res.data.display_sale_price);
+                $('.was_price-amount').text(res.data.display_sale_price);
                 if (res.data.sale_price !== res.data.price) {
                     $('.ps-product__price del').text(res.data.display_price).show();
                 } else {

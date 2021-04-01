@@ -128,12 +128,10 @@
                 <div class="sect2_right_info">
                     <h2 class="product_title">{{ $product->name }}</h2>
                     <div class="product_sale_price">
-                        <del><span class="was"></span><span><span class="was_price-amount"><span
-                                        class="was_price-currencySymbol"></span></span>@if ($product->front_sale_price !== $product->price) {{ format_price($product->price_with_taxes) }} @endif</span>
+                        <del><span class="was"></span><span><span class="was_price-amount">@if ($product->front_sale_price !== $product->price) {{ format_price($product->price_with_taxes) }} @endif</span></span>
                         </del>
                         <p class="price_now">
-                             <span class="Price-amount">
-                                 <span class="Price-currency"></span>{{ format_price($product->front_sale_price_with_taxes) }}</span>
+                             <span class="Price-amount">{{ format_price($product->front_sale_price_with_taxes) }}</span>
                         </p>
                     </div>
                     <div class="product_rating">
