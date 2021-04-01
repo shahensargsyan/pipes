@@ -146,7 +146,7 @@
                         </div>
                         <div class="reviews_text">
                             <a href="#" class="reviews_text">
-                                <span class="rate_txt">  ({{ $countRating }})<span class="count"></span> {{ __('Reviews') }}</span>
+                                <span class="rate_txt">  (64)<span class="count"></span> {{ __('Reviews') }}</span>
                             </a>
                         </div>
                     </div>

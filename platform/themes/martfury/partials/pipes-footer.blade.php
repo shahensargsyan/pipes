@@ -118,9 +118,8 @@
             $(document).on('click',".terms li a",function(e)  {
                 e.stopPropagation()
 
-                let id = $(this).attr('tab');
+                let id = $(this).attr('tab')+'_tab';
                 $(id).trigger('click');
-                console.log(id)
             })
 
         @endif
