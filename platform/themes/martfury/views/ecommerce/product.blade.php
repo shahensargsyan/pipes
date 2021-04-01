@@ -168,9 +168,8 @@
                                                 'view'     => Theme::getThemeNamespace() . '::views.ecommerce.attributes.swatches-renderer'
                                             ]) !!}
                                         </div>
-{{--                                    {{dd($product->variations())}}--}}
                                         <div class="number-items-available" style="display: block; margin-bottom: 10px;">
-                                            (Only {{$product->variations()->count()}} left in stock)
+                                            (Only {{$product->defaultVariation->product->quantity}} left in stock)
                                         </div>
                                     @endif
                                 </div>

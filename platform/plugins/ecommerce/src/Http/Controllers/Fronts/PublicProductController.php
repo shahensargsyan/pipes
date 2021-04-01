@@ -245,6 +245,8 @@ class PublicProductController
             ],
         ]);
 
+
+
         if (!$product) {
             abort(404);
         }
