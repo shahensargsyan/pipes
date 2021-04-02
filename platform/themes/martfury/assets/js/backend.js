@@ -709,6 +709,7 @@
                             window.showAlert('alert-success', res.message);
                         });
                     } else {
+                        alert('sd')
                         window.showAlert('alert-danger', res.message);
                         _self.prop('disabled', false).removeClass('btn-disabled').removeClass('button-loading');
                     }

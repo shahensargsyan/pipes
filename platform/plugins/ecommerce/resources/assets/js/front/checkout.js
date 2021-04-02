@@ -154,6 +154,7 @@ class MainCheckout {
                     contentType: false,
                     processData: false,
                     success: res => {
+                        jQuery(".text-danger").remove();
                         //$('.nav-tabs > li:nth-child(2) > a').click();
                         $('#customer-info').css('display','none')
                         $('#payment').css('display','block')

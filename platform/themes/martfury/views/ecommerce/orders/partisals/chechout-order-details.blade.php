@@ -69,7 +69,7 @@
                         <div class="promocode_form_div">
                             <div class="promocode-input coupon-wrapper">
                                 <input type="text" class="form-control coupon-code input-md checkout-input" name="coupon_code" placeholder="Enter Code">
-                                <input class="apply-coupon-code" value="Apply" data-url="{{ route('public.coupon.apply') }}" type="button"> <i>{{ __('Apply') }}</i>
+                                <input class="apply-coupon-code btn-apply-coupon-code" value="Apply" data-url="{{ route('public.coupon.apply') }}" type="button"> <i>{{ __('Apply') }}</i>
 
 {{--                                <button class="btn btn-md btn-gray btn-info apply-coupon-code float-right" data-url="{{ route('public.coupon.apply') }}" type="button"> {{ __('Apply') }}</button>--}}
                             </div>

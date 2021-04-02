@@ -18367,7 +18367,8 @@ var MainCheckout = /*#__PURE__*/function () {
           contentType: false,
           processData: false,
           success: function success(res) {
-            //$('.nav-tabs > li:nth-child(2) > a').click();
+            jQuery(".text-danger").remove(); //$('.nav-tabs > li:nth-child(2) > a').click();
+
             $('#customer-info').css('display', 'none');
             $('#payment').css('display', 'block');
             var $curr = $(".process-model  a[href='#payment']").parent();
