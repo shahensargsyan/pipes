@@ -45,7 +45,7 @@
     <div class="container">
     {!! Form::open(['route' => ['public.checkout.process', $token], 'class' => 'checkout-form payment-checkout-form', 'id' => 'checkout-form']) !!}
         <input type="hidden" name="checkout-token" id="checkout-token" value="{{ $token }}">
-        <input type="hidden" name="create_account" id="create_account" value="1">
+        <input type="hidden" name="create_account" id="create_account" value="0">
         <input type="hidden" name="address[country]" id="create_account" value="US">
 
         <input class="magic-radio" type="hidden" name="shipping_method"  value="default" data-option="1">

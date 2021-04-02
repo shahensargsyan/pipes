@@ -42,6 +42,7 @@ use OrderHelper;
 use Throwable;
 use Validator;
 use Theme;
+use Auth;
 
 class PublicCheckoutController
 {
@@ -120,7 +121,6 @@ class PublicCheckoutController
         ProductInterface $productRepository,
         DiscountInterface $discountRepository
     ) {
-//dd(\Route::currentRouteAction());
         $this->taxRepository = $taxRepository;
         $this->orderRepository = $orderRepository;
         $this->orderProductRepository = $orderProductRepository;
@@ -232,7 +232,6 @@ class PublicCheckoutController
                 }
             } else {
                 $shippingAmount = Arr::get($sessionCheckoutData, 'is_free_ship') ? 0 : $shippingAmount;
-//                dd($shippingAmount);
             }
         }
 
@@ -263,16 +262,18 @@ class PublicCheckoutController
      */
     protected function processOrderData(string $token, array $sessionData, Request $request): array
     {
-//        dd($request->input('create_account'));
+//        dd($sessionData['created_account']);
         if ($request->input('address', [])) {
             if (!isset($sessionData['created_account']) && $request->input('create_account') == 1) {
-                $customer = $this->customerRepository->createOrUpdate([
+                $customer = $this->customerRepository->firstOrCreate(
+                    [ 'email'    => $request->input('address.email')],[
                     'name'     => $request->input('address.name'),
                     'email'    => $request->input('address.email'),
                     'phone'    => $request->input('address.phone'),
                     'password' => bcrypt($request->input('address.email')),
                 ]);
-
+//dd($customer);
+//                die;
                 auth('customer')->attempt([
                     'email'    => $request->input('address.email'),
                     'password' => $request->input('address.email'),
@@ -362,7 +363,7 @@ class PublicCheckoutController
             $addressData = array_merge(['order_id' => $sessionData['created_order_id']],
                 (array)$request->input('address', []));
         }
-//dd($addressData ,  !empty($addressData['phone']) , !empty($addressData['address']), $sessionData['address_id']);
+
         if ($addressData &&  !empty($addressData['phone']) && !empty($addressData['address'])) {
             if (!isset($sessionData['created_order_address'])) {
                 if ($addressData) {
@@ -734,9 +735,10 @@ class PublicCheckoutController
     /**
      * @param string $token
      * @param BaseHttpResponse $response
+     * @param Request $request
      * @return BaseHttpResponse|Application|Factory|RedirectResponse|View
      */
-    public function getCheckoutSuccess($token, BaseHttpResponse $response)
+    public function getCheckoutSuccess($token, BaseHttpResponse $response, Request  $request)
     {
         if (!EcommerceHelper::isCartEnabled()) {
             abort(404);
@@ -747,11 +749,17 @@ class PublicCheckoutController
         if ($token !== session('tracked_start_checkout') || !$order) {
             return $response->setNextUrl(url('/'));
         }
-//        die(\Route::current()->uri);
-//        OrderHelper::clearSessions($token);
+
+        OrderHelper::clearSessions($token);
 
         event(new OrderCreated($order));
-//die;
+
+        $request->session()->flush();
+
+        $request->session()->forget('tracked_start_checkout');
+
+        Auth::logout();
+
         return Theme::scope(
             'ecommerce.thank-you', compact('order')
         )->render();

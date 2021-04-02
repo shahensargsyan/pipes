@@ -10,6 +10,7 @@ use Botble\Ecommerce\Repositories\Interfaces\OrderHistoryInterface;
 use Botble\Ecommerce\Repositories\Interfaces\OrderInterface;
 use Botble\Ecommerce\Repositories\Interfaces\ShippingRuleInterface;
 use Botble\Payment\Repositories\Interfaces\PaymentInterface;
+use Carbon\Carbon;
 use Cart;
 use EcommerceHelper as EcommerceHelperFacade;
 use EmailHandler;
@@ -111,7 +112,7 @@ class OrderHelper
                 'store_phone'      => get_ecommerce_setting('store_phone'),
                 'order_id'         => str_replace('#', '', get_order_code($order->id)),
                 'order_token'      => $order->token,
-                'customer_name'    => $order->user->name ? $order->user->name : $order->address->name,
+                'customer_name'    => $order->user->first_name ? $order->user->first_name.' '.$order->user->last_name : $order->address->first_name.' '.$order->address->last_name,
                 'customer_email'   => $order->user->email ? $order->user->email : $order->address->email,
                 'customer_phone'   => $order->user->phone ? $order->user->phone : $order->address->phone,
                 'customer_address' => $order->address->address . ', ' . $order->address->city . ', ' . $order->address->country_name . (EcommerceHelperFacade::isZipCodeEnabled() ? ', ' . $order->address->zip_code : ''),
@@ -119,6 +120,7 @@ class OrderHelper
                     compact('order'))->render(),
                 'shipping_method'  => $order->shipping_method_name,
                 'payment_method'   => $order->payment->payment_channel->label(),
+                'order_date'       => $order->created_at->format('F d Y'),
             ]);
     }
 

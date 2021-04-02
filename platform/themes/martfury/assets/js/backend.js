@@ -128,9 +128,9 @@
                 $('.hidden-product-id').val('');
             } else {
                 $('.add-to-cart-form').find('.error-message').hide();
-                $('.was_price-amount').text(res.data.display_sale_price);
+                $('.Price-amount').text(res.data.display_sale_price);
                 if (res.data.sale_price !== res.data.price) {
-                    $('.ps-product__price del').text(res.data.display_price).show();
+                    $('.was_price-amount').text(res.data.display_price).show();
                 } else {
                     $('.ps-product__price del').hide();
                 }
@@ -141,7 +141,9 @@
                 $('.add-to-cart-form button[type=submit]').prop('disabled', false).removeClass('btn-disabled');
                 $('.number-items-available').html('<span class="">(' + res.message + ')</span>').show();
 
-                let slider = $(document).find('.ps-product--quickview .ps-product__images');
+                // let slider = $(document).find('.ps-product--quickview .ps-product__images');
+                var slider = $("#gallery-slider1 .gallery-slider__images>div");
+
 
                 if (slider.length) {
                     slider.slick('unslick');
@@ -167,12 +169,12 @@
                 var product = $('.ps-product--detail');
                 if (product.length > 0) {
 
-                    let primary = product.find('.ps-product__gallery');
+                    // let primary = product.find('.ps-product__gallery');
                     let second = product.find('.ps-product__variants');
                     let vertical = product
                         .find('.ps-product__thumbnail')
                         .data('vertical');
-
+                    var primary = $("#gallery-slider1 .gallery-slider__thumbnails>div");
                     if (primary.length) {
                         primary.slick('unslick');
 

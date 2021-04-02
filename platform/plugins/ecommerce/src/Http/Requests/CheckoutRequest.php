@@ -30,15 +30,16 @@ class CheckoutRequest extends Request
             $rules['address.last_name'] = 'required|min:3|max:120';
             $rules['address.phone'] = 'required|numeric';
             $rules['address.email'] = 'required|email';
-            //$rules['address.state'] = 'required';
+            $rules['address.state'] = 'required';
             $rules['address.city'] = 'required';
             $rules['address.address'] = 'required|string';
+            $rules['address.apartment'] = 'required|string';
         }
 
         if ($this->input('create_account') == 1) {
 //            $rules['password'] = 'required|min:6';
 //            $rules['password_confirmation'] = 'required|same:password';
-            $rules['address.email'] = 'required|max:60|min:6|email|unique:ec_customers,email';
+            $rules['address.email'] = 'required|max:60|min:6|email';
 //            $rules['address.name'] = 'required|min:3|max:120';
         }
 
@@ -54,7 +55,7 @@ class CheckoutRequest extends Request
             'address.name.required'    => trans('plugins/ecommerce::order.address_name_required'),
             'address.phone.required'   => trans('plugins/ecommerce::order.address_phone_required'),
             'address.email.required'   => trans('plugins/ecommerce::order.address_email_required'),
-            'address.email.unique'     => trans('plugins/ecommerce::order.address_email_unique'),
+//            'address.email.unique'     => trans('plugins/ecommerce::order.address_email_unique'),
             'address.state.required'   => trans('plugins/ecommerce::order.address_state_required'),
             'address.city.required'    => trans('plugins/ecommerce::order.address_city_required'),
             'address.address.required' => trans('plugins/ecommerce::order.address_address_required'),

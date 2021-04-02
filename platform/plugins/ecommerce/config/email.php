@@ -60,5 +60,6 @@ return [
         'payment_detail'   => 'plugins/ecommerce::ecommerce.payment_detail',
         'shipping_method'  => 'plugins/ecommerce::ecommerce.shipping_method',
         'payment_method'   => 'plugins/ecommerce::ecommerce.payment_method',
+        'order_date'       => 'plugins/ecommerce::ecommerce.order_date',
     ],
 ];
