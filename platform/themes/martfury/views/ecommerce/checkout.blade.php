@@ -64,14 +64,13 @@
         <!-- design process steps-->
         <!-- Nav tabs -->
         <ul class="nav nav-tabs process-model more-icon-preocess" role="tablist">
-            <li role="presentation" class="active">
-                <a href="#customer-info" aria-controls="customer-info" role="tab"
-                   data-toggle="tab"><span>1</span>
+            <li role="presentation" class="active tab-customer-info">
+                <a href="#customer-info"  aria-controls="customer-info" role="tab" data-toggle="tab"><span>1</span>
                     <p>CUSTOMER INFO</p>
                 </a>
             </li>
-            <li role="presentation">
-                <a href="#payment" id="payment-tub" aria-controls="payment" role="tab" data-toggle="tab"><span>2</span>
+            <li role="presentation" class ="checkout-next-step">
+                <a href="#payment" id="payment-tub" aria-controls="payment" role="tab" data-toggle="tab" ><span>2</span>
                     <p>PAYMENT METHOD</p>
                 </a>
             </li>

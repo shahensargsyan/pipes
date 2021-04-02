@@ -119,8 +119,31 @@ class MainCheckout {
             }
         });
 
+        // $('.disabled-tab').click(function(e) {
+        //     e.preventDefault()
+        //     e.stopPropagation()
+        //     return false;
+        // });
+        // $(document).on('click', '.disabled-tab', function (e) {
+        //     e.preventDefault()
+        //     e.stopPropagation()
+        //     return false;
+        // });
+        $('.nav-tabs > li:nth-child(2) > a').click(function() {
+            $('.checkout-next-step').trigger('click')
+        });
+        $('.nav-tabs > li:nth-child(1) > a').click(function() {
+            $('#customer-info').css('display','block')
+            $('#payment').css('display','none')
+
+            var $curr = $(".process-model  a[href='#customer-info']").parent();
+
+            $('.process-model li').removeClass();
+
+            $curr.addClass("active");
+            $curr.prevAll().addClass("visited");
+        });
         $(document).on('click', '.checkout-next-step', function () {
-            let that = this;
             let _self = $(this);
             if ($('#address_id').val() || ($('#address_country').val() && $('#address_state').val() && $('#address_city').val() && $('#address_address').val())) { }
                 $.ajax({
@@ -131,8 +154,20 @@ class MainCheckout {
                     contentType: false,
                     processData: false,
                     success: res => {
+                        //$('.nav-tabs > li:nth-child(2) > a').click();
+                        $('#customer-info').css('display','none')
+                        $('#payment').css('display','block')
+
+                        var $curr = $(".process-model  a[href='#payment']").parent();
+
+                        $('.process-model li').removeClass();
+
+                        $curr.addClass("active");
+                        $curr.prevAll().addClass("visited");
+
                         if (!res.errors) {
-                            $( '#payment-tub' ).trigger( 'click' )
+                            // $curr.addClass("active");
+                            // $curr.prevAll().addClass("visited");
                         }
                     },
                     error: res => {
@@ -143,6 +178,7 @@ class MainCheckout {
                             jQuery("input[name='"+res+"]']").parent( ".check_input" ).addClass('has-error');
                             jQuery("input[name='"+res+"]']").after('<div class="text-danger" > <small>'+message+'</small></div>');
                             jQuery("select[name='"+res+"]']").after('<div class="text-danger" > <small> '+message+'</small></div>');
+                            $('.nav-tabs > li:first-child > a').click();
                         })
                     }
                 });
