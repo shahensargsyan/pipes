@@ -34,6 +34,7 @@ class CheckoutRequest extends Request
             $rules['address.city'] = 'required';
             $rules['address.address'] = 'required|string';
             $rules['address.apartment'] = 'required|string';
+            $rules['address.zip_code'] = 'required|string';
         }
 
         if ($this->input('create_account') == 1) {
@@ -59,6 +60,7 @@ class CheckoutRequest extends Request
             'address.state.required'   => trans('plugins/ecommerce::order.address_state_required'),
             'address.city.required'    => trans('plugins/ecommerce::order.address_city_required'),
             'address.address.required' => trans('plugins/ecommerce::order.address_address_required'),
+            'address.address.zip_code' => trans('plugins/ecommerce::order.address_zip_code_required'),
         ];
 
         return array_merge(parent::messages(), $messages);

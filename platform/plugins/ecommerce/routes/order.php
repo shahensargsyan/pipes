@@ -147,5 +147,10 @@ Route::group(['namespace' => 'Botble\Ecommerce\Http\Controllers\Fronts', 'middle
                 'uses' => 'PublicCheckoutController@getCheckoutRecover',
             ]);
         });
+
+        Route::post('checkout/validate', [
+            'as'   => 'validate',
+            'uses' => 'PublicCheckoutController@postValidateCheckout',
+        ]);
     });
 });

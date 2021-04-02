@@ -246,8 +246,7 @@ class PublicCheckoutController
               'promotionDiscountAmount',
               'couponDiscountAmount',
               'sessionCheckoutData'
-          ),
-//            'plugins/ecommerce::themes.cart'
+          )
         )->render();
 
 
@@ -1041,5 +1040,15 @@ class PublicCheckoutController
             'couponDiscountAmount',
             'sessionCheckoutData'
         ));
+    }
+
+    /**
+     * @param CheckoutRequest $request
+     * @return mixed
+     * @throws Throwable
+     */
+    public function postValidateCheckout(CheckoutRequest $request)
+    {
+
     }
 }

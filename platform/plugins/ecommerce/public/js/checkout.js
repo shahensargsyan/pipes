@@ -18333,6 +18333,37 @@ var MainCheckout = /*#__PURE__*/function () {
           });
         }
       });
+      $(document).on('click', '.checkout-next-step', function () {
+        var that = this;
+
+        var _self = $(this);
+
+        if ($('#address_id').val() || $('#address_country').val() && $('#address_state').val() && $('#address_city').val() && $('#address_address').val()) {}
+
+        $.ajax({
+          type: 'POST',
+          cache: false,
+          url: '/checkout/validate',
+          data: new FormData(_self.closest('form')[0]),
+          contentType: false,
+          processData: false,
+          success: function success(res) {
+            if (!res.errors) {
+              $('#payment-tub').trigger('click');
+            }
+          },
+          error: function error(res) {
+            jQuery(".text-danger").remove();
+            $.each(res.responseJSON.errors, function (error, message) {
+              toastr.error(message);
+              var res = error.replace(".", "[");
+              jQuery("input[name='" + res + "]']").parent(".check_input").addClass('has-error');
+              jQuery("input[name='" + res + "]']").after('<div class="text-danger" > <small>' + message + '</small></div>');
+              jQuery("select[name='" + res + "]']").after('<div class="text-danger" > <small> ' + message + '</small></div>');
+            });
+          }
+        });
+      });
     }
   }], [{
     key: "showNotice",
