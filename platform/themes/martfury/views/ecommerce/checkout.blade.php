@@ -224,7 +224,7 @@
                                                 href="/terms-of-use#privacy_policy" target="_blank">Privacy Policy</a>.</p>
                                     </div>
                                     <label class="check_btn_div "> Use this address as my billing address
-                                        <input type="checkbox">
+                                        <input type="checkbox" checked="checked use_as_billing_address">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
