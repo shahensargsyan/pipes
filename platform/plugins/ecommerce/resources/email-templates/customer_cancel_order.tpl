@@ -1,12 +1,10 @@
 {{ header }}
 
-<h2>Your order has been cancelled</h2>
-
-<p>Hi {{ customer_name }},</p>
-<p>Your order <strong>{{ order_id }}</strong> has been canceled as you requested and your payment was cancelled too.</p>
-
+<p>Your order has been canceled.</p>
 <br />
-
-<p>If you have any question, please contact us via <a href="mailto:{{ site_admin_email }}">{{ site_admin_email }}</a></p>
+ORDER#{{ order_id }}
+<br />
+<br />
+YOUR ORDER HAS BEEN CANCELLED AS PER YOUR REQUEST
 
 {{ footer }}
