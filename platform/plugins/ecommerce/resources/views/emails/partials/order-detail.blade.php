@@ -1,5 +1,5 @@
 <div class="table">
-    <table>
+    <table style="width: 100%;border-collapse: collapse;">
         <tr>
             <th style="text-align: left">
                 {{ trans('plugins/ecommerce::products.form.product') }}
