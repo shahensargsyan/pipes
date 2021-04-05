@@ -158,80 +158,82 @@ var __webpack_exports__ = {};
           });
         }
 
-        var product = $('.ps-product--detail');
+        var product = $('.ps-product--detail'); // let primary = product.find('.ps-product__gallery');
+        // let second = product.find('.ps-product__variants');
 
-        if (product.length > 0) {
-          // let primary = product.find('.ps-product__gallery');
-          var second = product.find('.ps-product__variants');
-          var vertical = product.find('.ps-product__thumbnail').data('vertical');
-          var primary = $("#gallery-slider1 .gallery-slider__thumbnails>div");
+        var second = jQuery("#gallery-slider1 .gallery-slider__thumbnails>div");
+        var vertical = product.find('.ps-product__thumbnail').data('vertical');
+        var primary = jQuery("#gallery-slider1 .gallery-slider__images>div");
+        console.log(primary);
 
-          if (primary.length) {
-            primary.slick('unslick');
-            var _imageHtml = '';
-            res.data.image_with_sizes.origin.forEach(function (item) {
-              _imageHtml += '<div class="item"><a href="' + item + '"><img src="' + item + '" alt="image"/></a></div>';
-            });
-            primary.html(_imageHtml);
-            primary.slick({
-              slidesToShow: 1,
-              slidesToScroll: 1,
-              asNavFor: '.ps-product__variants',
-              fade: true,
-              dots: false,
-              infinite: false,
-              arrows: primary.data('arrow'),
-              prevArrow: "<a href='#'><i class='fa fa-angle-left'></i></a>",
-              nextArrow: "<a href='#'><i class='fa fa-angle-right'></i></a>"
-            });
-          }
+        if (primary.length) {
+          primary.slick('unslick');
+          var _imageHtml = '';
+          res.data.image_with_sizes.origin.forEach(function (item) {
+            _imageHtml += '<div class="item"><img src="' + item + '" alt="image"/></div>';
+          });
+          primary.html(_imageHtml);
+          primary.slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            asNavFor: '.ps-product__variants',
+            fade: true,
+            dots: false,
+            infinite: false,
+            arrows: primary.data('arrow'),
+            prevArrow: "<a href='#'><i class='fa fa-angle-left'></i></a>",
+            nextArrow: "<a href='#'><i class='fa fa-angle-right'></i></a>"
+          });
+        }
 
-          if (second.length) {
-            second.slick('unslick');
-            var thumbHtml = '';
-            res.data.image_with_sizes.thumb.forEach(function (item) {
-              thumbHtml += '<div class="item"><img src="' + item + '" alt="image"/></div>';
-            });
-            second.html(thumbHtml);
-            second.slick({
-              slidesToShow: second.data('item'),
-              slidesToScroll: 1,
-              infinite: false,
-              arrows: second.data('arrow'),
-              focusOnSelect: true,
-              prevArrow: "<a href='#'><i class='fa fa-angle-up'></i></a>",
-              nextArrow: "<a href='#'><i class='fa fa-angle-down'></i></a>",
-              asNavFor: '.ps-product__gallery',
-              vertical: vertical,
-              responsive: [{
-                breakpoint: 1200,
-                settings: {
-                  arrows: second.data('arrow'),
-                  slidesToShow: 4,
-                  vertical: false,
-                  prevArrow: "<a href='#'><i class='fa fa-angle-left'></i></a>",
-                  nextArrow: "<a href='#'><i class='fa fa-angle-right'></i></a>"
-                }
-              }, {
-                breakpoint: 992,
-                settings: {
-                  arrows: second.data('arrow'),
-                  slidesToShow: 4,
-                  vertical: false,
-                  prevArrow: "<a href='#'><i class='fa fa-angle-left'></i></a>",
-                  nextArrow: "<a href='#'><i class='fa fa-angle-right'></i></a>"
-                }
-              }, {
-                breakpoint: 480,
-                settings: {
-                  slidesToShow: 3,
-                  vertical: false,
-                  prevArrow: "<a href='#'><i class='fa fa-angle-left'></i></a>",
-                  nextArrow: "<a href='#'><i class='fa fa-angle-right'></i></a>"
-                }
-              }]
-            });
-          }
+        console.log(second);
+
+        if (second.length) {
+          second.slick('unslick');
+          var thumbHtml = '';
+          res.data.image_with_sizes.thumb.forEach(function (item) {
+            thumbHtml += '<div class="item"><img src="' + item + '" alt="image"/></div>';
+          });
+          second.html(thumbHtml);
+          console.log(thumbHtml);
+          second.slick({
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            infinite: false,
+            arrows: second.data('arrow'),
+            focusOnSelect: true,
+            prevArrow: "<a href='#'><i class='fa fa-angle-up'></i></a>",
+            nextArrow: "<a href='#'><i class='fa fa-angle-down'></i></a>",
+            asNavFor: "#gallery-slider1 .gallery-slider__images>div",
+            vertical: vertical,
+            responsive: [{
+              breakpoint: 1200,
+              settings: {
+                arrows: second.data('arrow'),
+                slidesToShow: 4,
+                vertical: false,
+                prevArrow: "<a href='#'><i class='fa fa-angle-left'></i></a>",
+                nextArrow: "<a href='#'><i class='fa fa-angle-right'></i></a>"
+              }
+            }, {
+              breakpoint: 992,
+              settings: {
+                arrows: second.data('arrow'),
+                slidesToShow: 4,
+                vertical: false,
+                prevArrow: "<a href='#'><i class='fa fa-angle-left'></i></a>",
+                nextArrow: "<a href='#'><i class='fa fa-angle-right'></i></a>"
+              }
+            }, {
+              breakpoint: 480,
+              settings: {
+                slidesToShow: 3,
+                vertical: false,
+                prevArrow: "<a href='#'><i class='fa fa-angle-left'></i></a>",
+                nextArrow: "<a href='#'><i class='fa fa-angle-right'></i></a>"
+              }
+            }]
+          });
         }
 
         $(window).trigger('resize');
@@ -686,7 +688,6 @@ var __webpack_exports__ = {};
               window.showAlert('alert-success', res.message);
             });
           } else {
-            alert('sd');
             window.showAlert('alert-danger', res.message);
 
             _self.prop('disabled', false).removeClass('btn-disabled').removeClass('button-loading');

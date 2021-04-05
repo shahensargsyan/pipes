@@ -100,7 +100,7 @@
         <div class="row">
             <div class="col-md-7">
 
-                <div id="gallery-slider1" class="gallery-slider">
+                <div id="gallery-slider1" class="gallery-slider ps-product__variants">
                     <div class="gallery-slider__thumbnails">
                         <div>
                             @foreach ($productImages as $img)

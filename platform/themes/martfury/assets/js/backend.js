@@ -167,20 +167,22 @@
                 }
 
                 var product = $('.ps-product--detail');
-                if (product.length > 0) {
+
 
                     // let primary = product.find('.ps-product__gallery');
-                    let second = product.find('.ps-product__variants');
+                    // let second = product.find('.ps-product__variants');
+                    let second = jQuery("#gallery-slider1 .gallery-slider__thumbnails>div");
                     let vertical = product
                         .find('.ps-product__thumbnail')
                         .data('vertical');
-                    var primary = $("#gallery-slider1 .gallery-slider__thumbnails>div");
+                    var primary = jQuery("#gallery-slider1 .gallery-slider__images>div");
+                    console.log(primary)
                     if (primary.length) {
                         primary.slick('unslick');
 
                         let imageHtml = '';
                         res.data.image_with_sizes.origin.forEach(function (item) {
-                            imageHtml += '<div class="item"><a href="' + item + '"><img src="' + item + '" alt="image"/></a></div>'
+                            imageHtml += '<div class="item"><img src="' + item + '" alt="image"/></div>'
                         });
 
                         primary.html(imageHtml);
@@ -197,7 +199,7 @@
                             nextArrow: "<a href='#'><i class='fa fa-angle-right'></i></a>",
                         });
                     }
-
+console.log(second)
                     if (second.length) {
 
                         second.slick('unslick');
@@ -208,16 +210,16 @@
                         });
 
                         second.html(thumbHtml);
-
+                        console.log(thumbHtml)
                         second.slick({
-                            slidesToShow: second.data('item'),
+                            slidesToShow: 2,
                             slidesToScroll: 1,
                             infinite: false,
                             arrows: second.data('arrow'),
                             focusOnSelect: true,
                             prevArrow: "<a href='#'><i class='fa fa-angle-up'></i></a>",
                             nextArrow: "<a href='#'><i class='fa fa-angle-down'></i></a>",
-                            asNavFor: '.ps-product__gallery',
+                            asNavFor: "#gallery-slider1 .gallery-slider__images>div",
                             vertical: vertical,
                             responsive: [
                                 {
@@ -258,7 +260,7 @@
                             ],
                         });
                     }
-                }
+
 
                 $(window).trigger('resize');
 
@@ -709,7 +711,6 @@
                             window.showAlert('alert-success', res.message);
                         });
                     } else {
-                        alert('sd')
                         window.showAlert('alert-danger', res.message);
                         _self.prop('disabled', false).removeClass('btn-disabled').removeClass('button-loading');
                     }
