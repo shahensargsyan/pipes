@@ -301,17 +301,6 @@
                                         </div>
                                     @endif
 
-                                    <div class="payment_list_row payment_check">
-                                        <div class="payment_list payment_input">
-                                            <input type="radio" id="bank_transfer" name="payment_method"
-                                                   value="bank_transfer" >
-                                            <label for="bank_transfer">
-                                                Direct Bank Transfer
-                                            </label>
-                                            <div class="check"></div>
-                                        </div>
-                                    </div>
-
                                     @if (setting('payment_paypal_status') == 1)
                                         <div class="payment_list_row payment_check">
                                             <div class="payment_list payment_input">
