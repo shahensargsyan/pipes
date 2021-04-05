@@ -108,8 +108,8 @@
                                                                            target="_blank">
                                                                             <img title="Logo"
                                                                                  src="http://gardenhosepro.com/storage/general/wash-pipe-pro-logo.png"
-                                                                                 height="70"
-                                                                                 style="max-width: 107px;display: block !important;height: auto !important;"
+                                                                                 width="200"
+                                                                                 style="max-width: 200px;display: block !important;height: auto !important;"
                                                                                  alt="Logo" border="0"
                                                                                  hspace="0"
                                                                                  vspace="0"></a>

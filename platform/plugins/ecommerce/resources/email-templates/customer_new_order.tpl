@@ -26,8 +26,8 @@
 
 
 It usually takes up to 2 business days to prepare an order for the dispatch. Once your order has been shipped, you will receive an email confirmation.
-
-Best Regards,
+<br />
+Best Regards,<br />
 Garden Hose Pro Team
-
+<br />
 {{ footer }}
