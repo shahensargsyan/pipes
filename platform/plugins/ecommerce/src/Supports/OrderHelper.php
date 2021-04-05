@@ -120,7 +120,7 @@ class OrderHelper
                     compact('order'))->render(),
                 'shipping_method'  => $order->shipping_method_name,
                 'payment_method'   => $order->payment->payment_channel->label(),
-                'order_date'       => $order->created_at->format('F d Y'),
+                'order_date'       => $order->created_at->setTimezone('America/Los_Angeles')->format('F d Y'),
             ]);
     }
 
