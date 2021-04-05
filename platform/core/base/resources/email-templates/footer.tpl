@@ -109,41 +109,7 @@
                                                                                                    class="clear-align"
                                                                                                    style="border-spacing: 0;">
                                                                                                 <tbody>
-                                                                                                <tr>
-                                                                                                    <td align="center"
-                                                                                                        valign="middle"
-                                                                                                        class="clear-padding"
-                                                                                                        style="border-collapse: collapse;">
-                                                                                                        <a href="#"
-                                                                                                           target="_blank">
-                                                                                                            <img
-                                                                                                                    src="https://gallery.mailchimp.com/7322fbb8c9fca82452c7533d9/images/48488f81-0a34-4d83-a891-e23f53510e7b.jpg"
-                                                                                                                    width="36"
-                                                                                                                    alt="icon-twitter"
-                                                                                                                    style="max-width: 36px;display: block !important;height: auto !important;"
-                                                                                                                    border="0"
-                                                                                                                    hspace="0"
-                                                                                                                    vspace="0">
-                                                                                                        </a>
-                                                                                                    </td>
-                                                                                                    <td style="padding-left: 5px;border-collapse: collapse;"
-                                                                                                        height="30"
-                                                                                                        align="center"
-                                                                                                        valign="middle"
-                                                                                                        class="clear-padding">
-                                                                                                        <a href="#"
-                                                                                                           target="_blank">
-                                                                                                            <img
-                                                                                                                    src="https://gallery.mailchimp.com/7322fbb8c9fca82452c7533d9/images/79f64b26-1868-48b0-85b4-dfaf29874af4.jpg"
-                                                                                                                    width="37"
-                                                                                                                    alt="icon-facebook"
-                                                                                                                    style="max-width: 37px;display: block !important;height: auto !important;"
-                                                                                                                    border="0"
-                                                                                                                    hspace="0"
-                                                                                                                    vspace="0">
-                                                                                                        </a>
-                                                                                                    </td>
-                                                                                                </tr>
+
                                                                                                 </tbody>
                                                                                             </table>
                                                                                         </td>

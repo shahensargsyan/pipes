@@ -146,12 +146,7 @@
                                                                    style="border-spacing: 0;">
                                                                 <tbody>
                                                                 <tr>
-                                                                    <td style="border-collapse: collapse;">
-                                                                        <img width="20"
-                                                                             style="display: block;height: auto !important;"
-                                                                             src="https://gallery.mailchimp.com/7322fbb8c9fca82452c7533d9/images/336af2da-ecfd-4520-8df5-5df1b12067a6.jpg"
-                                                                             alt="icon date">
-                                                                    </td>
+
                                                                     <td style="border-collapse: collapse;">
                                                                         &nbsp;&nbsp;</td>
                                                                     <td style="font-size: 13px;line-height: 22px;color: #FFF;font-weight: normal;text-align: center;font-family: Tahoma, Helvetica, Arial, sans-serif;border-collapse: collapse;">{{ date_time }}</td>
