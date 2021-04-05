@@ -7,7 +7,7 @@ return [
         'customer_new_order'      => [
             'title'       => 'plugins/ecommerce::email.customer_new_order_title',
             'description' => 'plugins/ecommerce::email.customer_new_order_description',
-            'subject'     => 'New order {{ order_id }}',
+            'subject'     => 'Order Confirmation',
             'can_off'     => true,
         ],
         'customer_cancel_order'   => [
