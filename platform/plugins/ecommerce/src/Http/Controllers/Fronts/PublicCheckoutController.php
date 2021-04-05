@@ -656,14 +656,14 @@ class PublicCheckoutController
 
                 $this->orderProductRepository->create($data);
 
-                $this->productRepository
+                /*$this->productRepository
                     ->getModel()
                     ->where([
                         'id'                         => $cartItem->id,
                         'with_storehouse_management' => 1,
                     ])
                     ->where('quantity', '>', 0)
-                    ->decrement('quantity', $cartItem->qty);
+                    ->decrement('quantity', $cartItem->qty);*/
             }
 
             $request->merge([

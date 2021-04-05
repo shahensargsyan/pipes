@@ -176,7 +176,7 @@
                         .find('.ps-product__thumbnail')
                         .data('vertical');
                     var primary = jQuery("#gallery-slider1 .gallery-slider__images>div");
-                    console.log(primary)
+
                     if (primary.length) {
                         primary.slick('unslick');
 
@@ -199,7 +199,6 @@
                             nextArrow: "<a href='#'><i class='fa fa-angle-right'></i></a>",
                         });
                     }
-console.log(second)
                     if (second.length) {
 
                         second.slick('unslick');
@@ -210,7 +209,7 @@ console.log(second)
                         });
 
                         second.html(thumbHtml);
-                        console.log(thumbHtml)
+
                         second.slick({
                             slidesToShow: 2,
                             slidesToScroll: 1,
