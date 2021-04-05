@@ -4,7 +4,7 @@
             @foreach($attributes->where('attribute_set_id', $set->id) as $attribute)
                 <li data-slug="{{ $attribute->slug }}" class="attribute-swatch-item"
                     title="{{ $attribute->title }}">
-                    <div class="custom-radio choose_color {{ in_array($attribute->id, $selected) ? 'active_color' : '000' }}">
+                    <div class="custom-radio choose_color {{ in_array($attribute->id, $selected) ? 'active_color' : '' }}">
                         <label class=" purple_color">
                             <input class="form-control product-filter-item color-check" type="radio" name="attribute_{{ $set->slug }}" value="{{ $attribute->id }}" {{ in_array($attribute->id, $selected) ? 'checked' : '' }}>
                             <label for="purple"><p  style="{{ $attribute->image ? 'background-image: url(' . RvMedia::getImageUrl($attribute->image) . ');' : 'background-color: ' . $attribute->color . ';' }}" class="color"></p></label>
