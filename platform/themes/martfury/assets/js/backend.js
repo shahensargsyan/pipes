@@ -192,7 +192,7 @@
                             slidesToScroll: 1,
                             asNavFor: '.ps-product__variants',
                             fade: true,
-                            dots: false,
+                            dots: true,
                             infinite: false,
                             arrows: primary.data('arrow'),
                             prevArrow: "<a href='#'><i class='fa fa-angle-left'></i></a>",
@@ -213,6 +213,7 @@
                         second.slick({
                             slidesToShow: 2,
                             slidesToScroll: 1,
+                            dots: true,
                             infinite: false,
                             arrows: second.data('arrow'),
                             focusOnSelect: true,

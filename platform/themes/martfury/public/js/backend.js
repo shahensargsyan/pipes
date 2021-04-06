@@ -164,7 +164,6 @@ var __webpack_exports__ = {};
         var second = jQuery("#gallery-slider1 .gallery-slider__thumbnails>div");
         var vertical = product.find('.ps-product__thumbnail').data('vertical');
         var primary = jQuery("#gallery-slider1 .gallery-slider__images>div");
-        console.log(primary);
 
         if (primary.length) {
           primary.slick('unslick');
@@ -178,15 +177,13 @@ var __webpack_exports__ = {};
             slidesToScroll: 1,
             asNavFor: '.ps-product__variants',
             fade: true,
-            dots: false,
+            dots: true,
             infinite: false,
             arrows: primary.data('arrow'),
             prevArrow: "<a href='#'><i class='fa fa-angle-left'></i></a>",
             nextArrow: "<a href='#'><i class='fa fa-angle-right'></i></a>"
           });
         }
-
-        console.log(second);
 
         if (second.length) {
           second.slick('unslick');
@@ -195,10 +192,10 @@ var __webpack_exports__ = {};
             thumbHtml += '<div class="item"><img src="' + item + '" alt="image"/></div>';
           });
           second.html(thumbHtml);
-          console.log(thumbHtml);
           second.slick({
             slidesToShow: 2,
             slidesToScroll: 1,
+            dots: true,
             infinite: false,
             arrows: second.data('arrow'),
             focusOnSelect: true,

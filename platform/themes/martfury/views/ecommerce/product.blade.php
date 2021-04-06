@@ -50,7 +50,7 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                         <div class="embed-responsive embed-responsive-16by9">
-                                            <iframe class="embed-responsive-item" src="" id="video"
+                                            <iframe class="embed-responsive-item" src="" id="video" autoplay loop
                                                     allowscriptaccess="always" allow="autoplay"></iframe>
                                         </div>
                                     </div>
