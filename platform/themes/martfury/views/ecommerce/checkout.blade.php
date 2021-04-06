@@ -2,7 +2,6 @@
     $crossSellProducts = [];
     Theme::layout('pipes');
     //Theme::set('stickyHeader', 'false');
-    //dd(Route::current()->uri)
 @endphp
 {!! Html::style('vendor/core/core/base/libraries/toastr/toastr.min.css') !!}
 
@@ -17,25 +16,6 @@
         success_header: '{{ __('Success') }}',
     }
 </script>
-
-@if (session()->has('success_msg') || session()->has('error_msg') || isset($errors))
-    <script type="text/javascript">
-        $(document).ready(function () {
-            @if (session()->has('success_msg'))
-            MainCheckout.showNotice('success', '{{ session('success_msg') }}');
-            @endif
-            @if (session()->has('error_msg'))
-            MainCheckout.showNotice('error', '{{ session('error_msg') }}');
-            @endif
-            @if (isset($errors))
-            @foreach ($errors->all() as $error)
-            MainCheckout.showNotice('error', '{{ $error }}');
-            @endforeach
-            @endif
-        });
-    </script>
-@endif
-
 
 <link rel="stylesheet" href="{{ asset('vendor/core/plugins/payment/libraries/card/card.css') }}">
 <link rel="stylesheet" href="{{ asset('vendor/core/plugins/payment/css/payment.css') }}?v=1.0.2">

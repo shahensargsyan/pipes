@@ -46,7 +46,7 @@
                                     <li><a href="mailto:{{ theme_option('email') }}"><img src="{!! Theme::asset()->url('/pipes/images/mail.svg') !!}">
                                             {{ theme_option('email') }}</a></li>
                                     <li><a href="tel:{{ theme_option('hotline') }}"><img src="{!! Theme::asset()->url('/pipes/images/phone.svg') !!}">
-                                            {{ theme_option('hotline') }}5</a>
+                                            {{ theme_option('hotline') }}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -59,7 +59,7 @@
     </div>
     <div class="footer_bottom_div">
         <div class="container">
-            <div class="copyright_text"><p>© Copyright 2021 Garden Hose Pro. All Rights Reserved</p></div>
+            <div class="copyright_text"><p>{{ theme_option('copyright') }}</p></div>
             <div class="payments_img"><img src="{!! Theme::asset()->url('/pipes/images/payment-menthods@2x.png') !!}"></div>
         </div>
     </div>
