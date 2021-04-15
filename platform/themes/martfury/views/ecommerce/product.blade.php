@@ -271,24 +271,36 @@
             <h2 class="reviews_title">REVIEWS</h2>
             <div id="carousel" class="reviews_div slider">
                 @foreach($reviews as $review)
+
                     <div class="slider-item reviews_item">
                         <div class="rev_product_img">
                             <img src="/storage/{{$review->user->avatar}}">
                         </div>
                         <div class="rev_product_info">
-                            <h3>{{$review->user->name}}</h3>
+
                             <div class="star_rating_div">
                                 <div class="star-rating" role="img" aria-label="Rated 4.66 out of 5"><span
                                         style="width:{{$review->star*20}}%">Rated <strong
                                             class="rating">4.66</strong> out of 5</span></div>
+
+                                <div class="rev_date">
+                                    {{$review->created_at->format('m.d.Y')}}
+                                </div>
                             </div>
                             <div class="rev_product_description">
                                 <p>
                                     {{$review->comment}}
                                 </p>
                             </div>
+                            <div class="rev_title_btn">
+                                <h3><h3>{{$review->user->name}}</h3></h3>
+                                <button class="verified_btn">Verified Buyer</button>
+                            </div>
                         </div>
                     </div>
+
+
+
                 @endforeach
 
             </div>
