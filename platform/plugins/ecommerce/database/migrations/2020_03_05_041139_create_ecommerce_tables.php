@@ -201,6 +201,7 @@ class CreateEcommerceTables extends Migration
             $table->float('star');
             $table->string('comment');
             $table->string('status', 60)->default('published');
+            $table->string('image');
             $table->timestamps();
         });
 

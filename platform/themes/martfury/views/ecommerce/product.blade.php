@@ -158,8 +158,8 @@
                         <div class="color-and-price">
                             <div class="row_color_price">
                                 <div class="choose_color_row">
-                                    <span class="color_title">Choose color</span>
                                     @if ($product->variations()->count() > 0)
+                                        <span class="color_title">Choose color</span>
                                         <div class="pr_switch_wrap">
                                             {!! render_product_swatches($product, [
                                                 'selected' => $selectedAttrs,
@@ -190,14 +190,8 @@
                                 </div>
                             </div>
                             @if (EcommerceHelper::isCartEnabled())
-                                <button class="ps-btn ps-btn--black single_add_to_cart_button button" type="submit">{{ __('Add to cart') }}</button>
-                                @if (EcommerceHelper::isQuickBuyButtonEnabled())
-{{--                                    <button class="ps-btn" type="submit" name="checkout">{{ __('Buy Now') }}</button>--}}
-                                @endif
+                                    <button class="ps-btn ps-btn--black single_add_to_cart_button" type="submit" name="checkout">{{ __('Buy Now') }}</button>
                             @endif
-{{--                            <button type="submit" name="add-to-cart" value=""--}}
-{{--                                    class="single_add_to_cart_button button">BUY NOW--}}
-{{--                            </button>--}}
                         </div>
                     </form>
                     <div class="lnd_section3_row">
@@ -306,4 +300,34 @@
             </div>
         </div>
     </div>
+</div>
+<div class="col-lg-7">
+
+    <form class="avatar-form form-review-product" method="post" action="{{ route('public.reviews.create') }}" enctype="multipart/form-data">
+    {!! Form::token() !!}
+    <input type="hidden" name="product_id" value="{{ $product->id }}">
+    <h4>{{ __('Submit Your Review') }}</h4>
+
+    <div class="form-group">
+        <label for="review-star">{{ __('Your rating of this product') }}</label>
+        <select name="star" data-read-only="false">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <textarea class="form-control" name="comment" id="txt-comment" rows="6" placeholder="{{ __('Write your review') }}" ></textarea>
+    </div>
+    <div class="form-group">
+        <input type="file" name="image">
+    </div>
+
+    <div class="form-group submit">
+        <button class="ps-btn " type="submit">{{ __('Submit Review') }}</button>
+    </div>
+    {!! Form::close() !!}
 </div>

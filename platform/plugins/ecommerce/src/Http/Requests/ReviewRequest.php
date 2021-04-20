@@ -18,6 +18,7 @@ class ReviewRequest extends Request
             'product_id' => 'required',
             'star'       => 'required|numeric|min:1|max:5',
             'comment'    => 'required|max:1000',
+            'image'      => 'required',
         ];
     }
 }

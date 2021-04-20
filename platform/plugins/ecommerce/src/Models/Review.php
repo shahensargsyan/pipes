@@ -25,6 +25,7 @@ class Review extends BaseModel
         'star',
         'comment',
         'status',
+        'image',
     ];
 
     /**
