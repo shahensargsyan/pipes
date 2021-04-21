@@ -144,7 +144,7 @@
                         </div>
                         <div class="reviews_text">
                             <a href="/#review" class="reviews_text">
-                                <span class="rate_txt">  (64)<span class="count"></span> {{ __('Reviews') }}</span>
+                                <span class="rate_txt">  (647)<span class="count"></span> {{ __('Reviews') }}</span>
                             </a>
                         </div>
                     </div>
