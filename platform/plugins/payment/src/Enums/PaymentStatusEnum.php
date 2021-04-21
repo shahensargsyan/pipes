@@ -21,6 +21,7 @@ class PaymentStatusEnum extends Enum
     public const REFUNDED = 'refunded';
     public const FRAUD = 'fraud';
     public const FAILED = 'failed';
+    public const APPROVED = 'APPROVED';
 
     /**
      * @var string

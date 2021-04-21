@@ -21,6 +21,8 @@ use PayPal\Api\RedirectUrls;
 use PayPal\Api\Payment;
 use PayPal\Api\Payer;
 use PayPal\Api\PaymentExecution;
+use PayPal\Api\PatchRequest;
+
 
 abstract class PayPalPaymentAbstract implements ProduceServiceInterface
 {
@@ -286,7 +288,7 @@ abstract class PayPalPaymentAbstract implements ProduceServiceInterface
         $paymentExecution->setPayerId($request->input('PayerID'));
 
         $paymentStatus = $payment->execute($paymentExecution, $this->apiContext);
-
+//dd($paymentStatus);
         return $paymentStatus;
     }
 

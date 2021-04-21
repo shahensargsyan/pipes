@@ -3,6 +3,7 @@
 namespace Botble\Ecommerce\Http\Controllers\Fronts;
 
 use App\Event\OrderCreated;
+use Botble\Base\Enums\BaseStatusEnum;
 use Botble\Base\Http\Responses\BaseHttpResponse;
 use Botble\Ecommerce\Enums\OrderStatusEnum;
 use Botble\Ecommerce\Enums\ShippingMethodEnum;
@@ -11,20 +12,24 @@ use Botble\Ecommerce\Http\Requests\CheckoutRequest;
 use Botble\Ecommerce\Http\Requests\SaveCheckoutInformationRequest;
 use Botble\Ecommerce\Repositories\Interfaces\AddressInterface;
 use Botble\Ecommerce\Repositories\Interfaces\CustomerInterface;
+use Botble\Ecommerce\Repositories\Interfaces\ProductVariationInterface;
 use Botble\Ecommerce\Repositories\Interfaces\DiscountInterface;
 use Botble\Ecommerce\Repositories\Interfaces\OrderAddressInterface;
 use Botble\Ecommerce\Repositories\Interfaces\OrderHistoryInterface;
 use Botble\Ecommerce\Repositories\Interfaces\OrderInterface;
 use Botble\Ecommerce\Repositories\Interfaces\OrderProductInterface;
 use Botble\Ecommerce\Repositories\Interfaces\ProductInterface;
+use Botble\Ecommerce\Repositories\Interfaces\ReviewInterface;
 use Botble\Ecommerce\Repositories\Interfaces\ShippingInterface;
 use Botble\Ecommerce\Repositories\Interfaces\TaxInterface;
 use Botble\Ecommerce\Services\HandleApplyCouponService;
 use Botble\Ecommerce\Services\HandleApplyPromotionsService;
 use Botble\Ecommerce\Services\HandleRemoveCouponService;
 use Botble\Ecommerce\Services\HandleShippingFeeService;
+use Botble\Payment\Enums\PaymentStatusEnum;
 use Botble\Payment\Enums\PaymentMethodEnum;
 use Botble\Payment\Http\Requests\PayPalPaymentCallbackRequest;
+use Botble\Payment\Repositories\Interfaces\PaymentInterface;
 use Botble\Payment\Services\Gateways\BankTransferPaymentService;
 use Botble\Payment\Services\Gateways\CodPaymentService;
 use Botble\Payment\Services\Gateways\PayPalPaymentService;
@@ -158,8 +163,8 @@ class PublicCheckoutController
                 return $response->setNextUrl(url('/'));
             }
         }
-
         $sessionCheckoutData = OrderHelper::getOrderSessionData($token);
+
 
         $weight = 0;
         foreach (Cart::instance('cart')->content() as $cartItem) {
@@ -261,7 +266,6 @@ class PublicCheckoutController
      */
     protected function processOrderData(string $token, array $sessionData, Request $request): array
     {
-//        dd($sessionData['created_account']);
         if ($request->input('address', [])) {
             if (!isset($sessionData['created_account']) && $request->input('create_account') == 1) {
                 $customer = $this->customerRepository->firstOrCreate(
@@ -271,8 +275,7 @@ class PublicCheckoutController
                     'phone'    => $request->input('address.phone'),
                     'password' => bcrypt($request->input('address.email')),
                 ]);
-//dd($customer);
-//                die;
+
                 auth('customer')->attempt([
                     'email'    => $request->input('address.email'),
                     'password' => $request->input('address.email'),
@@ -692,7 +695,8 @@ class PublicCheckoutController
                     break;
 
                 case PaymentMethodEnum::PAYPAL:
-                    $checkoutUrl = $payPalService->execute($request);
+//                    $checkoutUrl = $payPalService->execute($request);
+                    $checkoutUrl = $payPalService->createOrder($request);
                     if ($checkoutUrl) {
                         return redirect($checkoutUrl);
                     }
@@ -735,32 +739,54 @@ class PublicCheckoutController
      * @param string $token
      * @param BaseHttpResponse $response
      * @param Request $request
+     * @param PayPalPaymentService $payPalService
      * @return BaseHttpResponse|Application|Factory|RedirectResponse|View
      */
-    public function getCheckoutSuccess($token, BaseHttpResponse $response, Request  $request)
-    {
+    public function getCheckoutSuccess(
+        $token,
+        BaseHttpResponse $response,
+        Request  $request,
+        PayPalPaymentService $payPalService
+    ) {
         if (!EcommerceHelper::isCartEnabled()) {
             abort(404);
         }
+        $order = $this->orderRepository->getFirstBy(compact('token'));
+        $order_id = $order->id;
+        $payment  = app(PaymentInterface::class)->getFirstBy(compact('order_id'));
+        $product_id =$order->products[0]->product_id;
+        $changeId = $payment->charge_id;
 
-        $order = $this->orderRepository->getFirstBy(compact('token'), [], ['address', 'products']);
+        $paypalOrderStatus = $payPalService->getOrder($payment->charge_id);
+        $product = $reviews = [];
+        if ($paypalOrderStatus == "COMPLETED") {
+            $page = 'thank-you';
+        } else {
+            $page = 'special-offer';
+            $mainProduct =  app(ProductVariationInterface::class)->getFirstBy(compact('product_id'),[],['configurableProduct']);
 
+            $request->session()->push('payment', $payment->toArray());
+            $request->session()->push('upSales', $mainProduct->configurableProduct->upSales);
+
+            $product = $mainProduct->configurableProduct->upSales[0];
+
+
+            $reviews = app(ReviewInterface::class)->advancedGet([
+                'condition' => [
+                    'status'     => BaseStatusEnum::PUBLISHED,
+                    'product_id' => $product->id,
+                ],
+                'with'  => ['user'],
+                'order_by'  => ['created_at' => 'desc'],
+            ]);
+        }
         if ($token !== session('tracked_start_checkout') || !$order) {
             return $response->setNextUrl(url('/'));
         }
 
-        OrderHelper::clearSessions($token);
-
-        event(new OrderCreated($order));
-
-        $request->session()->flush();
-
-        $request->session()->forget('tracked_start_checkout');
-
-        Auth::logout();
 
         return Theme::scope(
-            'ecommerce.thank-you', compact('order')
+            'ecommerce.'.$page, compact('order', 'changeId', 'product', 'reviews', 'token')
         )->render();
     }
 
@@ -843,10 +869,13 @@ class PublicCheckoutController
             abort(404);
         }
 
-        $chargeId = $palPaymentService->afterMakePayment($request);
+        $status = $palPaymentService->afterMakePayment($request);
 
-        if ($request->input('order_id')) {
-            OrderHelper::processOrder($request->input('order_id'), $chargeId);
+        if ($status != PaymentStatusEnum::APPROVED) {
+            //OrderHelper::processOrder($request->input('order_id'), $chargeId);
+            return $response
+                ->setNextUrl('/')
+                ->setMessage(__('Checkout error!'));
         }
 
         return $response
@@ -1051,4 +1080,40 @@ class PublicCheckoutController
     {
 
     }
+
+    /**
+     * @param CheckoutRequest $request
+     * @param PayPalPaymentService $payPalService
+     * @return mixed
+     * @throws Throwable
+     */
+    public function patchOrder(Request $request, PayPalPaymentService $payPalService)
+    {
+        $token = $request->input('token');
+        $productId = $request->input('product_id');
+        $product = $this->productRepository->findById($productId);
+
+        $order = $this->orderRepository->getFirstBy(['token' => $token]);
+
+        $data = [
+            'order_id'     => $order->id,
+            'product_id'   => $product->id,
+            'product_name' => $product->name,
+            'qty'          => $request->input('qty'),
+            'weight'       => $weight,
+            'price'        => $product->price,
+            'tax_amount'   => EcommerceHelper::isTaxEnabled() ? $cartItem->taxRate / 100 * $cartItem->price : 0,
+            'options'      => [],
+        ];
+
+        if ($cartItem->options->extras) {
+            $data['options'] = $cartItem->options->extras;
+        }
+
+        $this->orderProductRepository->create($data);
+
+        $payPalService->patchOrder($orderId);
+    }
+
+
 }

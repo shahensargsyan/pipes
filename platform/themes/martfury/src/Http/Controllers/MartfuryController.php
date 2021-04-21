@@ -503,9 +503,10 @@ class MartfuryController extends PublicController
         }
     }
 
-    public function getproducts()
+    public function specialOffer($paymentId)
     {
-        die('okkk');
+
+        die('special-offer');
     }
 
     /**
