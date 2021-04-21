@@ -11,6 +11,12 @@ class SendToCjdropshipping
 {
     public $cjDropShippingRepository;
 
+    public $countries = [
+        "US" => "United States",
+        "GB" => "United Kingdom",
+        "IE" => "Ireland",
+    ];
+
     /**
      * Create the event listener.
      *
@@ -49,7 +55,7 @@ class SendToCjdropshipping
                 "countryCode" => $data->order->address->country,
                 "shippingAddress1" => $data->order->address->address,
                 "city" => $data->order->address->city,
-                "country" => "United States",
+                "country" => $this->countries[$data->order->address->country],
                 "email" => $data->order->address->email,
                 "createdAt" => (int)round(microtime(true) * 1000),
                 "orderNumber" => (string)$data->order->id,
