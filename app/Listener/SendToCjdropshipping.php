@@ -59,7 +59,7 @@ class SendToCjdropshipping
                 "email" => $data->order->address->email,
                 "createdAt" => (int)round(microtime(true) * 1000),
                 "orderNumber" => (string)$data->order->id,
-                "province" => $data->order->address->state,
+                "province" => $data->order->address->city,
                 "products" => $products
             ]
         ];
