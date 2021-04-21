@@ -31,7 +31,7 @@
             @include('plugins/ecommerce::products.partials.selected-products-list', ['products' => $product ? $product->crossSales : collect([]), 'includeVariation' => false])
         </div>
 
-        @if (false)
+        @if (1)
             <hr>
             <div class="form-group">
                 <label class="control-label">{{ trans('plugins/ecommerce::products.up_selling_products') }}</label>

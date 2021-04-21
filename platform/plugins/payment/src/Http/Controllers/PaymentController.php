@@ -5,6 +5,9 @@ namespace Botble\Payment\Http\Controllers;
 use Assets;
 use Botble\Base\Events\DeletedContentEvent;
 use Botble\Base\Http\Responses\BaseHttpResponse;
+use Botble\Ecommerce\Repositories\Interfaces\OrderInterface;
+use Botble\Ecommerce\Repositories\Interfaces\ProductInterface;
+use Botble\Ecommerce\Repositories\Interfaces\OrderProductInterface;
 use Botble\Payment\Enums\PaymentMethodEnum;
 use Botble\Payment\Enums\PaymentStatusEnum;
 use Botble\Payment\Http\Requests\CheckoutRequest;
@@ -27,6 +30,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Arr;
 use Illuminate\View\View;
 use Throwable;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -176,7 +180,8 @@ class PaymentController extends Controller
                 break;
 
             case PaymentMethodEnum::PAYPAL:
-                $checkoutUrl = $this->payPalService->execute($request);
+                $checkoutUrl = $this->payPalService->createOrder($request);
+//                $checkoutUrl = $this->payPalService->execute($request);
                 if ($checkoutUrl) {
                     return redirect($checkoutUrl);
                 }
@@ -350,5 +355,83 @@ class PaymentController extends Controller
         return $response
             ->setPreviousUrl(route('payment.show', $payment->id))
             ->setMessage(trans('core/base::notices.update_success_message'));
+    }
+
+    public function postPatchOrder(Request $request)
+    {
+        $token = $request->input('token');
+        $order = app(OrderInterface::class)->getFirstBy(compact('token'));
+        $payment = app(PaymentInterface::class)->getFirstBy(['order_id' => $order->id]);
+
+        $orderStatus = '';
+        switch ($payment->payment_channel) {
+            case PaymentMethodEnum::PAYPAL:
+                $orderStatus = $this->payPalService->getOrder($payment->charge_id);
+                break;
+            default:
+
+                break;
+        }
+
+        if ($orderStatus != "COMPLETED") {
+            $qty = $request->input('qty');
+            $weight = 0;
+            $product = app(ProductInterface::class)->findById($request->input('id'));
+            if ($product) {
+                if ($product->weight) {
+                    $weight += $product->weight * $qty;
+                }
+            }
+
+            $weight = $weight > 0.1 ? $weight : 0.1;
+
+            $data = [
+                'order_id' => $order->id,
+                'product_id' => $product->id,
+                'product_name' => $product->name,
+                'qty' => $qty,
+                'weight' => $weight,
+                'price' => $product->price,
+                'tax_amount' => 0,
+                'options' => [],
+            ];
+
+            app(OrderProductInterface::class)->create($data);
+
+            app(PaymentInterface::class)->update(['order_id' => $order->id], ['amount' => DB::raw('amount+' . $product->price)]);
+
+            $updatedPayment = app(PaymentInterface::class)->getFirstBy(['order_id' => $order->id]);
+
+            switch ($payment->payment_channel) {
+                case PaymentMethodEnum::PAYPAL:
+                    $this->payPalService->patchOrder($updatedPayment->charge_id, $updatedPayment->amount);
+                    break;
+                case PaymentMethodEnum::STRIPE:
+                    $this->stripePaymentService->updatePayment();
+                    break;
+                default:
+
+                    break;
+            }
+        }
+    }
+
+    public function finishOrder(Request $request)
+    {
+        $token = $request->input('token');
+        $order = app(OrderInterface::class)->getFirstBy(compact('token'));
+        $payment = app(PaymentInterface::class)->getFirstBy(['order_id' => $order->id]);
+        $this->payPalService->captureAuthorize($payment->charge_id);
+    }
+
+    public function createOrder()
+    {
+        $config = config('plugins.payment.payment.paypal');
+//        dd($config["settings"]["mode"] ==  "sandbox");
+        $order = '2A072809E2994890X';
+//        echo $this->payPalService->createOrder();
+//        $this->payPalService->patchOrder($order);
+//        $this->payPalService->captureOrder($order);
+        $this->payPalService->captureAuthorize($order);
     }
 }

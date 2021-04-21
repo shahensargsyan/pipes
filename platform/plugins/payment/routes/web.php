@@ -5,6 +5,11 @@ Route::group(['namespace' => 'Botble\Payment\Http\Controllers', 'middleware' => 
         Route::post('checkout', 'PaymentController@postCheckout')->name('payments.checkout');
 
         Route::get('status', 'PaymentController@getPayPalStatus')->name('payments.paypal.status');
+
+        Route::get('patch', 'PaymentController@patch')->name('payments.paypal.patch');
+        Route::get('create-order', 'PaymentController@createOrder')->name('payments.paypal.create-order');
+        Route::post('post-patch-order', 'PaymentController@postPatchOrder')->name('payments.paypal.post-patch-order');
+        Route::post('finish-order', 'PaymentController@finishOrder')->name('payments.paypal.finish-order');
     });
 
     Route::group(['prefix' => BaseHelper::getAdminPrefix(), 'middleware' => 'auth'], function () {

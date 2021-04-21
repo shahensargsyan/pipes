@@ -63,8 +63,8 @@ Route::group(['namespace' => 'Botble\Ecommerce\Http\Controllers\Fronts', 'middle
     Route::group(apply_filters(BASE_FILTER_GROUP_PUBLIC_ROUTE, []), function () {
 
 
-        Route::get('/', 'PublicProductController@getPipeProduct')
-            ->name('public.index');
+        Route::get('/', 'PublicProductController@getPipeProduct') ->name('public.index');
+        Route::get('/special-offer/{paymentId}', 'PublicProductController@specialOffer') ->name('public.special-offer');
 
 
     });

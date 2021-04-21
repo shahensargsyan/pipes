@@ -87,4 +87,42 @@ class StripePaymentService extends StripePaymentAbstract
 
         return true;
     }
+
+    /**
+     * Update a payment
+     *
+     * @param Request $request
+     *
+     * @return mixed
+     * @throws ApiErrorException
+     */
+    public function updatePayment(Request $request)
+    {
+        $this->amount = $request->input('amount');
+        $this->currency = $request->input('currency', config('plugins.payment.payment.currency'));
+        $this->currency = strtoupper($this->currency);
+        $description = $request->input('description');
+
+        Stripe::setApiKey(setting('payment_stripe_secret'));
+        Stripe::setClientId(setting('payment_stripe_client_id'));
+
+        $amount = $this->amount;
+
+        $multiplier = StripeHelper::getStripeCurrencyMultiplier($this->currency);
+
+        if ($multiplier > 1) {
+            $amount = (int) ($amount * $multiplier);
+        }
+
+        $charge = Charge::update([
+            'amount'      => $amount,
+            'currency'    => $this->currency,
+            'source'      => $this->token,
+            'description' => $description,
+        ]);
+
+        $this->chargeId = $charge['id'];
+
+        return $this->chargeId;
+    }
 }

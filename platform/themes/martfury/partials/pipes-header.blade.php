@@ -54,6 +54,9 @@
         /></noscript>
     <!-- End Facebook Pixel Code -->
 
+        <!-- This site is converting visitors into subscribers and customers with OptinMonster - https://optinmonster.com -->
+        <script type="text/javascript" src="https://a.omappapi.com/app/js/api.min.js" data-account="2737" data-user="18405" async></script>
+        <!-- / https://optinmonster.com -->
 
         @switch(Route::current()->uri)
             @case("/")
@@ -61,19 +64,19 @@
             @break
 
             @case("cart")
-                <title>Cart </title>
+                <title>Cart</title>
             @break
 
             @case("checkout/{token}")
-            <title>Checkout </title>
+            <title>Checkout</title>
             @break
 
             @case("checkout/{token}/success")
-                <title>Thank You </title>
+                <title>Thank You</title>
             @break
 
             @case("{slug?}")
-            <title>Garden </title>
+            <title>Garden</title>
             @break
 
             @default
