@@ -53,7 +53,7 @@ class SendToCjdropshipping
                 "zip" => $data->order->address->zip_code,
                 "phone" => $data->order->address->phone,
                 "countryCode" => $data->order->address->country,
-                "shippingAddress1" => $data->order->address->address,
+                "shippingAddress1" => $data->order->address->address.', '.$data->order->address->apartment,
                 "city" => $data->order->address->city,
                 "country" => $this->countries[$data->order->address->country],
                 "email" => $data->order->address->email,
