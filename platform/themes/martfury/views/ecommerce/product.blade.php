@@ -190,14 +190,8 @@
                                 </div>
                             </div>
                             @if (EcommerceHelper::isCartEnabled())
-                                <button class="ps-btn ps-btn--black single_add_to_cart_button button" type="submit">{{ __('Add to cart') }}</button>
-                                @if (EcommerceHelper::isQuickBuyButtonEnabled())
-{{--                                    <button class="ps-btn" type="submit" name="checkout">{{ __('Buy Now') }}</button>--}}
-                                @endif
+                                <button class="ps-btn single_add_to_cart_button" type="submit" name="checkout">{{ __('Buy Now') }}</button>
                             @endif
-{{--                            <button type="submit" name="add-to-cart" value=""--}}
-{{--                                    class="single_add_to_cart_button button">BUY NOW--}}
-{{--                            </button>--}}
                         </div>
                     </form>
                     <div class="lnd_section3_row">
