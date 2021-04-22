@@ -504,15 +504,19 @@ class PublicProductController
      */
     public function postCreateReview(ReviewRequest $request, BaseHttpResponse $response)
     {
-        $result = RvMedia::handleUpload($request->file('image'), 0, 'reviews');
-
-        if ($result['error'] != false) {
-            return $response->setError()->setMessage($result['message']);
-        }
         $request->merge([
-            'image' => $result['data']->resource->url,
             'status' => 'pending'
         ]);
+
+        if(null !== $request->file('image')){
+            $result = RvMedia::handleUpload($request->file('image'), 0, 'reviews');
+            if ($result['error'] != false) {
+                return $response->setError()->setMessage($result['message']);
+            }
+            $request->merge([
+                'image' => $result['data']->resource->url,
+            ]);
+        }
 
         $this->reviewRepository->createOrUpdate($request->input());
 

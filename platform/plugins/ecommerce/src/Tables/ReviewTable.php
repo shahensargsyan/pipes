@@ -59,6 +59,17 @@ class ReviewTable extends TableAbstract
                 }
                 return null;
             })
+            ->editColumn('image', function ($item) {
+                if ($this->request()->input('action') == 'csv') {
+                    return RvMedia::getImageUrl($item->image, null, false, RvMedia::getDefaultImage());
+                }
+
+                if ($this->request()->input('action') == 'excel') {
+                    return RvMedia::getImageUrl($item->image, 'thumb', false, RvMedia::getDefaultImage());
+                }
+
+                return view('plugins/ecommerce::products.partials.thumbnail', compact('item'))->render();
+            })
             ->editColumn('customer_id', function ($item) {
                 return $item->user->name;
             })
@@ -91,7 +102,7 @@ class ReviewTable extends TableAbstract
             'ec_reviews.star',
             'ec_reviews.comment',
             'ec_reviews.product_id',
-            'ec_reviews.customer_id',
+            'ec_reviews.image',
             'ec_reviews.status',
             'ec_reviews.created_at',
         ];
@@ -120,10 +131,11 @@ class ReviewTable extends TableAbstract
                 'title' => trans('plugins/ecommerce::review.product'),
                 'class' => 'text-left',
             ],
-            'customer_id' => [
-                'name'  => 'ec_reviews.customer_id',
-                'title' => trans('plugins/ecommerce::review.user'),
-                'class' => 'text-left',
+            'image'      => [
+                'name'  => 'ec_products.images',
+                'title' => trans('plugins/ecommerce::products.image'),
+                'width' => '100px',
+                'class' => 'text-center',
             ],
             'star'        => [
                 'name'  => 'ec_reviews.star',
