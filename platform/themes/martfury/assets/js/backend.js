@@ -618,11 +618,12 @@
 
                     //window.showAlert('alert-success', res.message);
 
-                    window.location.href = '/cart'
-                    /*if (_self.prop('name') === 'checkout' && res.data.next_url !== undefined) {
+
+                    if (_self.prop('name') === 'checkout' && res.data.next_url !== undefined) {
                         window.location.href = res.data.next_url;
                     } else {
-                        $.ajax({
+                        window.location.href = '/cart'
+                       /*$.ajax({
                             url: window.siteUrl + '/ajax/cart',
                             method: 'GET',
                             success: function (response) {
@@ -632,8 +633,8 @@
                                     $('.cart_itemCount').text(response.data.count);
                                 }
                             }
-                        });
-                    }*/
+                        });*/
+                    }
                 },
                 error: res => {
                     _self.prop('disabled', false).removeClass('btn-disabled').removeClass('button-loading');
