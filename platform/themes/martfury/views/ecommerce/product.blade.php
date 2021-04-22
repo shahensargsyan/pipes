@@ -265,10 +265,9 @@
             <h2 class="reviews_title">REVIEWS</h2>
             <div id="carousel" class="reviews_div slider">
                 @foreach($reviews as $review)
-
                     <div class="slider-item reviews_item">
                         <div class="rev_product_img">
-                            <img src="/storage/{{$review->user->avatar}}">
+                            <img src="/storage/{{$review->image!==null?$review->image:'/reviews/default.png'}}">
                         </div>
                         <div class="rev_product_info">
 
@@ -292,17 +291,13 @@
                             </div>
                         </div>
                     </div>
-
-
-
                 @endforeach
-
             </div>
         </div>
     </div>
 </div>
-<div class="col-lg-7">
 
+<div class="col-lg-7">
     <form class="avatar-form form-review-product" method="post" action="{{ route('public.reviews.create') }}" enctype="multipart/form-data">
     {!! Form::token() !!}
     <input type="hidden" name="product_id" value="{{ $product->id }}">
@@ -319,6 +314,10 @@
             <option value="5">5</option>
         </select>
     </div>
+        <div class="form-group">
+            <label for="review-star">{{ __('Your full name') }}</label>
+            <input type="text" name="name">
+        </div>
     <div class="form-group">
         <textarea class="form-control" name="comment" id="txt-comment" rows="6" placeholder="{{ __('Write your review') }}" ></textarea>
     </div>

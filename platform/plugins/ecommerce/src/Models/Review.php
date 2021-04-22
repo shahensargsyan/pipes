@@ -22,6 +22,7 @@ class Review extends BaseModel
     protected $fillable = [
         'product_id',
         'customer_id',
+        'name',
         'star',
         'comment',
         'status',
