@@ -637,9 +637,10 @@ var __webpack_exports__ = {};
           if (!res.error) {
             $(_this).closest('form').find('select').val(0);
             $(_this).closest('form').find('textarea').val('');
-            showSuccess(res.message); // setTimeout(function () {
-            //     window.location.reload();
-            // }, 1500);
+            showSuccess(res.message);
+            setTimeout(function () {
+              window.location.reload();
+            }, 1500);
           } else {
             showError(res.message);
           }
