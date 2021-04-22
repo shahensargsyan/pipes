@@ -174,13 +174,13 @@ class MainCheckout {
                     error: res => {
                         jQuery(".text-danger").remove()
                         $.each(res.responseJSON.errors, function (error, message) {
-                            toastr.error(message)
+                            //toastr.error(message)
                             var res = error.replace(".", "[");
                             jQuery("input[name='"+res+"]']").parent( ".check_input" ).addClass('has-error');
                             jQuery("input[name='"+res+"]']").after('<div class="text-danger" > <small>'+message+'</small></div>');
                             jQuery("select[name='"+res+"]']").after('<div class="text-danger" > <small> '+message+'</small></div>');
-                            $('.nav-tabs > li:first-child > a').click();
                         })
+                            $('.nav-tabs > li:first-child > a').click();
                     }
                 });
 

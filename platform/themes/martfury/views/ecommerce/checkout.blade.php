@@ -20,8 +20,109 @@
 <link rel="stylesheet" href="{{ asset('vendor/core/plugins/payment/css/payment.css') }}?v=1.0.2">
 
 
+
 <section class="design-process-section cart_page" id="process-tab">
     <div class="container">
+        @if (Cart::instance('cart')->count() > 0)
+            <div class="cart_page">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="cart_product">
+
+                                <form class="form--shopping-cart" method="post" action="{{ route('public.cart.update') }}">
+                                    @csrf
+                                    @php
+                                        $productIds = Cart::instance('cart')->content()->pluck('id')->toArray();
+
+                                        if ($productIds) {
+                                            $products = get_products([
+                                                'condition' => [
+                                                    ['ec_products.id', 'IN', $productIds],
+                                                ],
+                                            ]);
+                                        }
+                                    @endphp
+                                    @if (isset($products) && $products)
+                                        @foreach(Cart::instance('cart')->content() as $key => $cartItem)
+                                            @php
+                                                $product = $products->where('id', $cartItem->id)->first();
+                                                if (!empty($product)) {
+                                                    $crossSellProducts = array_unique(array_merge($crossSellProducts, get_cross_sale_products($product->original_product)));
+                                                }
+                                            @endphp
+
+                                            @if (!empty($product))
+                                                <div class="cart_product_item">
+                                                    <div class="prod_img cart_img">
+                                                        <a href="{{ $product->original_product->url }}">
+                                                            <img src="{{ $cartItem->options['image'] }}" alt="{{ $product->name }}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="prod_info">
+
+
+
+                                                        <h3 class="prod_name">{{ $product->name }}</h3>
+                                                        <span class="prod_price">{{ format_price($cartItem->price) }}</span>
+                                                        <div class="quant_btn_row">
+                                                            <div class="quantity product__qty">
+                                                                <div class="custom_qty "><span
+                                                                        class="product_count_numb product_count_numb_min minus down" key="{{ $key }}" id="mins">-</span> <label
+                                                                        class="screen-reader-text" for="quantity"></label>
+                                                                    <input type="number" id="quantity_{{ $key }}" class="input-text qty text" min="1" max="" readonly
+                                                                           name="items[{{ $key }}][values][qty]" value="{{ $cartItem->qty }}" title="Qty" size="4" placeholder=""/>
+                                                                    <span class="product_count_numb product_count_numb_plus plus up" key="{{ $key }}" id="plus">+</span></div>
+                                                                {{--                                                                <input type="text" class="form-control qty-input" value="{{ $cartItem->qty }}" title="{{ __('Qty') }}"  >--}}
+                                                            </div>
+                                                            @if (Cart::instance('cart')->count() > 0)
+                                                                <button type="submit" name="add-to-cart" value="" class="single_add_to_cart_button button_update_curt button">{{ __('Update cart') }}</button>
+                                                            @endif
+                                                        </div>
+
+
+                                                        <input type="hidden" name="items[{{ $key }}][rowId]" value="{{ $cartItem->rowId }}">
+
+                                                        <td><a href="{{ route('public.cart.remove', $cartItem->rowId) }}" class="remove-cart-button"><i class="icon-cross"></i></a></td>
+
+
+
+
+
+                                                    </div>
+                                                    <div class="cart_delete_btn">
+                                                        <a href="{{ route('public.cart.remove', $cartItem->rowId) }}" class="remove-cart-button"><img src="{!! Theme::asset()->url('/pipes/images/delete.svg') !!}"></a>
+                                                    </div>
+                                                </div>
+
+
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-md-4 cart_page_right_steps">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs process-model more-icon-preocess" role="tablist">
+                                <li role="presentation" class="active tab-customer-info">
+                                    <a href="#customer-info"  aria-controls="customer-info" role="tab" data-toggle="tab"><span>1</span>
+                                        <p>CUSTOMER INFO</p>
+                                    </a>
+                                </li>
+                                <li role="presentation" class ="checkout-next-step">
+                                    <a href="#payment" id="payment-tub" aria-controls="payment" role="tab" data-toggle="tab" ><span>2</span>
+                                        <p>PAYMENT METHOD</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <!-- end design process steps-->
+                        </div>
+                    </div>
+                </div>
+
+        @else
+            <p class="text-center">{{ __('Your cart is empty!') }}</p>
+        @endif
     {!! Form::open(['route' => ['public.checkout.process', $token], 'class' => 'checkout-form payment-checkout-form', 'id' => 'checkout-form']) !!}
         <input type="hidden" name="checkout-token" id="checkout-token" value="{{ $token }}">
         <input type="hidden" name="create_account" id="create_account" value="0">
@@ -41,20 +142,7 @@
         @endphp
 
         <!-- design process steps-->
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs process-model more-icon-preocess" role="tablist">
-            <li role="presentation" class="active tab-customer-info">
-                <a href="#customer-info"  aria-controls="customer-info" role="tab" data-toggle="tab"><span>1</span>
-                    <p>CUSTOMER INFO</p>
-                </a>
-            </li>
-            <li role="presentation" class ="checkout-next-step">
-                <a href="#payment" id="payment-tub" aria-controls="payment" role="tab" data-toggle="tab" ><span>2</span>
-                    <p>PAYMENT METHOD</p>
-                </a>
-            </li>
-        </ul>
-        <!-- end design process steps-->
+
         <!-- Tab panes -->
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="customer-info">

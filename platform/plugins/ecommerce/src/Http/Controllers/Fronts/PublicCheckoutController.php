@@ -780,10 +780,10 @@ class PublicCheckoutController
                 'order_by'  => ['created_at' => 'desc'],
             ]);
         }
+
         if ($token !== session('tracked_start_checkout') || !$order) {
             return $response->setNextUrl(url('/'));
         }
-
 
         return Theme::scope(
             'ecommerce.'.$page, compact('order', 'changeId', 'product', 'reviews', 'token')
