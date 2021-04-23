@@ -1,6 +1,6 @@
 
 
-                <div id="main-checkout-product-info">
+                <div id="main-checkout-product-info" class="ps-section--shopping">
                     <div class="cart_totals-list">
                         <h3 class="order_title">Order Details</h3>
                         <div class="table_div">
