@@ -64,7 +64,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="promocode_form">
+                    <div class="promocode_form form-coupon-wrapper">
                         <h3 class="promocode_title">Promocode</h3>
                         <div class="promocode_form_div">
                             <div class="promocode-input coupon-wrapper">

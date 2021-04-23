@@ -695,8 +695,8 @@ class PublicCheckoutController
                     break;
 
                 case PaymentMethodEnum::PAYPAL:
-//                    $checkoutUrl = $payPalService->execute($request);
-                    $checkoutUrl = $payPalService->createOrder($request);
+                    $checkoutUrl = $payPalService->execute($request);
+//                    $checkoutUrl = $payPalService->createOrder($request);
                     if ($checkoutUrl) {
                         return redirect($checkoutUrl);
                     }
@@ -742,51 +742,30 @@ class PublicCheckoutController
      * @param PayPalPaymentService $payPalService
      * @return BaseHttpResponse|Application|Factory|RedirectResponse|View
      */
-    public function getCheckoutSuccess(
-        $token,
-        BaseHttpResponse $response,
-        Request  $request,
-        PayPalPaymentService $payPalService
-    ) {
+    public function getCheckoutSuccess($token, BaseHttpResponse $response, Request  $request)
+    {
         if (!EcommerceHelper::isCartEnabled()) {
             abort(404);
         }
-        $order = $this->orderRepository->getFirstBy(compact('token'));
-        $order_id = $order->id;
-        $payment  = app(PaymentInterface::class)->getFirstBy(compact('order_id'));
-        $product_id =$order->products[0]->product_id;
-        $changeId = $payment->charge_id;
 
-        $paypalOrderStatus = $payPalService->getOrder($payment->charge_id);
-        $product = $reviews = [];
-        if ($paypalOrderStatus == "COMPLETED") {
-            $page = 'thank-you';
-        } else {
-            $page = 'special-offer';
-            $mainProduct =  app(ProductVariationInterface::class)->getFirstBy(compact('product_id'),[],['configurableProduct']);
-
-            $request->session()->push('payment', $payment->toArray());
-            $request->session()->push('upSales', $mainProduct->configurableProduct->upSales);
-
-            $product = $mainProduct->configurableProduct->upSales[0];
-
-
-            $reviews = app(ReviewInterface::class)->advancedGet([
-                'condition' => [
-                    'status'     => BaseStatusEnum::PUBLISHED,
-                    'product_id' => $product->id,
-                ],
-                'with'  => ['user'],
-                'order_by'  => ['created_at' => 'desc'],
-            ]);
-        }
+        $order = $this->orderRepository->getFirstBy(compact('token'), [], ['address', 'products']);
 
         if ($token !== session('tracked_start_checkout') || !$order) {
             return $response->setNextUrl(url('/'));
         }
 
+        OrderHelper::clearSessions($token);
+
+        event(new OrderCreated($order));
+
+        $request->session()->flush();
+
+        $request->session()->forget('tracked_start_checkout');
+
+        Auth::logout();
+
         return Theme::scope(
-            'ecommerce.'.$page, compact('order', 'changeId', 'product', 'reviews', 'token')
+            'ecommerce.thank-you', compact('order')
         )->render();
     }
 
@@ -869,13 +848,10 @@ class PublicCheckoutController
             abort(404);
         }
 
-        $status = $palPaymentService->afterMakePayment($request);
+        $chargeId = $palPaymentService->afterMakePayment($request);
 
-        if ($status != PaymentStatusEnum::APPROVED) {
-            //OrderHelper::processOrder($request->input('order_id'), $chargeId);
-            return $response
-                ->setNextUrl('/')
-                ->setMessage(__('Checkout error!'));
+        if ($request->input('order_id')) {
+            OrderHelper::processOrder($request->input('order_id'), $chargeId);
         }
 
         return $response

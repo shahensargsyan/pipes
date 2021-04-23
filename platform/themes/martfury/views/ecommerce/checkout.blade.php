@@ -206,8 +206,8 @@
                                             <label>{{ __('Select country...') }}</label>
                                             <input type="hidden" name="address[country]" id="create_account" value="US">
                                             <select name="address[country]" class="form-control address-control-item @if ($errors->has('address.country')) has-error @endif" id="address.country">
-                                                    <option value="AL" {{ old('state') == 'UK' ? 'selected' : '' }}>United Kingdom</option>
-                                                    <option value="AL" {{ old('state') == 'IR' ? 'selected' : '' }}>Ireland</option>
+                                                    <option value="UK" {{ old('state') == 'UK' ? 'selected' : '' }}>United Kingdom</option>
+                                                    <option value="IE" {{ old('state') == 'IR' ? 'selected' : '' }}>Ireland</option>
 
                                             </select>
                                         </div>
