@@ -286,7 +286,7 @@
                                 </p>
                             </div>
                             <div class="rev_title_btn">
-                                <h3><h3>{{$review->user->name}}</h3></h3>
+                                <h3><h3>{{$review->name}}</h3></h3>
                                 <button class="verified_btn">Verified Buyer</button>
                             </div>
                         </div>
@@ -297,12 +297,12 @@
     </div>
 </div>
 
-<div class="col-lg-7">
+<div class="col-lg-12 review_bottom_form">
     <form class="avatar-form form-review-product" method="post" action="{{ route('public.reviews.create') }}" enctype="multipart/form-data">
     {!! Form::token() !!}
     <input type="hidden" name="product_id" value="{{ $product->id }}">
     <h4>{{ __('Submit Your Review') }}</h4>
-
+        <div class="form-group_top">
     <div class="form-group">
         <label for="review-star">{{ __('Your rating of this product') }}</label>
         <select name="star" data-read-only="false">
@@ -314,15 +314,17 @@
             <option value="5">5</option>
         </select>
     </div>
+            <div class="form-group button-wrapper">
+                <span class="label"> Upload File</span>
+                <input type="file" name="image" id="upload" class="upload-box" placeholder="Upload File">
+            </div>
+    </div>
         <div class="form-group">
             <label for="review-star">{{ __('Your full name') }}</label>
             <input type="text" name="name">
         </div>
     <div class="form-group">
         <textarea class="form-control" name="comment" id="txt-comment" rows="6" placeholder="{{ __('Write your review') }}" ></textarea>
-    </div>
-    <div class="form-group">
-        <input type="file" name="image">
     </div>
 
     <div class="form-group submit">
