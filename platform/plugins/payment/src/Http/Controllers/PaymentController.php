@@ -373,10 +373,25 @@ class PaymentController extends Controller
                 break;
         }
 
+        $product = app(ProductInterface::class)->findById($request->input('id'));
+        $amount = $product->price + $payment->amount;
+
+        switch ($payment->payment_channel) {
+            case PaymentMethodEnum::PAYPAL:
+                $this->payPalService->patchOrder($payment->charge_id, $amount);
+                break;
+            case PaymentMethodEnum::STRIPE:
+                $this->stripePaymentService->updatePayment($payment->charge_id, $amount);
+                break;
+            default:
+
+                break;
+        }
+
         if ($orderStatus != "COMPLETED") {
             $qty = $request->input('qty');
             $weight = 0;
-            $product = app(ProductInterface::class)->findById($request->input('id'));
+
             if ($product) {
                 if ($product->weight) {
                     $weight += $product->weight * $qty;
@@ -398,21 +413,9 @@ class PaymentController extends Controller
 
             app(OrderProductInterface::class)->create($data);
 
-            app(PaymentInterface::class)->update(['order_id' => $order->id], ['amount' => DB::raw('amount+' . $product->price)]);
+            app(PaymentInterface::class)->update(['order_id' => $order->id], ['amount' => $amount]);
 
-            $updatedPayment = app(PaymentInterface::class)->getFirstBy(['order_id' => $order->id]);
-
-            switch ($payment->payment_channel) {
-                case PaymentMethodEnum::PAYPAL:
-                    $this->payPalService->patchOrder($updatedPayment->charge_id, $updatedPayment->amount);
-                    break;
-                case PaymentMethodEnum::STRIPE:
-                    $this->stripePaymentService->updatePayment();
-                    break;
-                default:
-
-                    break;
-            }
+            app(PaymentInterface::class)->getFirstBy(['order_id' => $order->id]);
         }
     }
 

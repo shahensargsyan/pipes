@@ -757,9 +757,17 @@ class PublicCheckoutController
         $product_id =$order->products[0]->product_id;
         $changeId = $payment->charge_id;
 
-        $paypalOrderStatus = $payPalService->getOrder($payment->charge_id);
+        $orderStatus = '';
+        switch ($payment->payment_channel) {
+            case PaymentMethodEnum::PAYPAL:
+                $orderStatus = $this->payPalService->getOrder($payment->charge_id);
+                break;
+            default:
+
+                break;
+        }
         $product = $reviews = [];
-        if ($paypalOrderStatus == "COMPLETED") {
+        if ($orderStatus == "COMPLETED") {
             $page = 'thank-you';
         } else {
             $page = 'special-offer';
