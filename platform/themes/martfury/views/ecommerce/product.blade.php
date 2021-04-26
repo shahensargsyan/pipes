@@ -144,7 +144,7 @@
                         </div>
                         <div class="reviews_text">
                             <a href="/#review" class="reviews_text">
-                                <span class="rate_txt">  (647)<span class="count"></span> {{ __('Reviews') }}</span>
+                                <span class="rate_txt">  (269)<span class="count"></span> {{ __('Reviews') }}</span>
                             </a>
                         </div>
                     </div>
@@ -158,8 +158,8 @@
                         <div class="color-and-price">
                             <div class="row_color_price">
                                 <div class="choose_color_row">
-                                    <span class="color_title">Choose color</span>
                                     @if ($product->variations()->count() > 0)
+                                        <span class="color_title">Choose color</span>
                                         <div class="pr_switch_wrap">
                                             {!! render_product_swatches($product, [
                                                 'selected' => $selectedAttrs,
@@ -265,10 +265,9 @@
             <h2 class="reviews_title">REVIEWS</h2>
             <div id="carousel" class="reviews_div slider">
                 @foreach($reviews as $review)
-
                     <div class="slider-item reviews_item">
                         <div class="rev_product_img">
-                            <img src="/storage/{{$review->user->avatar}}">
+                            <img src="/storage/{{$review->image!==null?$review->image:'/reviews/default.png'}}">
                         </div>
                         <div class="rev_product_info">
 
@@ -287,17 +286,49 @@
                                 </p>
                             </div>
                             <div class="rev_title_btn">
-                                <h3><h3>{{$review->user->name}}</h3></h3>
+                                <h3><h3>{{$review->name}}</h3></h3>
                                 <button class="verified_btn">Verified Buyer</button>
                             </div>
                         </div>
                     </div>
-
-
-
                 @endforeach
-
             </div>
         </div>
     </div>
+</div>
+
+<div class="col-lg-12 review_bottom_form">
+    <form class="avatar-form form-review-product" method="post" action="{{ route('public.reviews.create') }}" enctype="multipart/form-data">
+    {!! Form::token() !!}
+    <input type="hidden" name="product_id" value="{{ $product->id }}">
+    <h4>{{ __('Submit Your Review') }}</h4>
+        <div class="form-group_top">
+    <div class="form-group">
+        <label for="review-star">{{ __('Your rating of this product') }}</label>
+        <select name="star" data-read-only="false">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+    </div>
+            <div class="form-group button-wrapper">
+                <span class="label"> Upload File</span>
+                <input type="file" name="image" id="upload" class="upload-box" placeholder="Upload File">
+            </div>
+    </div>
+        <div class="form-group">
+            <label for="review-star">{{ __('Your full name') }}</label>
+            <input type="text" name="name">
+        </div>
+    <div class="form-group">
+        <textarea class="form-control" name="comment" id="txt-comment" rows="6" placeholder="{{ __('Write your review') }}" ></textarea>
+    </div>
+
+    <div class="form-group submit">
+        <button class="ps-btn " type="submit">{{ __('Submit Review') }}</button>
+    </div>
+    {!! Form::close() !!}
 </div>

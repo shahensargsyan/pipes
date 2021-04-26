@@ -666,9 +666,9 @@
 
                         showSuccess(res.message);
 
-                        // setTimeout(function () {
-                        //     window.location.reload();
-                        // }, 1500);
+                         setTimeout(function () {
+                             window.location.reload();
+                         }, 1500);
                     } else {
                         showError(res.message);
                     }

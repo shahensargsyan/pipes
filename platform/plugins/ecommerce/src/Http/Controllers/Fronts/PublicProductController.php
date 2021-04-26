@@ -245,15 +245,9 @@ class PublicProductController
             ],
         ]);
 
-
-
         if (!$product) {
             abort(404);
         }
-
-//        if ($product->slugable->key !== $slug->key) {
-//            return redirect()->to($product->url);
-//        }
 
         SeoHelper::setTitle($product->name)->setDescription($product->description);
 
@@ -267,23 +261,8 @@ class PublicProductController
 
         SeoHelper::setSeoOpenGraph($meta);
 
-//        Helper::handleViewCount($product, 'viewed_product');
 
-//        Theme::breadcrumb()->add(__('Home'), url('/'))
-//            ->add(__('Products'), route('public.products'));
-
-        $category = $product->categories->first();
-//        if ($category) {
-//            Theme::breadcrumb()->add($category->name, $category->url);
-//        }
-
-//        Theme::breadcrumb()->add($product->name, $product->url);
-
-//        admin_bar()
-//            ->registerLink(trans('plugins/ecommerce::products.edit_this_product'),
-//                route('products.edit', $product->id));
-
-        do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, PRODUCT_CATEGORY_MODULE_SCREEN_NAME, $product);
+        //do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, PRODUCT_CATEGORY_MODULE_SCREEN_NAME, $product);
 
         $faqs = $this->faqRepository->all();
 
@@ -525,18 +504,20 @@ class PublicProductController
      */
     public function postCreateReview(ReviewRequest $request, BaseHttpResponse $response)
     {
-        $exists = $this->reviewRepository->count([
-            'customer_id' => auth('customer')->user()->getAuthIdentifier(),
-            'product_id'  => $request->input('product_id'),
+        $request->merge([
+            'status' => 'pending'
         ]);
 
-        if ($exists > 0) {
-            return $response
-                ->setError()
-                ->setMessage(__('You have reviewed this product already!'));
+        if(null !== $request->file('image')){
+            $result = RvMedia::handleUpload($request->file('image'), 0, 'reviews');
+            if ($result['error'] != false) {
+                return $response->setError()->setMessage($result['message']);
+            }
+            $request->merge([
+                'image' => $result['data']->resource->url,
+            ]);
         }
 
-        $request->merge(['customer_id' => auth('customer')->user()->getAuthIdentifier()]);
         $this->reviewRepository->createOrUpdate($request->input());
 
         return $response->setMessage(__('Added review successfully!'));

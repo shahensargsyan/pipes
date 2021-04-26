@@ -197,10 +197,12 @@ class CreateEcommerceTables extends Migration
         Schema::create('ec_reviews', function (Blueprint $table) {
             $table->id();
             $table->integer('customer_id')->unsigned();
+            $table->string('name');
             $table->integer('product_id')->unsigned();
             $table->float('star');
             $table->string('comment');
             $table->string('status', 60)->default('published');
+            $table->string('image');
             $table->timestamps();
         });
 

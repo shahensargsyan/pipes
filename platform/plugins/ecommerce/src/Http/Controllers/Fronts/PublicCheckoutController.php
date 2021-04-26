@@ -437,7 +437,7 @@ class PublicCheckoutController
 //            'name'    => 'required|max:255',
             'email'   => 'email|nullable|max:60',
             'phone'   => 'required|numeric',
-            'state'   => 'required|max:120',
+//            'state'   => 'required|max:120',
             'city'    => 'required|max:120',
             'address' => 'required|max:120',
         ];
