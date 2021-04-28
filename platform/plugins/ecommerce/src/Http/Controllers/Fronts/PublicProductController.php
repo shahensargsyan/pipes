@@ -272,10 +272,14 @@ class PublicProductController
                 'product_id' => $product->id,
             ],
             'with'  => ['user'],
-            'order_by'  => ['created_at' => 'desc'],
+            'order_by'  => ['image' => 'desc'],
         ]);
 
-        return Theme::scope('ecommerce.product', compact('product', 'faqs', 'reviews'), 'plugins/ecommerce::themes.product')->render();
+        return Theme::scope
+        ('ecommerce.product',
+            compact('product', 'faqs', 'reviews'),
+            'plugins/ecommerce::themes.product'
+        )->render();
     }
 
     /**
