@@ -93,18 +93,13 @@ class PayPalPaymentService extends PayPalPaymentAbstract
         return $response->result->status;
     }
 
-    private static function buildRequestBody($request)
+    /**
+     * @param Request $request
+     * @return array
+     */
+    private static function buildRequestBody(Request $request): array
     {
         $amount = $request->input('amount');
-
-        $data = [
-            'name'     => $request->input('name'),
-            'quantity' => 1,
-            'price'    => $amount,
-            'sku'      => null,
-            'type'     => PaymentMethodEnum::PAYPAL,
-        ];
-
         $currency = $request->input('currency', config('plugins.payment.payment.currency'));
         $currency = strtoupper($currency);
 
@@ -115,20 +110,12 @@ class PayPalPaymentService extends PayPalPaymentAbstract
             'order_id' => $request->input('order_id'),
         ];
 
-//        $checkoutUrl = $this
-//            ->setReturnUrl($request->input('callback_url') . '?' . http_build_query($queryParams))
-//            ->setCurrency($currency)
-//            ->setItem($data)
-//            ->createPayment($request->input('description'));
-
-        //return $checkoutUrl;
-
         return array(
             'intent' => 'AUTHORIZE',
             'application_context' =>
                 array(
                     'return_url' => $request->input('callback_url') . '?' . http_build_query($queryParams),
-                    'cancel_url' => route('public.checkout.information', $request['checkout-token']),
+                    'cancel_url' => url('/'),
                     'brand_name' => 'EXAMPLE INC',
                     'locale' => 'en-US',
                     'landing_page' => 'BILLING',
@@ -199,9 +186,6 @@ class PayPalPaymentService extends PayPalPaymentAbstract
         );
     }
 
-
-
-
     public  function createOrder(Request $request)
     {
         $orderRequest = new OrdersCreateRequest();
@@ -214,7 +198,7 @@ class PayPalPaymentService extends PayPalPaymentAbstract
             $response = $client->execute($orderRequest);
 
         }catch (HttpException $ex) {
-            //echo $ex->statusCode;
+
         }
 
         $config = config('plugins.payment.payment.paypal');
@@ -231,56 +215,38 @@ class PayPalPaymentService extends PayPalPaymentAbstract
 
         $request = new OrdersPatchRequest($orderId);
         $request->body = $this->buildPatchRequestBody($amount);
-//        dd($request);
+
         $response = $client->execute($request);
-        dd($response);
+
+        if ($response->statusCode == 204) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
-     * This function can be used to capture an order payment by passing the approved
-     * order id as argument.
-     *
-     * @param orderId
-     * @param debug
-     * @returns
+     * @param string $orderId
+     * @return \PayPalHttp\HttpResponse
      */
-    public static function captureOrder($orderId , $debug=false)
-    {
-        $request = new OrdersCaptureRequest($orderId);
-        $request->prefer('return=representation');
-        try {
-            $client = new PayPalHttpClient(new SandboxEnvironment( "AbRnBkC6-vEQON9SWxL1T4iiHmfSY-UV0W_6XbeR7uVkinx-PNOzGK6khX6TqmB6MXcAjBdVbcu1p2IA", "EKMehB_uEEUqFy8PY0_PIDa7URn9VAwMF59JSAHrMR6iTa0lWyBzf7mRLq8sIRZiCSWdeRCB53W4e6Ro"));
-
-            // Call API with your client and get a response for your call
-            $response = $client->execute($request);
-
-            // If call returns body in response, you can get the deserialized version from the result attribute of the response
-            print_r($response);
-        }catch (HttpException $ex) {
-            echo $ex->statusCode;
-            print_r($ex->getMessage());
-        }
-    }
-
-    public function captureAuthorize($orderId, $debug=false)
+    public function captureAuthorize(string $orderId)
     {
         $request = new OrdersAuthorizeRequest($orderId);
         try {
             $client = $this->client();
-            // Call API with your client and get a response for your call
-            $response = $client->execute($request);
 
-            // If call returns body in response, you can get the deserialized version from the result attribute of the response
-            print_r($response);
+            return $client->execute($request);
         }catch (HttpException $ex) {
-            echo $ex->statusCode;
-            print_r($ex->getMessage());
+
         }
     }
 
-    public function getOrder($orderId)
+    /**
+     * @param string $orderId
+     * @return mixed
+     */
+    public function getOrder(string $orderId)
     {
-
         $client = $this->client();
         $response = $client->execute(new OrdersGetRequest($orderId));
 

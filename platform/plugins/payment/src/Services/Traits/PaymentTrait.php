@@ -31,6 +31,7 @@ trait PaymentTrait
             'currency'        => $data['currency'],
             'charge_id'       => $data['charge_id'],
             'order_id'        => $data['order_id'],
+            'customer_id'     => $data['user_id'],
             'payment_channel' => $paymentChannel,
             'status'          => Arr::get($data, 'status', PaymentStatusEnum::PENDING),
         ]);

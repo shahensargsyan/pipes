@@ -10,6 +10,7 @@ use Botble\Payment\Supports\StripeHelper;
 use Exception;
 use Illuminate\Http\Request;
 use Stripe\Charge;
+use Stripe\Customer;
 use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
 
@@ -22,10 +23,10 @@ class StripePaymentService extends StripePaymentAbstract
      *
      * @param Request $request
      *
-     * @return mixed
+     * @return array
      * @throws ApiErrorException
      */
-    public function makePayment(Request $request)
+    public function makePayment(Request $request): array
     {
         $this->amount = $request->input('amount');
         $this->currency = $request->input('currency', config('plugins.payment.payment.currency'));
@@ -43,30 +44,42 @@ class StripePaymentService extends StripePaymentAbstract
             $amount = (int) ($amount * $multiplier);
         }
 
-        $charge = Charge::create([
-            'amount'      => $amount,
+        // Create Customer In Stripe
+        $customer = Customer::create(array(
+            "email" => $request->address['email'],
+            "source" => $request->stripeToken
+        ));
+
+        // Charge Customer
+        $charge = Charge::create(array(
+            'amount' => $amount,
             'currency'    => $this->currency,
-            'source'      => $this->token,
             'description' => $description,
-        ]);
+            'customer' => $customer->id
+        ));
 
         $this->chargeId = $charge['id'];
 
-        return $this->chargeId;
+        return [
+            'chargeId' => $this->chargeId,
+            'customerId' => $customer->id,
+        ];
     }
 
     /**
      * Use this function to perform more logic after user has made a payment
      *
-     * @param string $chargeId
+     * @param array $chargeData
      * @param Request $request
      *
      * @return mixed
      */
-    public function afterMakePayment($chargeId, Request $request)
+    public function afterMakePayment($chargeData, Request $request)
     {
+
         try {
-            $payment = $this->getPaymentDetails($chargeId);
+            $payment = $this->getPaymentDetails($chargeData['chargeId']);
+
             if ($payment && ($payment->paid || $payment->status == 'succeeded')) {
                 $paymentStatus = PaymentStatusEnum::COMPLETED;
             } else {
@@ -79,10 +92,11 @@ class StripePaymentService extends StripePaymentAbstract
         $this->storeLocalPayment([
             'amount'          => $this->amount,
             'currency'        => $this->currency,
-            'charge_id'       => $chargeId,
+            'charge_id'       => $chargeData['chargeId'],
             'order_id'        => $request->input('order_id'),
             'payment_channel' => PaymentMethodEnum::STRIPE,
             'status'          => $paymentStatus,
+            'customer_id'     => $chargeData['customerId'],
         ]);
 
         return true;
@@ -90,23 +104,28 @@ class StripePaymentService extends StripePaymentAbstract
 
     /**
      * Update a payment
-     *
      * @param Request $request
-     *
-     * @return mixed
+     * @param string $customerId
+     * @param double $amount
+     * @param string $description
      * @throws ApiErrorException
      */
-    public function updatePayment($chargeID, $amount)
+    public function updatePayment(Request $request, string $customerId, double $amount, string $description)
     {
         Stripe::setApiKey(setting('payment_stripe_secret'));
         Stripe::setClientId(setting('payment_stripe_client_id'));
 
-//        $ch = Charge::retrieve($chargeID);
-//        $charge = $ch->update(array("amount" => $amount));
+        $this->amount = $amount;
+        $this->currency = $request->input('currency', config('plugins.payment.payment.currency'));
+        $this->currency = strtoupper($this->currency);
 
-        $charge = Charge::update($chargeID,['amount' => $amount]);
-
-        dd($charge);
+        // Charge Customer
+        $charge = Charge::create(array(
+            'amount' => $this->amount,
+            'currency'    => $this->currency,
+            'description' => $description,
+            'customer' => $customerId
+        ));
 
         $this->chargeId = $charge['id'];
 

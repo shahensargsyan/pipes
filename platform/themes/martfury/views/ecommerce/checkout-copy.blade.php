@@ -1,8 +1,6 @@
 @php
     $crossSellProducts = [];
     Theme::layout('pipes');
-    //Theme::set('stickyHeader', 'false');
-    //dd(Route::current()->uri)
 @endphp
 {!! Html::style('vendor/core/core/base/libraries/toastr/toastr.min.css') !!}
 

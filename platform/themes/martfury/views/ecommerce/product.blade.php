@@ -1,5 +1,4 @@
 @php
-//dd(Route::currentRouteAction());
     $originalProduct = $product;
     $selectedAttrs = [];
     $productImages = $product->images;
