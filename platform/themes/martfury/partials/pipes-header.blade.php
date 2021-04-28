@@ -6,7 +6,7 @@
                 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-KKRGTXB');</script>
+        })(window,document,'script','dataLayer','GTM-N4JN5W4');</script>
     <!-- End Google Tag Manager -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -29,7 +29,7 @@
     <link href="{!! Theme::asset()->url('css/custom.css') !!}" rel="stylesheet">
 
     @if(Route::current()->uri == "/")
-        <meta name="google-site-verification" content="r-iIt_h7Xj6R9h1nX2oMUU95ZcgZ8-mPL5rTW4CjEBU" />
+        <meta name="google-site-verification" content="Xi_Czs87DyVw5hBF4bpmmkpxI6pemlG-pvMpBevlDvw" />
     @endif
     @if (theme_option('favicon'))
         <link rel="shortcut icon" href="{{ RvMedia::getImageUrl(theme_option('favicon')) }}">
