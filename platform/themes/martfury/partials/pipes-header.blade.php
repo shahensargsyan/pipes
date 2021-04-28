@@ -59,7 +59,7 @@
         <!-- / https://optinmonster.com -->
 
         @switch(Route::current()->uri)
-            @case("/")
+            @case("/")c
                 {!! SeoHelper::render() !!}
             @break
 

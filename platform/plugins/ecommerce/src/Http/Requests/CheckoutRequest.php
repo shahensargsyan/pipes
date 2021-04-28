@@ -30,7 +30,7 @@ class CheckoutRequest extends Request
             $rules['address.last_name'] = 'required|min:3|max:120';
             $rules['address.phone'] = 'required|numeric';
             $rules['address.email'] = 'required|email';
-            $rules['address.state'] = 'string';
+            $rules['address.state'] = 'required|string';
             $rules['address.city'] = 'required';
             $rules['address.address'] = 'required|string';
             $rules['address.apartment'] = 'required|string';
