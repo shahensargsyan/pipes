@@ -101,7 +101,7 @@
 @endif
 
 <script src="{!! Theme::asset()->url('pipes/lib/js/jquery-3.3.1.min.js') !!}"></script>
-<script src="{!! Theme::asset()->url('pipes/lib/bootstrap/js/bootstrap.min.js') !!}"></script>
+<script src="{!! Theme::asset()->url('pipes/lib/bootstrap/js/bootstrap js.min.js') !!}"></script>
 <script src="{!! Theme::asset()->url('pipes/lib/js/slick.js') !!}"></script>
 <!-- Main JS -->
 <script src="{!! Theme::asset()->url('pipes/js/main-js.js') !!}"></script>
