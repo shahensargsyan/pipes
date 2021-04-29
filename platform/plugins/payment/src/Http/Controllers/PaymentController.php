@@ -458,7 +458,6 @@ class PaymentController extends Controller
      */
     protected function finishPayment(string $token)
     {
-        $request = new Request;
         $order = app(OrderInterface::class)->getFirstBy(compact('token'));
         if (!$order) {
             return false;

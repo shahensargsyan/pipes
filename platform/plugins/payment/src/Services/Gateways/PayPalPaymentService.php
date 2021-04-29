@@ -4,6 +4,7 @@ namespace Botble\Payment\Services\Gateways;
 
 use Botble\Payment\Enums\PaymentMethodEnum;
 use Botble\Payment\Enums\PaymentStatusEnum;
+use Botble\Payment\Repositories\Interfaces\PaymentInterface;
 use Botble\Payment\Services\Abstracts\PayPalPaymentAbstract;
 use Botble\Payment\Services\Traits\PaymentTrait;
 use Exception;
@@ -235,8 +236,13 @@ class PayPalPaymentService extends PayPalPaymentAbstract
         try {
             $client = $this->client();
 
-            return $client->execute($request);
-        }catch (HttpException $ex) {
+            $response = $client->execute($request);
+dd($response);
+            app(PaymentInterface::class)->update(
+                ['charge_id' => $orderId],
+                ['status' => PaymentStatusEnum::COMPLETED]
+            );
+        } catch (HttpException $ex) {
 
         }
     }
