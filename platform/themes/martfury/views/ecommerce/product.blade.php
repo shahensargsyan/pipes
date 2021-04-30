@@ -178,15 +178,11 @@
                             <div class="quantity product__qty">
                                 <input type="hidden" name="id" class="hidden-product-id" value="{{ ($originalProduct->is_variation || !$originalProduct->defaultVariation->product_id) ? $originalProduct->id : $originalProduct->defaultVariation->product_id }}"/>
 
-
-                                <input type="hidden" class="form-control qty-input" type="text" name="qty" value="1" placeholder="1" readonly>
-                                <div class="custom_qty"><span
-                                        class="product_count_numb product_count_numb_min minus down" id="mins">-</span>
-                                    <label
-                                        class="screen-reader-text" for="quantity"></label>
-                                    <input type="number" id="quantity" class="input-text qty text" min="1" max=""
-                                           name="quantity" value="1" title="Qty" size="4" placeholder=""/>
-                                    <span class="product_count_numb product_count_numb_plus plus up" id="plus">+</span>
+                                <div class="custom_qty">
+                                    <span class="product_count_numb product_count_numb_min minus down" id="mins" key="gardenhose">-</span>
+                                    <label class="screen-reader-text" for="quantity"></label>
+                                    <input type="number" id="quantity_gardenhose" class="input-text qty text" name="qty" value="1" title="Quantity"/>
+                                    <span class="product_count_numb product_count_numb_plus plus up" id="plus" key="gardenhose">+</span>
                                 </div>
                             </div>
                             @if (EcommerceHelper::isCartEnabled())
