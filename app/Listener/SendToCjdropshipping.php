@@ -13,7 +13,7 @@ class SendToCjdropshipping
 
     public $countries = [
         "US" => "United States",
-        "GB" => "United Kingdom",
+        "UK" => "United Kingdom",
         "IE" => "Ireland",
     ];
 
