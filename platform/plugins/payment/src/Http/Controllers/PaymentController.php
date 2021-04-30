@@ -387,14 +387,16 @@ class PaymentController extends Controller
             $qty = (int)$request->input('qty');
             $product = app(ProductInterface::class)->findById($request->input('id'));
 
-            $amount = $qty * $product->price + $payment->amount;
+
             $patchStatus = false;
             switch ($payment->payment_channel) {
                 case PaymentMethodEnum::PAYPAL:
+                    $amount = $qty * $product->price + $payment->amount;
                     $patchStatus = $this->payPalService->patchOrder($payment->charge_id, $amount);
                     break;
                 case PaymentMethodEnum::STRIPE:
-                    $patchStatus = $this->stripePaymentService->updatePayment($request, $payment->customer_id, $amount, $product->name);
+                    $amount = $qty * $product->price;
+                    $patchStatus = $this->stripePaymentService->updatePayment($request, $payment->stripe_customer_id, $amount, $product->name);
                     break;
                 default:
 

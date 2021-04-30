@@ -98,7 +98,7 @@ class PayPalPaymentService extends PayPalPaymentAbstract
      * @param Request $request
      * @return array
      */
-    private static function buildRequestBody(Request $request): array
+    private function buildRequestBody(Request $request): array
     {
         $amount = $request->input('amount');
         $currency = $request->input('currency', config('plugins.payment.payment.currency'));

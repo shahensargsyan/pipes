@@ -74,7 +74,7 @@ class StripePaymentService extends StripePaymentAbstract
      *
      * @return mixed
      */
-    public function afterMakePayment($chargeData, Request $request)
+    public function afterMakePayment(array $chargeData, Request $request)
     {
 
         try {
@@ -90,13 +90,13 @@ class StripePaymentService extends StripePaymentAbstract
         }
 
         $this->storeLocalPayment([
-            'amount'          => $this->amount,
-            'currency'        => $this->currency,
-            'charge_id'       => $chargeData['chargeId'],
-            'order_id'        => $request->input('order_id'),
-            'payment_channel' => PaymentMethodEnum::STRIPE,
-            'status'          => $paymentStatus,
-            'customer_id'     => $chargeData['customerId'],
+            'amount'             => $this->amount,
+            'currency'           => $this->currency,
+            'charge_id'          => $chargeData['chargeId'],
+            'order_id'           => $request->input('order_id'),
+            'payment_channel'    => PaymentMethodEnum::STRIPE,
+            'status'             => $paymentStatus,
+            'stripe_customer_id' => $chargeData['customerId'],
         ]);
 
         return true;
@@ -106,22 +106,28 @@ class StripePaymentService extends StripePaymentAbstract
      * Update a payment
      * @param Request $request
      * @param string $customerId
-     * @param double $amount
+     * @param float $amount
      * @param string $description
      * @throws ApiErrorException
+     * @return string
      */
-    public function updatePayment(Request $request, string $customerId, double $amount, string $description)
+    public function updatePayment(Request $request, string $customerId, float $amount, string $description): string
     {
         Stripe::setApiKey(setting('payment_stripe_secret'));
         Stripe::setClientId(setting('payment_stripe_client_id'));
 
-        $this->amount = $amount;
         $this->currency = $request->input('currency', config('plugins.payment.payment.currency'));
         $this->currency = strtoupper($this->currency);
 
+        $multiplier = StripeHelper::getStripeCurrencyMultiplier($this->currency);
+
+        if ($multiplier > 1) {
+            $amount = (int) ($amount * $multiplier);
+        }
+
         // Charge Customer
         $charge = Charge::create(array(
-            'amount' => $this->amount,
+            'amount' => $amount,
             'currency'    => $this->currency,
             'description' => $description,
             'customer' => $customerId

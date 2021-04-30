@@ -781,7 +781,11 @@ class PublicCheckoutController
 
         $product = $reviews = [];
         if ($orderStatus == "COMPLETED" || !$request->session()->has('upSales') || empty($request->session()->get('upSales'))) {
-            $payPalService->captureOrder($payment->charge_id);
+            switch ($payment->payment_channel) {
+                case PaymentMethodEnum::PAYPAL:
+                    $payPalService->captureOrder($payment->charge_id);
+                    break;
+            }
             OrderHelper::finishOrder($token, $order);
 
             return Theme::scope(

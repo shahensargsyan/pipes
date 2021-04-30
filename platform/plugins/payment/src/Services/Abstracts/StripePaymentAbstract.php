@@ -63,12 +63,12 @@ abstract class StripePaymentAbstract implements ProduceServiceInterface
     /**
      * Use this function to perform more logic after user has made a payment
      *
-     * @param string $chargeId
+     * @param array $chargeId
      * @param Request $request
      *
      * @return mixed
      */
-    abstract public function afterMakePayment($chargeId, Request $request);
+    abstract public function afterMakePayment(array $chargeData, Request $request);
 
     /**
      * Execute main service

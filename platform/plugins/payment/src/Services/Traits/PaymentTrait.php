@@ -21,19 +21,21 @@ trait PaymentTrait
     {
         $data = array_merge([
             'user_id' => Auth::check() ? Auth::user()->getAuthIdentifier() : 0,
+            'stripe_customer_id' => isset($data['stripe_customer_id']) ? $data['stripe_customer_id'] : '',
         ], $args);
 
         $paymentChannel = Arr::get($data, 'payment_channel', PaymentMethodEnum::STRIPE);
 
         return app(PaymentInterface::class)->create([
-            'account_id'      => Arr::get($data, 'account_id'),
-            'amount'          => $data['amount'],
-            'currency'        => $data['currency'],
-            'charge_id'       => $data['charge_id'],
-            'order_id'        => $data['order_id'],
-            'customer_id'     => $data['user_id'],
-            'payment_channel' => $paymentChannel,
-            'status'          => Arr::get($data, 'status', PaymentStatusEnum::PENDING),
+            'account_id'         => Arr::get($data, 'account_id'),
+            'amount'             => $data['amount'],
+            'currency'           => $data['currency'],
+            'charge_id'          => $data['charge_id'],
+            'order_id'           => $data['order_id'],
+            'customer_id'        => $data['user_id'],
+            'stripe_customer_id' => $data['stripe_customer_id'],
+            'payment_channel'    => $paymentChannel,
+            'status'             => Arr::get($data, 'status', PaymentStatusEnum::PENDING),
         ]);
     }
 }
