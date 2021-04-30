@@ -27,7 +27,7 @@ use Theme\Martfury\Http\Resources\ProductCategoryResource;
 use Theme\Martfury\Http\Resources\ReviewResource;
 use BaseHelper;
 use SlugHelper;
-//dd(\Route::currentRouteAction());
+
 class MartfuryController extends PublicController
 {
     /**
@@ -495,7 +495,6 @@ class MartfuryController extends PublicController
 
                 if ($slug) {
                     $data = (new PageService)->handleFrontRoutes($slug);
-//                    dd($data);
 
                     return Theme::scope($data['view'], $data['data'], $data['default_view'])->render();
                 }
@@ -533,7 +532,6 @@ class MartfuryController extends PublicController
         }
 
         $result = apply_filters(BASE_FILTER_PUBLIC_SINGLE_DATA, $slug);
-//        dd($result);
         if (isset($result['slug']) && $result['slug'] !== $key) {
             return redirect()->route('public.single', $result['slug']);
         }

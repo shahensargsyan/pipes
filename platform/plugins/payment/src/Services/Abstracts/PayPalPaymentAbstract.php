@@ -287,9 +287,7 @@ abstract class PayPalPaymentAbstract implements ProduceServiceInterface
         $paymentExecution = new PaymentExecution();
         $paymentExecution->setPayerId($request->input('PayerID'));
 
-        $paymentStatus = $payment->execute($paymentExecution, $this->apiContext);
-
-        return $paymentStatus;
+        return  $payment->execute($paymentExecution, $this->apiContext);
     }
 
     /**

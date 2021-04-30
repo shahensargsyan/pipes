@@ -36,6 +36,7 @@ use Botble\Payment\Services\Gateways\PayPalPaymentService;
 use Botble\Payment\Services\Gateways\StripePaymentService;
 use Cart;
 use EcommerceHelper;
+use Google\Collection;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Builder;
@@ -659,6 +660,9 @@ class PublicCheckoutController
 
                 $this->orderProductRepository->create($data);
 
+                $mainProduct =  app(ProductVariationInterface::class)->getFirstBy(['product_id' => $cartItem->id],[],['configurableProduct']);
+                $request->session()->put('upSales', $mainProduct->configurableProduct->upSales->toArray());
+
                 /*$this->productRepository
                     ->getModel()
                     ->where([
@@ -695,8 +699,8 @@ class PublicCheckoutController
                     break;
 
                 case PaymentMethodEnum::PAYPAL:
-                    $checkoutUrl = $payPalService->execute($request);
-//                    $checkoutUrl = $payPalService->createOrder($request);
+//                    $checkoutUrl = $payPalService->execute($request);
+                    $checkoutUrl = $payPalService->createOrder($request);
                     if ($checkoutUrl) {
                         return redirect($checkoutUrl);
                     }
@@ -742,32 +746,91 @@ class PublicCheckoutController
      * @param PayPalPaymentService $payPalService
      * @return BaseHttpResponse|Application|Factory|RedirectResponse|View
      */
-    public function getCheckoutSuccess($token, BaseHttpResponse $response, Request  $request)
-    {
+    public function getCheckoutSuccess(
+        string $token,
+        BaseHttpResponse $response,
+        Request  $request,
+        PayPalPaymentService $payPalService
+    ) {
         if (!EcommerceHelper::isCartEnabled()) {
             abort(404);
         }
-
-        $order = $this->orderRepository->getFirstBy(compact('token'), [], ['address', 'products']);
+        $order = $this->orderRepository->getFirstBy(compact('token'));
 
         if ($token !== session('tracked_start_checkout') || !$order) {
             return $response->setNextUrl(url('/'));
         }
 
-        OrderHelper::clearSessions($token);
+        $order_id = $order->id;
+        $payment  = app(PaymentInterface::class)->getFirstBy(compact('order_id'));
 
-        event(new OrderCreated($order));
+        if (!$payment) {
+            return $response->setNextUrl(url('/'));
+        }
 
-        $request->session()->flush();
+        $changeId = $payment->charge_id;
+        $orderStatus = '';
+        switch ($payment->payment_channel) {
+            case PaymentMethodEnum::PAYPAL:
+                $orderStatus = $payPalService->getOrder($payment->charge_id);
+                break;
+            default:
 
-        $request->session()->forget('tracked_start_checkout');
+                break;
+        }
 
-        Auth::logout();
+        $product = $reviews = [];
+        if ($orderStatus == "COMPLETED" || !$request->session()->has('upSales') || empty($request->session()->get('upSales'))) {
+            switch ($payment->payment_channel) {
+                case PaymentMethodEnum::PAYPAL:
+                    $payPalService->captureOrder($payment->charge_id);
+                    break;
+            }
+            OrderHelper::finishOrder($token, $order);
+
+            return Theme::scope(
+                'ecommerce.thank-you', compact('order', 'changeId', 'product', 'reviews', 'token')
+            )->render();
+        } else {
+
+            $upSales = $request->session()->get('upSales');
+            $product = reset($upSales);
+
+            $condition = [
+                'ec_products.id'     => $product['id'],
+                'ec_products.status' => BaseStatusEnum::PUBLISHED,
+            ];
+            $product = get_products([
+                'condition' => $condition,
+                'take'      => 1,
+                'with'      => [
+                    'defaultProductAttributes',
+                    'slugable',
+                    'tags',
+                    'tags.slugable',
+                ],
+            ]);
+
+            if (!$product) {
+                abort(404);
+            }
+
+            $reviews = app(ReviewInterface::class)->advancedGet([
+                'condition' => [
+                    'status'     => BaseStatusEnum::PUBLISHED,
+                    'product_id' => $product->id,
+                ],
+                'with'  => ['user'],
+                'order_by'  => ['created_at' => 'desc'],
+            ]);
+        }
 
         return Theme::scope(
-            'ecommerce.thank-you', compact('order')
+            'ecommerce.special-offer', compact('order', 'changeId', 'product', 'reviews', 'token')
         )->render();
     }
+
+
 
     /**
      * @param ApplyCouponRequest $request
@@ -848,10 +911,13 @@ class PublicCheckoutController
             abort(404);
         }
 
-        $chargeId = $palPaymentService->afterMakePayment($request);
+        $status = $palPaymentService->afterMakePayment($request);
 
-        if ($request->input('order_id')) {
-            OrderHelper::processOrder($request->input('order_id'), $chargeId);
+        if ($status != PaymentStatusEnum::APPROVED) {
+            //OrderHelper::processOrder($request->input('order_id'), $chargeId);
+            return $response
+                ->setNextUrl('/')
+                ->setMessage(__('Checkout error!'));
         }
 
         return $response
@@ -1056,40 +1122,4 @@ class PublicCheckoutController
     {
 
     }
-
-    /**
-     * @param CheckoutRequest $request
-     * @param PayPalPaymentService $payPalService
-     * @return mixed
-     * @throws Throwable
-     */
-    public function patchOrder(Request $request, PayPalPaymentService $payPalService)
-    {
-        $token = $request->input('token');
-        $productId = $request->input('product_id');
-        $product = $this->productRepository->findById($productId);
-
-        $order = $this->orderRepository->getFirstBy(['token' => $token]);
-
-        $data = [
-            'order_id'     => $order->id,
-            'product_id'   => $product->id,
-            'product_name' => $product->name,
-            'qty'          => $request->input('qty'),
-            'weight'       => $weight,
-            'price'        => $product->price,
-            'tax_amount'   => EcommerceHelper::isTaxEnabled() ? $cartItem->taxRate / 100 * $cartItem->price : 0,
-            'options'      => [],
-        ];
-
-        if ($cartItem->options->extras) {
-            $data['options'] = $cartItem->options->extras;
-        }
-
-        $this->orderProductRepository->create($data);
-
-        $payPalService->patchOrder($orderId);
-    }
-
-
 }

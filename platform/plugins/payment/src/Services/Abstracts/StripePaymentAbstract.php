@@ -63,12 +63,12 @@ abstract class StripePaymentAbstract implements ProduceServiceInterface
     /**
      * Use this function to perform more logic after user has made a payment
      *
-     * @param string $chargeId
+     * @param array $chargeId
      * @param Request $request
      *
      * @return mixed
      */
-    abstract public function afterMakePayment($chargeId, Request $request);
+    abstract public function afterMakePayment(array $chargeData, Request $request);
 
     /**
      * Execute main service
@@ -104,9 +104,9 @@ abstract class StripePaymentAbstract implements ProduceServiceInterface
         $this->token = $request->stripeToken;
 
         $chargeId = Str::upper(Str::random(10));
-
+        $chargeData = [];
         try {
-            $chargeId = $this->makePayment($request);
+            $chargeData = $this->makePayment($request);
         } catch (CardException $exception) {
             $this->setErrorMessageAndLogging($exception, 1); // Since it's a decline, \Stripe\Error\Card will be caught
         } catch (RateLimitException $exception) {
@@ -124,7 +124,7 @@ abstract class StripePaymentAbstract implements ProduceServiceInterface
         }
 
         // Hook after made payment
-        $this->afterMakePayment($chargeId, $request);
+        $this->afterMakePayment($chargeData, $request);
 
         return $chargeId;
     }

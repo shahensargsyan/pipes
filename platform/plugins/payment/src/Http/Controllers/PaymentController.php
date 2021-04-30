@@ -5,6 +5,9 @@ namespace Botble\Payment\Http\Controllers;
 use Assets;
 use Botble\Base\Events\DeletedContentEvent;
 use Botble\Base\Http\Responses\BaseHttpResponse;
+use Botble\Ecommerce\Repositories\Interfaces\OrderInterface;
+use Botble\Ecommerce\Repositories\Interfaces\ProductInterface;
+use Botble\Ecommerce\Repositories\Interfaces\OrderProductInterface;
 use Botble\Payment\Enums\PaymentMethodEnum;
 use Botble\Payment\Enums\PaymentStatusEnum;
 use Botble\Payment\Http\Requests\CheckoutRequest;
@@ -171,12 +174,13 @@ class PaymentController extends Controller
                     $paymentData['message'] = $this->stripePaymentService->getErrorMessage();
                 }
 
-                $paymentData['charge_id'] = $result;
+                $paymentData['charge_id'] = $result['chargeId'];
 
                 break;
 
             case PaymentMethodEnum::PAYPAL:
-                $checkoutUrl = $this->payPalService->execute($request);
+                $checkoutUrl = $this->payPalService->createOrder($request);
+//                $checkoutUrl = $this->payPalService->execute($request);
                 if ($checkoutUrl) {
                     return redirect($checkoutUrl);
                 }
@@ -350,5 +354,110 @@ class PaymentController extends Controller
         return $response
             ->setPreviousUrl(route('payment.show', $payment->id))
             ->setMessage(trans('core/base::notices.update_success_message'));
+    }
+
+    public function postPatchOrder(Request $request)
+    {
+        $request->merge([
+            'currency'  => $request->input('currency', strtoupper(get_application_currency()->title)),
+        ]);
+
+        $token = $request->input('token');
+        $order = app(OrderInterface::class)->getFirstBy(compact('token'));
+        if (!$order) {
+            return redirect('/');
+        }
+
+        $payment = app(PaymentInterface::class)->getFirstBy(['order_id' => $order->id]);
+        if (!$payment) {
+            return redirect('/');
+        }
+
+        $orderStatus = '';
+        switch ($payment->payment_channel) {
+            case PaymentMethodEnum::PAYPAL:
+                $orderStatus = $this->payPalService->getOrder($payment->charge_id);
+                break;
+            default:
+
+                break;
+        }
+
+        if ($orderStatus != "COMPLETED") {
+            $qty = (int)$request->input('qty');
+            $product = app(ProductInterface::class)->findById($request->input('id'));
+
+
+            $patchStatus = false;
+            switch ($payment->payment_channel) {
+                case PaymentMethodEnum::PAYPAL:
+                    $amount = $qty * $product->price + $payment->amount;
+                    $patchStatus = $this->payPalService->patchOrder($payment->charge_id, $amount);
+                    break;
+                case PaymentMethodEnum::STRIPE:
+                    $amount = $qty * $product->price;
+                    $patchStatus = $this->stripePaymentService->updatePayment($request, $payment->stripe_customer_id, $amount, $product->name);
+                    break;
+                default:
+
+                    break;
+            }
+
+            if ($patchStatus) {
+                $weight = 0;
+                if ($product) {
+                    if ($product->weight) {
+                        $weight += $product->weight * $qty;
+                    }
+                }
+
+                $weight = $weight > 0.1 ? $weight : 0.1;
+
+                $data = [
+                    'order_id' => $order->id,
+                    'product_id' => $product->id,
+                    'product_name' => $product->name,
+                    'qty' => $qty,
+                    'weight' => $weight,
+                    'price' => $product->price,
+                    'tax_amount' => 0,
+                    'options' => [],
+                ];
+
+                app(OrderProductInterface::class)->create($data);
+
+                $payment->amount = $amount;
+                $payment->update();
+
+                $order->amount = $amount;
+                $order->sub_total = $amount;
+                $order->update();
+
+                $upSales = $request->session()->pull('upSales');
+                unset($upSales[key($upSales)]);
+                $request->session()->put('upSales', $upSales);
+            }
+        }
+
+        return redirect()->to(route('public.checkout.success', $token));
+    }
+
+    /**
+     * @param string $token
+     * @return RedirectResponse
+     */
+    public function finishOrder($token)
+    {
+        session()->put('upSales', []);
+
+        return redirect()->to(route('public.checkout.success', $token));
+    }
+
+    public function createOrder()
+    {
+        /*$order = '2FK07458PV2839815';
+        echo $this->payPalService->createOrder();
+        $this->payPalService->patchOrder($order,999);
+        $this->payPalService->captureOrder($order);*/
     }
 }

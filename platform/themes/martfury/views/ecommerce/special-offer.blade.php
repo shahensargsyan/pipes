@@ -1,5 +1,4 @@
 @php
-    //dd(Route::currentRouteAction());
         $originalProduct = $product;
         $selectedAttrs = [];
         $productImages = $product->images;
@@ -83,7 +82,7 @@
             <div class="col-md-12">
                 <div class="gardenhose-top-headings">
                     <h1 class="gardenhose-top-heading">Wait <span
-                            class="gardenhose-highlight">customer_first_name</span>! Here's an exclusive offer to
+                            class="gardenhose-highlight">{{ $order->address->first_name.' '.$order->address->last_name  }}</span>! Here's an exclusive offer to
                         complement your order!</h1>
                     <h2 class="gardenhose-top-sub-heading">Add this to your order and get a 30% discount. We will ship
                         it with other items.</h2>
@@ -194,6 +193,12 @@
                             @if (EcommerceHelper::isCartEnabled())
                                 <button class=" single_add_to_cart_button">{{ __('Add to Order') }}</button>
                             @endif
+
+                        </div>
+                        <div class="row gardenhose-skip">
+                            <a href="{{ route('payments.paypal.finish-order', $order->token, )  }}"  class="gardenhose_skip_offer gardenhose-skip-offer-link ">
+                                I don’t want to take advantage of this one-time offer
+                            </a>
                         </div>
                     </form>
                     <div class="lnd_section3_row">

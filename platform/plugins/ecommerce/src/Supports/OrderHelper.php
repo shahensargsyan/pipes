@@ -16,6 +16,7 @@ use EcommerceHelper as EcommerceHelperFacade;
 use EmailHandler;
 use Exception;
 use File;
+use Google\Collection;
 use Html;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
@@ -76,7 +77,7 @@ class OrderHelper
             'order_id'    => $order->id,
         ]);
 
-        $this->sendOrderConfirmationEmail($order, true);
+        //$this->sendOrderConfirmationEmail($order, true);
 
         foreach ($order->products as $orderProduct) {
             $product = $orderProduct->product->original_product;
@@ -356,5 +357,15 @@ class OrderHelper
         }
 
         return $cartItems;
+    }
+
+    /**
+     * @param string $token
+     * @param Order $order
+     */
+    public function finishOrder(string $token, Order $order)
+    {
+        $this->clearSessions($token);
+        $this->sendOrderConfirmationEmail($order, true);
     }
 }
