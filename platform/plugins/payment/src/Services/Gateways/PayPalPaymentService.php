@@ -88,7 +88,7 @@ class PayPalPaymentService extends PayPalPaymentAbstract
             'charge_id'       => $response->result->id,
             'order_id'        => $request->input('order_id'),
             'payment_channel' => PaymentMethodEnum::PAYPAL,
-            'status'          => $status,
+            'status'          => $response->result->status,
         ]);
 
         return $response->result->status;
