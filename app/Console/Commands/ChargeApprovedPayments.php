@@ -61,10 +61,9 @@ class ChargeApprovedPayments extends Command
         ]);
 
         foreach ($payments as $payment) {
-            //dd($payment->charge_id);
             $this->payPalService->captureAuthorize($payment->charge_id);
             $order = app(OrderInterface::class)->getFirstBy(['id' => $payment->order_id]);
-            OrderHelper::finishOrder($token, $order);
+            OrderHelper::finishOrder('', $order);
         }
 
         dd($payments);

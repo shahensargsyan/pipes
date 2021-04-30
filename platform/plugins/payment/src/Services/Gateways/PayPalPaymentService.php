@@ -112,7 +112,7 @@ class PayPalPaymentService extends PayPalPaymentAbstract
         ];
 
         return array(
-            'intent' => 'AUTHORIZE',
+            'intent' => 'CAPTURE',
             'application_context' =>
                 array(
                     'return_url' => $request->input('callback_url') . '?' . http_build_query($queryParams),
@@ -226,26 +226,20 @@ class PayPalPaymentService extends PayPalPaymentAbstract
         return false;
     }
 
-    /**
-     * @param string $orderId
-     * @return \PayPalHttp\HttpResponse
-     */
-    public function captureAuthorize(string $orderId)
-    {
-        $request = new OrdersAuthorizeRequest($orderId);
-        try {
-            $client = $this->client();
 
-            $response = $client->execute($request);
-dd($response);
-            app(PaymentInterface::class)->update(
-                ['charge_id' => $orderId],
-                ['status' => PaymentStatusEnum::COMPLETED]
-            );
+
+    public  function captureOrder($orderId, $debug=true)
+    {
+        try {
+            $request = new OrdersCaptureRequest($orderId);
+            $client = $this->client();
+            return  $client->execute($request);
+
         } catch (HttpException $ex) {
 
         }
     }
+
 
     /**
      * @param string $orderId
@@ -253,10 +247,17 @@ dd($response);
      */
     public function getOrder(string $orderId)
     {
-        $client = $this->client();
-        $response = $client->execute(new OrdersGetRequest($orderId));
+        try {
+            $client = $this->client();
+            // Call API with your client and get a response for your call
+            $response = $client->execute(new OrdersGetRequest($orderId));
+            return $response->result->status;
 
-        return $response->result->status;
+        } catch (HttpException $ex) {
+
+        }
+
+        return false;
     }
 
     private function buildPatchRequestBody($amount)
@@ -266,7 +267,7 @@ dd($response);
                 array (
                     'op' => 'replace',
                     'path' => '/intent',
-                    'value' => 'AUTHORIZE',
+                    'value' => 'CAPTURE',
                 ),
             1 =>
                 array (

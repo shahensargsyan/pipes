@@ -30,7 +30,6 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Arr;
 use Illuminate\View\View;
 use Throwable;
-use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -447,47 +446,16 @@ class PaymentController extends Controller
      */
     public function finishOrder($token)
     {
-        $this->finishPayment($token);
-
-        return redirect()->to(route('public.checkout.success', $token));
-    }
-
-    /**
-     * @param string $token
-     * @return false|RedirectResponse
-     */
-    protected function finishPayment(string $token)
-    {
-        $order = app(OrderInterface::class)->getFirstBy(compact('token'));
-        if (!$order) {
-            return false;
-        }
-
-        $payment = app(PaymentInterface::class)->getFirstBy(['order_id' => $order->id]);
-        if (!$payment) {
-            return false;
-        }
-
-        switch ($payment->payment_channel) {
-            case PaymentMethodEnum::PAYPAL:
-                $this->payPalService->captureAuthorize($payment->charge_id);
-                break;
-            default:
-
-                break;
-        }
-
         session()->put('upSales', []);
+
         return redirect()->to(route('public.checkout.success', $token));
     }
 
     public function createOrder()
     {
-        $config = config('plugins.payment.payment.paypal');
-        $order = '2A072809E2994890X';
-//        echo $this->payPalService->createOrder();
-//        $this->payPalService->patchOrder($order);
-//        $this->payPalService->captureOrder($order);
-        $this->payPalService->captureAuthorize($order);
+        /*$order = '2FK07458PV2839815';
+        echo $this->payPalService->createOrder();
+        $this->payPalService->patchOrder($order,999);
+        $this->payPalService->captureOrder($order);*/
     }
 }

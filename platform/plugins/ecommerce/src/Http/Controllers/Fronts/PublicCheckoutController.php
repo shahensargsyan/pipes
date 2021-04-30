@@ -769,7 +769,6 @@ class PublicCheckoutController
         }
 
         $changeId = $payment->charge_id;
-
         $orderStatus = '';
         switch ($payment->payment_channel) {
             case PaymentMethodEnum::PAYPAL:
@@ -779,19 +778,17 @@ class PublicCheckoutController
 
                 break;
         }
-        $product = $reviews = [];
-        if ($orderStatus == "COMPLETED") {
-            $page = 'thank-you';
-            OrderHelper::finishOrder($token, $order);
-        } else {
-            $page = 'special-offer';
 
-            if (!$request->session()->has('upSales') || empty($request->session()->get('upSales'))) {
-                OrderHelper::finishOrder($token, $order);
-                return Theme::scope(
-                    'ecommerce.thank-you', compact('order', 'changeId', 'product', 'reviews', 'token')
-                )->render();
-            }
+        $product = $reviews = [];
+        if ($orderStatus == "COMPLETED" || !$request->session()->has('upSales') || empty($request->session()->get('upSales'))) {
+            $payPalService->captureOrder($payment->charge_id);
+            OrderHelper::finishOrder($token, $order);
+
+            return Theme::scope(
+                'ecommerce.thank-you', compact('order', 'changeId', 'product', 'reviews', 'token')
+            )->render();
+        } else {
+
             $upSales = $request->session()->get('upSales');
             $product = reset($upSales);
 
@@ -825,7 +822,7 @@ class PublicCheckoutController
         }
 
         return Theme::scope(
-            'ecommerce.'.$page, compact('order', 'changeId', 'product', 'reviews', 'token')
+            'ecommerce.special-offer', compact('order', 'changeId', 'product', 'reviews', 'token')
         )->render();
     }
 
