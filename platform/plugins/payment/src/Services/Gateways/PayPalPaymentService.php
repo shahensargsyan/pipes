@@ -236,10 +236,15 @@ class PayPalPaymentService extends PayPalPaymentAbstract
         try {
             $request = new OrdersCaptureRequest($orderId);
             $client = $this->client();
-            return  $client->execute($request);
+            $response = $client->execute($request);
 
+            if ($response->statusCode == 201) {
+                return strtolower($response->result->status);
+            }
+
+            return PaymentStatusEnum::FAILED;
         } catch (HttpException $ex) {
-
+            return PaymentStatusEnum::FAILED;
         }
     }
 

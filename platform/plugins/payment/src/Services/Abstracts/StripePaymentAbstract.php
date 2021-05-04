@@ -126,7 +126,7 @@ abstract class StripePaymentAbstract implements ProduceServiceInterface
         // Hook after made payment
         $this->afterMakePayment($chargeData, $request);
 
-        return $chargeId;
+        return $chargeData;
     }
 
     /**

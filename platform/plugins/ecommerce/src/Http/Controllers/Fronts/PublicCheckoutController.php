@@ -694,7 +694,7 @@ class PublicCheckoutController
                         $paymentData['message'] = $stripePaymentService->getErrorMessage();
                     }
 
-                    $paymentData['charge_id'] = $result;
+                    $paymentData['charge_id'] = $result['chargeId'];
 
                     break;
 
@@ -783,7 +783,10 @@ class PublicCheckoutController
         if ($orderStatus == "COMPLETED" || !$request->session()->has('upSales') || empty($request->session()->get('upSales'))) {
             switch ($payment->payment_channel) {
                 case PaymentMethodEnum::PAYPAL:
-                    $payPalService->captureOrder($payment->charge_id);
+                    $paymentStatus = $payPalService->captureOrder($payment->charge_id);
+
+                    $payment->status = $paymentStatus;
+                    $payment->update();
                     break;
             }
             OrderHelper::finishOrder($token, $order);
