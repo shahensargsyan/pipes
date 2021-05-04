@@ -175,12 +175,10 @@ class PaymentController extends Controller
                 }
 
                 $paymentData['charge_id'] = $result['chargeId'];
-
                 break;
 
             case PaymentMethodEnum::PAYPAL:
                 $checkoutUrl = $this->payPalService->createOrder($request);
-//                $checkoutUrl = $this->payPalService->execute($request);
                 if ($checkoutUrl) {
                     return redirect($checkoutUrl);
                 }
@@ -358,15 +356,16 @@ class PaymentController extends Controller
 
     public function postPatchOrder(Request $request)
     {
-        $request->merge([
-            'currency'  => $request->input('currency', strtoupper(get_application_currency()->title)),
-        ]);
-
         $token = $request->input('token');
         $order = app(OrderInterface::class)->getFirstBy(compact('token'));
         if (!$order) {
             return redirect('/');
         }
+
+        $request->merge([
+            'currency'  => $request->input('currency', strtoupper(get_application_currency()->title)),
+            'order_id'  => $order->id,
+        ]);
 
         $payment = app(PaymentInterface::class)->getFirstBy(['order_id' => $order->id]);
         if (!$payment) {
@@ -387,12 +386,15 @@ class PaymentController extends Controller
             $qty = (int)$request->input('qty');
             $product = app(ProductInterface::class)->findById($request->input('id'));
 
+            $subTotal = $qty * $product->price + $payment->amount;
 
             $patchStatus = false;
             switch ($payment->payment_channel) {
                 case PaymentMethodEnum::PAYPAL:
-                    $amount = $qty * $product->price + $payment->amount;
-                    $patchStatus = $this->payPalService->patchOrder($payment->charge_id, $amount);
+                    $patchStatus = $this->payPalService->patchOrder($payment->charge_id, $subTotal);
+
+                    $payment->amount = $subTotal;
+                    $payment->update();
                     break;
                 case PaymentMethodEnum::STRIPE:
                     $amount = $qty * $product->price;
@@ -426,11 +428,8 @@ class PaymentController extends Controller
 
                 app(OrderProductInterface::class)->create($data);
 
-                $payment->amount = $amount;
-                $payment->update();
-
-                $order->amount = $amount;
-                $order->sub_total = $amount;
+                $order->amount = $subTotal;
+                $order->sub_total = $subTotal;
                 $order->update();
 
                 $upSales = $request->session()->pull('upSales');

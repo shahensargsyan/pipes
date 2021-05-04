@@ -10,13 +10,11 @@ use Botble\Ecommerce\Repositories\Interfaces\OrderHistoryInterface;
 use Botble\Ecommerce\Repositories\Interfaces\OrderInterface;
 use Botble\Ecommerce\Repositories\Interfaces\ShippingRuleInterface;
 use Botble\Payment\Repositories\Interfaces\PaymentInterface;
-use Carbon\Carbon;
 use Cart;
 use EcommerceHelper as EcommerceHelperFacade;
 use EmailHandler;
 use Exception;
 use File;
-use Google\Collection;
 use Html;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
@@ -59,14 +57,6 @@ class OrderHelper
         session()->forget('applied_coupon_code');
 
         session(['order_id' => $orderId]);
-
-        $mailer = EmailHandler::setModule(ECOMMERCE_MODULE_SCREEN_NAME);
-        if ($mailer->templateEnabled('admin_new_order')) {
-            $this->setEmailVariables($order);
-            $mailer->sendUsingTemplate('admin_new_order', setting('admin_email'));
-        }
-
-        session(['order_id' => $order->id]);
 
         app(OrderHistoryInterface::class)->createOrUpdate([
             'action'      => 'create_order',
@@ -367,5 +357,11 @@ class OrderHelper
     {
         $this->clearSessions($token);
         $this->sendOrderConfirmationEmail($order, true);
+
+        $mailer = EmailHandler::setModule(ECOMMERCE_MODULE_SCREEN_NAME);
+        if ($mailer->templateEnabled('admin_new_order')) {
+            $this->setEmailVariables($order);
+            $mailer->sendUsingTemplate('admin_new_order', setting('admin_email'));
+        }
     }
 }

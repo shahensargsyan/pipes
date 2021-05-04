@@ -118,7 +118,7 @@ class StripePaymentService extends StripePaymentAbstract
 
         $this->currency = $request->input('currency', config('plugins.payment.payment.currency'));
         $this->currency = strtoupper($this->currency);
-
+        $this->amount = $amount;
         $multiplier = StripeHelper::getStripeCurrencyMultiplier($this->currency);
 
         if ($multiplier > 1) {
@@ -134,6 +134,13 @@ class StripePaymentService extends StripePaymentAbstract
         ));
 
         $this->chargeId = $charge['id'];
+
+        $chargeData = [
+            'chargeId' => $this->chargeId,
+            'customerId' => $customerId,
+        ];
+
+        $this->afterMakePayment($chargeData, $request);
 
         return $this->chargeId;
     }
