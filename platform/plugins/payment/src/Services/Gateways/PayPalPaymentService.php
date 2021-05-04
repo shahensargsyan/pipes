@@ -91,7 +91,10 @@ class PayPalPaymentService extends PayPalPaymentAbstract
             'status'          => $response->result->status,
         ]);
 
-        return $response->result->status;
+        return [
+            'charge_id' => $response->result->id,
+            'status'    => $response->result->status,
+        ];
     }
 
     /**
