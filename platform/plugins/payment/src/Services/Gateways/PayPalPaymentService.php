@@ -268,8 +268,11 @@ class PayPalPaymentService extends PayPalPaymentAbstract
         return false;
     }
 
-    private function buildPatchRequestBody($amount)
+    private function buildPatchRequestBody($amount, Request $request)
     {
+        $currency = $request->input('currency', config('plugins.payment.payment.currency'));
+        $currency = strtoupper($currency);
+
         return array (
             0 =>
                 array (
@@ -283,18 +286,18 @@ class PayPalPaymentService extends PayPalPaymentAbstract
                     'path' => '/purchase_units/@reference_id==\'PUHF\'/amount',
                     'value' =>
                         array (
-                            'currency_code' => 'USD',
+                            'currency_code' => $currency,
                             'value' => $amount,
                             'breakdown' =>
                                 array (
                                     'item_total' =>
                                         array (
-                                            'currency_code' => 'USD',
+                                            'currency_code' => $currency,
                                             'value' => $amount,
                                         ),
                                     'tax_total' =>
                                         array (
-                                            'currency_code' => 'USD',
+                                            'currency_code' => $currency,
                                             'value' => '0.00',
                                         ),
                                 ),
