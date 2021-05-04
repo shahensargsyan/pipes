@@ -911,7 +911,7 @@ class PublicCheckoutController
             abort(404);
         }
 
-        $payment['status'] = $palPaymentService->afterMakePayment($request);
+        $payment = $palPaymentService->afterMakePayment($request);
 
         if ($payment['status'] != PaymentStatusEnum::APPROVED) {
 
@@ -920,7 +920,7 @@ class PublicCheckoutController
                 ->setMessage(__('Checkout error!'));
         }
 
-        OrderHelper::processOrderprocessOrder($request->input('order_id'), $payment['chargeId']);
+        OrderHelper::processOrder($request->input('order_id'), $payment['charge_id']);
 
         return $response
             ->setNextUrl(route('public.checkout.success', session('tracked_start_checkout')))
