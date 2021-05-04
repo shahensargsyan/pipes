@@ -391,7 +391,7 @@ class PaymentController extends Controller
             $patchStatus = false;
             switch ($payment->payment_channel) {
                 case PaymentMethodEnum::PAYPAL:
-                    $patchStatus = $this->payPalService->patchOrder($payment->charge_id, $subTotal);
+                    $patchStatus = $this->payPalService->patchOrder($payment->charge_id, $subTotal, $request);
 
                     $payment->amount = $subTotal;
                     $payment->update();

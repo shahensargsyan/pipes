@@ -213,12 +213,12 @@ class PayPalPaymentService extends PayPalPaymentAbstract
         }
     }
 
-    public function patchOrder($orderId, $amount)
+    public function patchOrder($orderId, $amount, $postRequest)
     {
         $client = $this->client();
 
         $request = new OrdersPatchRequest($orderId);
-        $request->body = $this->buildPatchRequestBody($amount);
+        $request->body = $this->buildPatchRequestBody($amount, $postRequest);
 
         $response = $client->execute($request);
 
@@ -268,7 +268,7 @@ class PayPalPaymentService extends PayPalPaymentAbstract
         return false;
     }
 
-    private function buildPatchRequestBody($amount, Request $request)
+    private function buildPatchRequestBody($amount, $request)
     {
         $currency = $request->input('currency', config('plugins.payment.payment.currency'));
         $currency = strtoupper($currency);
