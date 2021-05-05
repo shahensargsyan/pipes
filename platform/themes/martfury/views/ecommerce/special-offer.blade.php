@@ -16,17 +16,15 @@
         $countRating = $reviews->count();
 
         Theme::layout('pipes');
-        Theme::set('stickyHeader', 'false');
-        Theme::set('topHeader', Theme::partial('header-product-page', compact('product', 'countRating')));
-        Theme::set('bottomFooter', Theme::partial('footer-product-page', compact('product')));
-        Theme::set('pageId', 'product-page');
-        Theme::set('headerMobile', Theme::partial('header-mobile-product'));
         Theme::breadcrumb(false);
-
+        $start  = new \Carbon\Carbon();
+        $totalDuration = 0;
+        if(!$order->created_at->addMinutes(15)->isPast())
+            $totalDuration = $start->diffInSeconds($order->created_at->addMinutes(15));
 @endphp
 <div class="gardenhose-timer-section">
 <div class="container">
-    <div id="clockdiv">
+    <div id="clockdiv" seconds="<?php echo $totalDuration; ?>">
         <div>
             <span class="hours"></span>
             <div class="smalltext">Hours</div>
@@ -194,7 +192,7 @@
 
                         </div>
                         <div class="row gardenhose-skip">
-                            <a href="{{ route('payments.paypal.finish-order', $order->token, )  }}"  class="gardenhose_skip_offer gardenhose-skip-offer-link ">
+                            <a href="{{ route('payments.paypal.finish-order', $order->token)  }}" class="gardenhose_skip_offer gardenhose-skip-offer-link ">
                                 I don’t want to take advantage of this one-time offer
                             </a>
                         </div>
@@ -316,7 +314,7 @@
                         </button>
 
                         <div class="gardenhose-skip-offer-wrap wfocu-text-center">
-                            <a href=""  class="gardenhose_skip_offer gardenhose-skip-offer-link ">
+                            <a href="{{ route('payments.paypal.finish-order', $order->token)  }}"  class="gardenhose_skip_offer gardenhose-skip-offer-link ">
                                 I don’t want to take advantage of this one-time offer
                             </a>
                         </div>
@@ -325,4 +323,3 @@
             </div>
     </div>
 </div>
-
