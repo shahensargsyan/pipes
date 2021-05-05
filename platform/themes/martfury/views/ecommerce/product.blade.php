@@ -1,5 +1,5 @@
 @php
-//dd(Route::currentRouteAction());
+
     $originalProduct = $product;
     $selectedAttrs = [];
     $productImages = $product->images;
@@ -14,15 +14,13 @@
         $selectedAttrs = $product->defaultVariation->productAttributes->pluck('id')->all();
     }
 
-    $countRating = $reviews->count();
-
     Theme::layout('pipes');
-    Theme::set('stickyHeader', 'false');
+    /*Theme::set('stickyHeader', 'false');
     Theme::set('topHeader', Theme::partial('header-product-page', compact('product', 'countRating')));
     Theme::set('bottomFooter', Theme::partial('footer-product-page', compact('product')));
     Theme::set('pageId', 'product-page');
     Theme::set('headerMobile', Theme::partial('header-mobile-product'));
-    Theme::breadcrumb(false);
+    Theme::breadcrumb(false);*/
 
 @endphp
 
