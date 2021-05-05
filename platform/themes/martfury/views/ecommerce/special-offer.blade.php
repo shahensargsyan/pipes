@@ -196,7 +196,7 @@
 
                         </div>
                         <div class="row gardenhose-skip">
-                            <a href="{{ route('payments.paypal.finish-order', $order->token, )  }}"  class="gardenhose_skip_offer gardenhose-skip-offer-link ">
+                            <a href="{{ route('payments.paypal.finish-order', $order->token)  }}" class="gardenhose_skip_offer gardenhose-skip-offer-link ">
                                 I don’t want to take advantage of this one-time offer
                             </a>
                         </div>
@@ -318,7 +318,7 @@
                         </button>
 
                         <div class="gardenhose-skip-offer-wrap wfocu-text-center">
-                            <a href=""  class="gardenhose_skip_offer gardenhose-skip-offer-link ">
+                            <a href="{{ route('payments.paypal.finish-order', $order->token)  }}"  class="gardenhose_skip_offer gardenhose-skip-offer-link ">
                                 I don’t want to take advantage of this one-time offer
                             </a>
                         </div>
