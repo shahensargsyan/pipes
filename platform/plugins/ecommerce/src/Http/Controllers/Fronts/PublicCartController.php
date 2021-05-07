@@ -7,6 +7,7 @@ use Botble\Ecommerce\Http\Requests\CartRequest;
 use Botble\Ecommerce\Http\Requests\UpdateCartRequest;
 use Botble\Ecommerce\Repositories\Interfaces\ProductInterface;
 use Botble\Ecommerce\Services\HandleApplyPromotionsService;
+use Botble\Ecommerce\Repositories\Interfaces\ProductVariationInterface;
 use Cart;
 use EcommerceHelper;
 use Exception;
@@ -113,13 +114,18 @@ class PublicCartController extends Controller
             return $response->setNextUrl($nextUrl);
         }
 
+        $mainProduct =  app(ProductVariationInterface::class)->getFirstBy(['product_id' => $request->id],[],['configurableProduct']);
+
         return $response
             ->setData([
-                'status'      => true,
-                'count'       => Cart::instance('cart')->count(),
-                'total_price' => format_price(Cart::instance('cart')->rawSubTotal()),
-                'content'     => $cartItems,
-                'next_url'    => $nextUrl,
+                'status'       => true,
+                'count'        => Cart::instance('cart')->count(),
+                'total_price'  => format_price(Cart::instance('cart')->rawSubTotal()),
+                'content'      => $cartItems,
+                'next_url'     => $nextUrl,
+                'category'     => $mainProduct->configurableProduct->categories->pluck('name')->implode(','),
+                'brand'        => $mainProduct->configurableProduct->brand->name,
+                'currencyCode' => strtoupper(get_application_currency()->title)
             ])
             ->setMessage(__('Added product :product to cart successfully!',
                 ['product' => $product->original_product->name]));

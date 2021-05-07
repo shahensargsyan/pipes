@@ -5,8 +5,8 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3">
                     <div class="f_right_div">
-                        <div class="logo"><a href=""><img src="{!! Theme::asset()->url('/pipes/images/wash-pipe-pro-logo-ff.svg') !!}"></a></div>
-                        <div class="logo_mob"><a href=""><img src="{!! Theme::asset()->url('/pipes/images/logo-mob2.svg') !!}"></a></div>
+                        <div class="logo"><a href="{{ url('/') }}"><img src="{!! Theme::asset()->url('/pipes/images/wash-pipe-pro-logo-ff.svg') !!}"></a></div>
+                        <div class="logo_mob"><a href="{{ url('/') }}"><img src="{!! Theme::asset()->url('/pipes/images/logo-mob2.svg') !!}"></a></div>
                         <div class="footer_soc_links">
                             @for($i = 1; $i <= 5; $i++)
                                 @if(theme_option('social-name-' . $i) && theme_option('social-url-' . $i) && theme_option('social-icon-' . $i))
@@ -137,11 +137,13 @@
 
 <!-- End Facebook Pixel Code -->
 </body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXX"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 </html>
+
 
 <script>
 
 </script>
-
-
-
