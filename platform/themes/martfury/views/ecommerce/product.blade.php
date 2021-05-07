@@ -13,15 +13,13 @@
         $selectedAttrs = $product->defaultVariation->productAttributes->pluck('id')->all();
     }
 
-    $countRating = $reviews->count();
-
     Theme::layout('pipes');
-    Theme::set('stickyHeader', 'false');
+    /*Theme::set('stickyHeader', 'false');
     Theme::set('topHeader', Theme::partial('header-product-page', compact('product', 'countRating')));
     Theme::set('bottomFooter', Theme::partial('footer-product-page', compact('product')));
     Theme::set('pageId', 'product-page');
     Theme::set('headerMobile', Theme::partial('header-mobile-product'));
-    Theme::breadcrumb(false);
+    Theme::breadcrumb(false);*/
 
 @endphp
 
@@ -180,7 +178,7 @@
                                 <div class="custom_qty">
                                     <span class="product_count_numb product_count_numb_min minus down" id="mins" key="gardenhose">-</span>
                                     <label class="screen-reader-text" for="quantity"></label>
-                                    <input type="number" id="quantity_gardenhose" class="input-text qty text" name="qty" value="1" title="Quantity"/>
+                                    <input type="number" id="quantity_gardenhose" class="input-text qty text" readonly name="qty" value="1" title="Quantity"/>
                                     <span class="product_count_numb product_count_numb_plus plus up" id="plus" key="gardenhose">+</span>
                                 </div>
                             </div>
@@ -249,7 +247,7 @@
         <div class="lnd_sect5_right">
             <h1 class="sect5_title">{{ $product->middle_title }}</h1>
             <p class="sect5_description">{!! clean($product->middle_description) !!}</p>
-            <a href="#shop_product" class="sect5_buyNowBtn">BUY NOW</a>
+            <a href="#shop_product" id="buyNowBtn" class="sect5_buyNowBtn">BUY NOW</a>
         </div>
     </div>
 </div>

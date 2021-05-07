@@ -557,6 +557,9 @@ var __webpack_exports__ = {};
         }
       });
     });
+    $(document).on('click', '#buyNowBtn', function (event) {
+      $('.add-to-cart-form button[type=submit]').click();
+    });
     $(document).on('click', '.add-to-cart-form button[type=submit]', function (event) {
       event.preventDefault();
       event.stopPropagation();
@@ -592,6 +595,33 @@ var __webpack_exports__ = {};
             return false;
           } //window.showAlert('alert-success', res.message);
 
+
+          dataLayer.push({
+            ecommerce: null
+          }); // Clear the previous ecommerce object.
+
+          var products = [];
+          $.each(res.data.content, function (key, row) {
+            console.log(row);
+            products.push({
+              'name': row.name,
+              'id': row.id,
+              'price': row.price,
+              'brand': row.brand,
+              'category': row.category,
+              'variant': row.options.attributes,
+              'quantity': row.qty
+            });
+          });
+          dataLayer.push({
+            'event': 'addToCart',
+            'ecommerce': {
+              'currencyCode': res.data.currencyCode,
+              'add': {
+                'products': products
+              }
+            }
+          });
 
           if (_self.prop('name') === 'checkout' && res.data.next_url !== undefined) {
             window.location.href = res.data.next_url;
