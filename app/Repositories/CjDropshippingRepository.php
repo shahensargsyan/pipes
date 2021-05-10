@@ -62,7 +62,7 @@ class CjDropshippingRepository
     {
         $this->action = '/api/product/createProducts';
         $this->payload = $payload;
-        $this->call();
+        return $this->call();
     }
 
     /**
