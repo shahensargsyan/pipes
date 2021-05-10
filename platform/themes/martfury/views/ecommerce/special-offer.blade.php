@@ -13,8 +13,6 @@
             $selectedAttrs = $product->defaultVariation->productAttributes->pluck('id')->all();
         }
 
-        $countRating = $reviews->count();
-
         Theme::layout('pipes');
         Theme::breadcrumb(false);
         $start  = new \Carbon\Carbon();
@@ -139,11 +137,7 @@
                                             class="rating">4.66</strong> out of 5</span></div>
                             </div>
                         </div>
-                        <div class="reviews_text">
-                            <a href="/#review" class="reviews_text">
-                                <span class="rate_txt">  (64)<span class="count"></span> {{ __('Reviews') }}</span>
-                            </a>
-                        </div>
+
                     </div>
                     <span class="desc_title">{{ __('Description') }}</span>
                     <p class="product_short-description">

@@ -386,7 +386,9 @@ class PaymentController extends Controller
             $qty = (int)$request->input('qty');
             $product = app(ProductInterface::class)->findById($request->input('id'));
 
-            $subTotal = $qty * $product->price + $payment->amount;
+            $product->front_sale_price;
+
+            $subTotal = $qty * $product->front_sale_price + $payment->amount;
 
             $patchStatus = false;
             switch ($payment->payment_channel) {
@@ -397,7 +399,7 @@ class PaymentController extends Controller
                     $payment->update();
                     break;
                 case PaymentMethodEnum::STRIPE:
-                    $amount = $qty * $product->price;
+                    $amount = $qty * $product->front_sale_price;
                     $patchStatus = $this->stripePaymentService->updatePayment($request, $payment->stripe_customer_id, $amount, $product->name);
                     break;
                 default:
@@ -421,7 +423,7 @@ class PaymentController extends Controller
                     'product_name' => $product->name,
                     'qty' => $qty,
                     'weight' => $weight,
-                    'price' => $product->price,
+                    'price' => $product->front_sale_price,
                     'tax_amount' => 0,
                     'options' => [],
                 ];

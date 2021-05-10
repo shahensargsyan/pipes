@@ -61,31 +61,44 @@ class updateCjDropshippingProducts extends Command
                 'tags',
             ],
         ]);
-        foreach ($products as $product) {
-        $cjProducts = [];
-            $productVariations = [];
-            foreach ($product->variations as $variation) {
 
-                    $productVariations[] = [
-                        "vid" => (string)$variation->id ,
-                        "price" => (string)$variation->product->price,
-                        "sku" => $variation->product->sku ,
-                        "title" => $variation->product->name ,
-                        "grams" => (string)$variation->product->weight ,
-                        "oldinventoryquantity" => $variation->product->quantity,
-                        "image" => \RvMedia::getImageUrl($variation->product->image)
+
+        foreach ($products as $product) {
+            $cjProducts = [];
+            $productVariations = [];
+            if ($product->variations->count() > 0) {
+                foreach ($product->variations as $variation) {
+                        $productVariations[] = [
+                            "vid" => (string)$variation->id,
+                            "price" => (string)$variation->product->price,
+                            "sku" => $variation->product->sku,
+                            "title" => $variation->product->name ,
+                            "grams" => (string)$variation->product->weight ,
+                            "oldinventoryquantity" => $variation->product->quantity,
+                            "image" => \RvMedia::getImageUrl($variation->product->image)
+                    ];
+                }
+            } else {
+                $productVariations[] = [
+                    "vid" => (string)$product->id ,
+                    "price" => (string)$product->price,
+                    "sku" => $product->sku,
+                    "title" => $product->name,
+                    "grams" => (string)$product->weight,
+                    "oldinventoryquantity" => $product->quantity,
+                    "image" => \RvMedia::getImageUrl($product->image)
                 ];
             }
-            $tags = implode(",",$product->tags->pluck('name')->toArray());
             $cjProducts[] = [
                     "uid" => (string)$product->id ,
-                    "title" => $product->name ,
+                    "title" => $product->name,
                     "image" => \RvMedia::getImageUrl($product->image),
-                    "prices" => (string)$product->price ,
+                    "prices" => (string)$product->price,
                     "variants" => $productVariations
 
             ];
-            $this->cjDropshippingRepository->addProduct($cjProducts);
+            $response = $this->cjDropshippingRepository->addProduct($cjProducts);
+            var_dump($response);
         }
     }
 }

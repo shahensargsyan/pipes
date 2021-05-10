@@ -779,7 +779,7 @@ class PublicCheckoutController
                 break;
         }
 
-        $product = $reviews = [];
+        $product = [];
         if ($orderStatus == "COMPLETED" || !$request->session()->has('upSales') || empty($request->session()->get('upSales'))) {
             switch ($payment->payment_channel) {
                 case PaymentMethodEnum::PAYPAL:
@@ -792,7 +792,7 @@ class PublicCheckoutController
             OrderHelper::finishOrder($token, $order);
 
             return Theme::scope(
-                'ecommerce.thank-you', compact('order', 'changeId', 'product', 'reviews', 'token')
+                'ecommerce.thank-you', compact('order', 'changeId', 'product', 'token')
             )->render();
         } else {
 
@@ -817,19 +817,10 @@ class PublicCheckoutController
             if (!$product) {
                 abort(404);
             }
-
-            $reviews = app(ReviewInterface::class)->advancedGet([
-                'condition' => [
-                    'status'     => BaseStatusEnum::PUBLISHED,
-                    'product_id' => $product->id,
-                ],
-                'with'  => ['user'],
-                'order_by'  => ['created_at' => 'desc'],
-            ]);
         }
 
         return Theme::scope(
-            'ecommerce.special-offer', compact('order', 'changeId', 'product', 'reviews', 'token')
+            'ecommerce.special-offer', compact('order', 'changeId', 'product', 'token')
         )->render();
     }
 
