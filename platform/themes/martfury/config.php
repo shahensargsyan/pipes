@@ -86,6 +86,9 @@ return [
             $theme->asset()->container('footer')->usePath()
                 ->add('backend', 'js/backend.js', ['jquery'], [], $version);
 
+            $theme->asset()->container('footer')->usePath()
+                ->add('app', 'js/app.js', ['jquery'], [], $version);
+
 //            $theme->asset()->container('footer')
 //                ->add('change-product-swatches', 'vendor/core/plugins/ecommerce/js/change-product-swatches.js',
 //                    ['jquery']);
