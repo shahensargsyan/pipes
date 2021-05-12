@@ -2,7 +2,6 @@
 
 namespace Botble\Ecommerce\Http\Controllers\Fronts;
 
-use App\Event\OrderCreated;
 use Botble\Base\Enums\BaseStatusEnum;
 use Botble\Base\Http\Responses\BaseHttpResponse;
 use Botble\Ecommerce\Enums\OrderStatusEnum;
@@ -19,7 +18,6 @@ use Botble\Ecommerce\Repositories\Interfaces\OrderHistoryInterface;
 use Botble\Ecommerce\Repositories\Interfaces\OrderInterface;
 use Botble\Ecommerce\Repositories\Interfaces\OrderProductInterface;
 use Botble\Ecommerce\Repositories\Interfaces\ProductInterface;
-use Botble\Ecommerce\Repositories\Interfaces\ReviewInterface;
 use Botble\Ecommerce\Repositories\Interfaces\ShippingInterface;
 use Botble\Ecommerce\Repositories\Interfaces\TaxInterface;
 use Botble\Ecommerce\Services\HandleApplyCouponService;
@@ -36,7 +34,6 @@ use Botble\Payment\Services\Gateways\PayPalPaymentService;
 use Botble\Payment\Services\Gateways\StripePaymentService;
 use Cart;
 use EcommerceHelper;
-use Google\Collection;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Database\Eloquent\Builder;

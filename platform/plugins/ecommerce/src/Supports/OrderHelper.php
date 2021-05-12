@@ -2,6 +2,7 @@
 
 namespace Botble\Ecommerce\Supports;
 
+use App\Event\OrderCreated;
 use Botble\Base\Models\BaseModel;
 use Botble\Ecommerce\Models\Order;
 use Botble\Ecommerce\Models\OrderHistory;
@@ -355,6 +356,8 @@ class OrderHelper
      */
     public function finishOrder(string $token, Order $order)
     {
+        event(new OrderCreated($order));
+
         $this->clearSessions($token);
         $this->sendOrderConfirmationEmail($order, true);
 

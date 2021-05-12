@@ -64,29 +64,18 @@ class updateCjDropshippingProducts extends Command
 
 
         foreach ($products as $product) {
-            $cjProducts = [];
+        $cjProducts = [];
             $productVariations = [];
-            if ($product->variations->count() > 0) {
-                foreach ($product->variations as $variation) {
-                        $productVariations[] = [
-                            "vid" => (string)$variation->id,
-                            "price" => (string)$variation->product->price,
-                            "sku" => $variation->product->sku,
-                            "title" => $variation->product->name ,
-                            "grams" => (string)$variation->product->weight ,
-                            "oldinventoryquantity" => $variation->product->quantity,
-                            "image" => \RvMedia::getImageUrl($variation->product->image)
-                    ];
-                }
-            } else {
-                $productVariations[] = [
-                    "vid" => (string)$product->id ,
-                    "price" => (string)$product->price,
-                    "sku" => $product->sku,
-                    "title" => $product->name,
-                    "grams" => (string)$product->weight,
-                    "oldinventoryquantity" => $product->quantity,
-                    "image" => \RvMedia::getImageUrl($product->image)
+            foreach ($product->variations as $variation) {
+
+                    $productVariations[] = [
+                        "vid" => (string)$variation->product_id,
+                        "price" => (string)$variation->product->price,
+                        "sku" => $variation->product->sku,
+                        "title" => $variation->product->name,
+                        "grams" => (string)$variation->product->weight,
+                        "oldinventoryquantity" => $variation->product->quantity,
+                        "image" => \RvMedia::getImageUrl($variation->product->image)
                 ];
             }
             $cjProducts[] = [
