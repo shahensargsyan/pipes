@@ -80,12 +80,14 @@ class CjDropshippingRepository
     {
         $this->action = '/api/product/connectList';
         $this->payload = $payload;
-        $response = $this->call();
+        return  $this->call();
+    }
 
-        dd($response);
-
-        $response->data;
-
+    public function deleteShopProducts($payload)
+    {
+        $this->action = '/api/product/deleteProducts';
+        $this->payload = $payload;
+        return $this->call();
     }
 
 }

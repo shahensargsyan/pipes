@@ -34,7 +34,7 @@ class SendToCjdropshipping
             $products[] = [
                 "image" => \RvMedia::getImageUrl($product->product->image),
                 "quantity" => (int)$product->qty,
-                "variantId" => (string)$product->product->variationInfo->id,
+                "variantId" => (string)$product->product->id,
                 "productPrice" => (string)$product->product->price,
                 "shippingName" => $product->product_name
             ];
