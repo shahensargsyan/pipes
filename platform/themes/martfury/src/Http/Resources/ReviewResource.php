@@ -17,7 +17,7 @@ class ReviewResource extends JsonResource
     {
         return [
             'user_name'   => $this->user->name,
-            'user_avatar' => $this->user->avatar_url,
+            'user_avatar' => $this->image,
             'created_at'  => $this->created_at->format('d M, Y'),
             'comment'     => $this->comment,
             'star'        => $this->star,

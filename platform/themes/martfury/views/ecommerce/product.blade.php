@@ -253,43 +253,18 @@
     </div>
 </div>
 
-<div id="review" class="lnd_section6_banner">
-    <div class="lnd_section6">
-        <div class="container">
-            <h2 class="reviews_title">REVIEWS</h2>
-            <div id="carousel" class="reviews_div slider">
-                @foreach($reviews as $review)
-                    <div class="slider-item reviews_item">
-                        <div class="rev_product_img">
-                            <img src="/storage/{{$review->image!==null?$review->image:'/reviews/default.png'}}">
-                        </div>
-                        <div class="rev_product_info">
-
-                            <div class="star_rating_div">
-                                <div class="star-rating" role="img" aria-label="Rated 4.66 out of 5"><span
-                                        style="width:{{$review->star*20}}%">Rated <strong
-                                            class="rating">4.66</strong> out of 5</span></div>
-
-                                <div class="rev_date">
-                                    {{$review->created_at->format('m.d.Y')}}
-                                </div>
-                            </div>
-                            <div class="rev_product_description">
-                                <p>
-                                    {{$review->comment}}
-                                </p>
-                            </div>
-                            <div class="rev_title_btn">
-                                <h3><h3>{{$review->name}}</h3></h3>
-                                <button class="verified_btn">Verified Buyer</button>
-                            </div>
-                        </div>
+@if (EcommerceHelper::isReviewEnabled())
+    <div id="review" class="lnd_section6_banner">
+        <div class="lnd_section6">
+            <div class="container">
+                <h2 class="reviews_title">REVIEWS</h2>
+                    <div id="app" class="reviews_div slider">
+                        <product-reviews-component url="{{ route('public.ajax.product-reviews', $product->id) }}"></product-reviews-component>
                     </div>
-                @endforeach
             </div>
         </div>
     </div>
-</div>
+@endif
 
 <div class="col-lg-12 review_bottom_form">
     <form class="avatar-form form-review-product" method="post" action="{{ route('public.reviews.create') }}" enctype="multipart/form-data">

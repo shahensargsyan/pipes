@@ -2428,6 +2428,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2456,9 +2483,13 @@ __webpack_require__.r(__webpack_exports__);
       this.data = [];
       this.isLoading = true;
       axios.get(this.url + '?page=' + page).then(function (res) {
+        console.log(res.data.data);
         _this.data = res.data.data;
         _this.meta = res.data.meta;
         _this.isLoading = false;
+        setTimeout(function () {
+          slider();
+        }, 500);
       })["catch"](function (res) {
         _this.isLoading = false;
         console.log(res);
@@ -3972,160 +4003,63 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "block__content" },
+    { staticClass: "reviews_div slider", attrs: { id: "carousel" } },
     [
-      _vm.isLoading ? _c("div", [_vm._m(0)]) : _vm._e(),
-      _vm._v(" "),
-      _vm._l(_vm.data, function(item) {
-        return !_vm.isLoading && _vm.data.length
-          ? _c("div", { key: item.id, staticClass: "block--review" }, [
-              _c("div", { staticClass: "block__header" }, [
-                _c("div", { staticClass: "block__image" }, [
-                  _c("img", {
-                    attrs: {
-                      src: item.user_avatar,
-                      alt: item.user_name,
-                      width: "60"
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "block__info" }, [
-                  _c("div", { staticClass: "rating_wrap" }, [
-                    _c("div", { staticClass: "rating" }, [
-                      _c("div", {
-                        staticClass: "product_rate",
-                        style: { width: item.star * 20 + "%" }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _c("strong", [_vm._v(_vm._s(item.user_name))]),
-                    _vm._v(" | " + _vm._s(item.created_at))
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "block__content" }, [
-                    _c("p", [_vm._v(_vm._s(item.comment))])
-                  ])
-                ])
-              ])
-            ])
-          : _vm._e()
-      }),
-      _vm._v(" "),
-      !_vm.isLoading && _vm.meta.last_page > 1
-        ? _c("div", { staticClass: "ps-pagination" }, [
-            _c("nav", [
-              _c(
-                "ul",
-                { staticClass: "pagination" },
-                [
-                  _c("li", { staticClass: "page-item" }, [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "page-link",
+      _c(
+        "div",
+        { staticClass: "block__content" },
+        [
+          _vm.isLoading ? _c("div", [_vm._m(0)]) : _vm._e(),
+          _vm._v(" "),
+          _vm._l(_vm.data, function(item) {
+            return !_vm.isLoading && _vm.data.length
+              ? _c(
+                  "div",
+                  { key: item.id, staticClass: "slider-item reviews_item" },
+                  [
+                    _c("div", { staticClass: "rev_product_img" }, [
+                      _c("img", {
                         attrs: {
-                          "aria-hidden": "true",
-                          rel: "previous",
-                          "aria-label": "« Previous"
-                        },
-                        on: {
-                          click: function($event) {
-                            return _vm.getData(
-                              _vm.meta.current_page > 1
-                                ? _vm.meta.current_page - 1
-                                : 1
-                            )
-                          }
+                          src: "/storage/" + item.user_avatar,
+                          alt: item.user_name,
+                          width: "60"
                         }
-                      },
-                      [_vm._v("‹")]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.meta.last_page, function(n) {
-                    return Math.abs(n - _vm.meta.current_page) < 3 ||
-                      n === _vm.meta.last_page ||
-                      n === 1
-                      ? _c(
-                          "li",
-                          {
-                            class:
-                              n === _vm.meta.current_page
-                                ? "page-item active"
-                                : "page-item"
-                          },
-                          [
-                            n === 1 && Math.abs(n - _vm.meta.current_page) > 3
-                              ? _c("span", { staticClass: "first-page" }, [
-                                  _vm._v("...")
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            n === _vm.meta.current_page
-                              ? _c("span", { staticClass: "page-link" }, [
-                                  _vm._v(_vm._s(n))
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            n === _vm.meta.last_page &&
-                            Math.abs(n - _vm.meta.current_page) > 3
-                              ? _c("span", { staticClass: "last-page" }, [
-                                  _vm._v("...")
-                                ])
-                              : _vm._e(),
-                            _vm._v(" "),
-                            n !== _vm.meta.current_page &&
-                            !(
-                              n === 1 && Math.abs(n - _vm.meta.current_page) > 3
-                            ) &&
-                            !(
-                              n === _vm.meta.last_page &&
-                              Math.abs(n - _vm.meta.current_page) > 3
-                            )
-                              ? _c(
-                                  "a",
-                                  {
-                                    staticClass: "page-link",
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.getData(n)
-                                      }
-                                    }
-                                  },
-                                  [_vm._v(_vm._s(n))]
-                                )
-                              : _vm._e()
-                          ]
-                        )
-                      : _vm._e()
-                  }),
-                  _vm._v(" "),
-                  _c("li", { staticClass: "page-item" }, [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "page-link",
-                        attrs: { rel: "next", "aria-label": "Next »" },
-                        on: {
-                          click: function($event) {
-                            return _vm.getData(_vm.meta.current_page + 1)
-                          }
-                        }
-                      },
-                      [_vm._v("›")]
-                    )
-                  ])
-                ],
-                2
-              )
-            ])
-          ])
-        : _vm._e()
-    ],
-    2
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "rev_product_info" }, [
+                      _c("div", { staticClass: "star_rating_div" }, [
+                        _vm._m(1, true),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "rev_date" }, [
+                          _vm._v(
+                            "\r\n                            " +
+                              _vm._s(item.created_at) +
+                              "\r\n                        "
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "rev_product_description" }, [
+                        _c("p", [_vm._v(_vm._s(item.comment))])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "rev_title_btn" }, [
+                        _c("h3", [_vm._v(_vm._s(item.user_name))]),
+                        _vm._v(" "),
+                        _c("button", { staticClass: "verified_btn" }, [
+                          _vm._v("Verified Buyer")
+                        ])
+                      ])
+                    ])
+                  ]
+                )
+              : _vm._e()
+          })
+        ],
+        2
+      )
+    ]
   )
 }
 var staticRenderFns = [
@@ -4138,6 +4072,25 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("div", { staticClass: "circle circle-2" })
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "star-rating",
+        attrs: { role: "img", "aria-label": "Rated 4.66 out of 5" }
+      },
+      [
+        _c("span", { staticStyle: { width: "{item.star * 20 + '%'}" } }, [
+          _vm._v("Rated "),
+          _c("strong", { staticClass: "rating" }, [_vm._v("{item.star}")]),
+          _vm._v(" out of 5")
+        ])
+      ]
+    )
   }
 ]
 render._withStripped = true
