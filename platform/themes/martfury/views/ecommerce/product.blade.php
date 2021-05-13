@@ -1,27 +1,10 @@
 @php
 
     $originalProduct = $product;
-    $selectedAttrs = [];
     $productImages = $product->images;
-    if ($product->is_variation) {
-        $product = get_parent_product($product->id);
-        $selectedAttrs = app(\Botble\Ecommerce\Repositories\Interfaces\ProductVariationInterface::class)
-            ->getAttributeIdsOfChildrenProduct($originalProduct->id);
-        if (count($productImages) == 0) {
-            $productImages = $product->images;
-        }
-    } else {
-        $selectedAttrs = $product->defaultVariation->productAttributes->pluck('id')->all();
-    }
+    $selectedAttrs = $product->defaultVariation->productAttributes->pluck('id')->all();
 
     Theme::layout('pipes');
-    /*Theme::set('stickyHeader', 'false');
-    Theme::set('topHeader', Theme::partial('header-product-page', compact('product', 'countRating')));
-    Theme::set('bottomFooter', Theme::partial('footer-product-page', compact('product')));
-    Theme::set('pageId', 'product-page');
-    Theme::set('headerMobile', Theme::partial('header-mobile-product'));
-    Theme::breadcrumb(false);*/
-
 @endphp
 
 <div class="lnd_section1_banner">
