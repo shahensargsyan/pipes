@@ -4019,7 +4019,10 @@ var render = function() {
                     _c("div", { staticClass: "rev_product_img" }, [
                       _c("img", {
                         attrs: {
-                          src: "/storage/" + item.user_avatar,
+                          src:
+                            item.user_avatar != ""
+                              ? "storage/" + item.user_avatar
+                              : "storage/reviews/default-user-image.png",
                           alt: item.user_name,
                           width: "60"
                         }

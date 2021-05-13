@@ -10,7 +10,7 @@
         <div class="slider-item reviews_item" v-if="!isLoading && data.length" v-for="item in data" :key="item.id">
 
                 <div class="rev_product_img">
-                    <img :src="'/storage/'+item.user_avatar" :alt="item.user_name" width="60" />
+                    <img :src="item.user_avatar!=''?'storage/'+item.user_avatar:'storage/reviews/default-user-image.png'"  :alt="item.user_name" width="60" />
                 </div>
                 <div class="rev_product_info">
 
