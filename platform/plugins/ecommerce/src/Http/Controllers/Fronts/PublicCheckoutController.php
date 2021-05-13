@@ -769,8 +769,8 @@ class PublicCheckoutController
         $product = [];
         if (!$request->session()->has('upSales') || empty($request->session()->get('upSales'))) {
             if($payment->status != PaymentStatusEnum::COMPLETED && $payment->payment_channel == PaymentMethodEnum::PAYPAL) {
-//                $payment->status = $payPalService->captureOrder($payment->charge_id);
-//                $payment->update();
+                $payment->status = $payPalService->captureOrder($payment->charge_id);
+                $payment->update();
             }
             OrderHelper::finishOrder($token, $order);
 
