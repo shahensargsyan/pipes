@@ -2454,7 +2454,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -4029,13 +4028,35 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "rev_product_info" }, [
                       _c("div", { staticClass: "star_rating_div" }, [
-                        _vm._m(1, true),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "star-rating",
+                            attrs: {
+                              role: "img",
+                              "aria-label": "Rated 4.66 out of 5"
+                            }
+                          },
+                          [
+                            _c(
+                              "span",
+                              { style: { width: item.star * 20 + "%" } },
+                              [
+                                _vm._v("Rated "),
+                                _c("strong", { staticClass: "rating" }, [
+                                  _vm._v(_vm._s(item.star))
+                                ]),
+                                _vm._v(" out of 5")
+                              ]
+                            )
+                          ]
+                        ),
                         _vm._v(" "),
                         _c("div", { staticClass: "rev_date" }, [
                           _vm._v(
-                            "\r\n                            " +
+                            "\n                        " +
                               _vm._s(item.created_at) +
-                              "\r\n                        "
+                              "\n                    "
                           )
                         ])
                       ]),
@@ -4072,25 +4093,6 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("div", { staticClass: "circle circle-2" })
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "star-rating",
-        attrs: { role: "img", "aria-label": "Rated 4.66 out of 5" }
-      },
-      [
-        _c("span", { staticStyle: { width: "{item.star * 20 + '%'}" } }, [
-          _vm._v("Rated "),
-          _c("strong", { staticClass: "rating" }, [_vm._v("{item.star}")]),
-          _vm._v(" out of 5")
-        ])
-      ]
-    )
   }
 ]
 render._withStripped = true
