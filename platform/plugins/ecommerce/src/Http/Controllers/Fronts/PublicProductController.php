@@ -238,10 +238,7 @@ class PublicProductController
             'condition' => $condition,
             'take'      => 1,
             'with'      => [
-                'defaultProductAttributes',
-                'slugable',
-                'tags',
-                'tags.slugable',
+                'defaultVariation'
             ],
         ]);
 

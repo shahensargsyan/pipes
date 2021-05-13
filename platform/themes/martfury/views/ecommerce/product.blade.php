@@ -1,26 +1,9 @@
 @php
     $originalProduct = $product;
-    $selectedAttrs = [];
     $productImages = $product->images;
-    if ($product->is_variation) {
-        $product = get_parent_product($product->id);
-        $selectedAttrs = app(\Botble\Ecommerce\Repositories\Interfaces\ProductVariationInterface::class)
-            ->getAttributeIdsOfChildrenProduct($originalProduct->id);
-        if (count($productImages) == 0) {
-            $productImages = $product->images;
-        }
-    } else {
-        $selectedAttrs = $product->defaultVariation->productAttributes->pluck('id')->all();
-    }
+    $selectedAttrs = $product->defaultVariation->productAttributes->pluck('id')->all();
 
     Theme::layout('pipes');
-    /*Theme::set('stickyHeader', 'false');
-    Theme::set('topHeader', Theme::partial('header-product-page', compact('product', 'countRating')));
-    Theme::set('bottomFooter', Theme::partial('footer-product-page', compact('product')));
-    Theme::set('pageId', 'product-page');
-    Theme::set('headerMobile', Theme::partial('header-mobile-product'));
-    Theme::breadcrumb(false);*/
-
 @endphp
 
 <div class="lnd_section1_banner">
@@ -247,7 +230,7 @@
         <div class="lnd_sect5_right">
             <h1 class="sect5_title">{{ $product->middle_title }}</h1>
             <p class="sect5_description">{!! clean($product->middle_description) !!}</p>
-            <a href="#shop_product" id="buyNowBtn" class="sect5_buyNowBtn">BUY NOW</a>
+            <a href="#" id="buyNowBtn" class="sect5_buyNowBtn">BUY NOW</a>
         </div>
     </div>
 </div>
