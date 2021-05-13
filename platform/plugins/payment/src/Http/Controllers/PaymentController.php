@@ -372,67 +372,72 @@ class PaymentController extends Controller
             return redirect('/');
         }
 
-        if ($payment->status != PaymentStatusEnum::COMPLETED) {
-            $qty = (int)$request->input('qty');
-            $product = app(ProductInterface::class)->findById($request->input('id'));
+        if ($payment->status == PaymentStatusEnum::COMPLETED && $payment->payment_channel == PaymentMethodEnum::PAYPAL) {
+            session()->put('upSales', []);
 
-            $product->front_sale_price;
-
-            $subTotal = $qty * $product->front_sale_price + $payment->amount;
-
-            $patchStatus = false;
-            switch ($payment->payment_channel) {
-                case PaymentMethodEnum::PAYPAL:
-                    $patchStatus = $this->payPalService->patchOrder($payment->charge_id, $subTotal, $request);
-
-                    $payment->amount = $subTotal;
-                    $payment->update();
-                    break;
-                case PaymentMethodEnum::STRIPE:
-                    $amount = $qty * $product->front_sale_price;
-                    $patchStatus = $this->stripePaymentService->updatePayment($request, $payment->stripe_customer_id, $amount, $product->name);
-                    break;
-                default:
-
-                    break;
-            }
-
-            if (!$patchStatus) {
-                session()->put('upSales', []);
-
-                return redirect()->to(route('public.checkout.success', $token))->with('error_msg','Purchase failed!');
-            }
-
-            $weight = 0;
-            if ($product) {
-                if ($product->weight) {
-                    $weight += $product->weight * $qty;
-                }
-            }
-
-            $weight = $weight > 0.1 ? $weight : 0.1;
-
-            $data = [
-                'order_id' => $order->id,
-                'product_id' => $product->id,
-                'product_name' => $product->name,
-                'qty' => $qty,
-                'weight' => $weight,
-                'price' => $product->front_sale_price,
-                'tax_amount' => 0,
-                'options' => [],
-            ];
-
-            app(OrderProductInterface::class)->create($data);
-
-            $order->amount = $subTotal;
-            $order->sub_total = $subTotal;
-            $order->update();
-
-            $upSales = $request->session()->pull('upSales');
-            unset($upSales[key($upSales)]);
-            session()->put('upSales', $upSales);
+            return redirect()->to(route('public.checkout.success', $token));
         }
+
+        $qty = (int)$request->input('qty');
+        $product = app(ProductInterface::class)->findById($request->input('id'));
+
+        $product->front_sale_price;
+
+        $subTotal = $qty * $product->front_sale_price + $payment->amount;
+
+        $patchStatus = false;
+        switch ($payment->payment_channel) {
+            case PaymentMethodEnum::PAYPAL:
+                $patchStatus = $this->payPalService->patchOrder($payment->charge_id, $subTotal, $request);
+
+                $payment->amount = $subTotal;
+                $payment->update();
+                break;
+            case PaymentMethodEnum::STRIPE:
+                $amount = $qty * $product->front_sale_price;
+                $patchStatus = $this->stripePaymentService->updatePayment($request, $payment->stripe_customer_id, $amount, $product->name);
+                break;
+            default:
+
+                break;
+        }
+
+        if (!$patchStatus) {
+            session()->put('upSales', []);
+
+            return redirect()->to(route('public.checkout.success', $token))->with('error_msg','Purchase failed!');
+        }
+
+        $weight = 0;
+        if ($product) {
+            if ($product->weight) {
+                $weight += $product->weight * $qty;
+            }
+        }
+
+        $weight = $weight > 0.1 ? $weight : 0.1;
+
+        $data = [
+            'order_id' => $order->id,
+            'product_id' => $product->id,
+            'product_name' => $product->name,
+            'qty' => $qty,
+            'weight' => $weight,
+            'price' => $product->front_sale_price,
+            'tax_amount' => 0,
+            'options' => [],
+        ];
+
+        app(OrderProductInterface::class)->create($data);
+
+        $order->amount = $subTotal;
+        $order->sub_total = $subTotal;
+        $order->update();
+
+        $upSales = $request->session()->pull('upSales');
+        unset($upSales[key($upSales)]);
+        session()->put('upSales', $upSales);
+
 
         return redirect()->to(route('public.checkout.success', $token));
     }
