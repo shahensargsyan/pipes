@@ -766,25 +766,11 @@ class PublicCheckoutController
         }
 
         $changeId = $payment->charge_id;
-        $orderStatus = '';
-        switch ($payment->payment_channel) {
-            case PaymentMethodEnum::PAYPAL:
-                $orderStatus = $payPalService->getOrder($payment->charge_id);
-                break;
-            default:
-
-                break;
-        }
-
         $product = [];
-        if ($orderStatus == "COMPLETED" || !$request->session()->has('upSales') || empty($request->session()->get('upSales'))) {
-            switch ($payment->payment_channel) {
-                case PaymentMethodEnum::PAYPAL:
-                    $paymentStatus = $payPalService->captureOrder($payment->charge_id);
-
-                    $payment->status = $paymentStatus;
-                    $payment->update();
-                    break;
+        if (!$request->session()->has('upSales') || empty($request->session()->get('upSales'))) {
+            if($payment->status != PaymentStatusEnum::COMPLETED && $payment->payment_channel == PaymentMethodEnum::PAYPAL) {
+//                $payment->status = $payPalService->captureOrder($payment->charge_id);
+//                $payment->update();
             }
             OrderHelper::finishOrder($token, $order);
 

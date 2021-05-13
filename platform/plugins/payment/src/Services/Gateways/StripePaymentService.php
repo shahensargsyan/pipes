@@ -113,35 +113,40 @@ class StripePaymentService extends StripePaymentAbstract
      */
     public function updatePayment(Request $request, string $customerId, float $amount, string $description): string
     {
-        Stripe::setApiKey(setting('payment_stripe_secret'));
-        Stripe::setClientId(setting('payment_stripe_client_id'));
+        try {
+            Stripe::setApiKey(setting('payment_stripe_secret'));
+            Stripe::setClientId(setting('payment_stripe_client_id'));
 
-        $this->currency = $request->input('currency', config('plugins.payment.payment.currency'));
-        $this->currency = strtoupper($this->currency);
-        $this->amount = $amount;
-        $multiplier = StripeHelper::getStripeCurrencyMultiplier($this->currency);
+            $this->currency = $request->input('currency', config('plugins.payment.payment.currency'));
+            $this->currency = strtoupper($this->currency);
+            $this->amount = $amount;
+            $multiplier = StripeHelper::getStripeCurrencyMultiplier($this->currency);
 
-        if ($multiplier > 1) {
-            $amount = (int) ($amount * $multiplier);
+            if ($multiplier > 1) {
+                $amount = (int) ($amount * $multiplier);
+            }
+
+            // Charge Customer
+            $charge = Charge::create(array(
+                'amount' => $amount,
+                'currency'    => $this->currency,
+                'description' => $description,
+                'customer' => $customerId
+            ));
+
+            $this->chargeId = $charge['id'];
+
+            $chargeData = [
+                'chargeId' => $this->chargeId,
+                'customerId' => $customerId,
+            ];
+
+            $this->afterMakePayment($chargeData, $request);
+
+            return $this->chargeId;
+
+        } catch (HttpException $ex) {
+            return false;
         }
-
-        // Charge Customer
-        $charge = Charge::create(array(
-            'amount' => $amount,
-            'currency'    => $this->currency,
-            'description' => $description,
-            'customer' => $customerId
-        ));
-
-        $this->chargeId = $charge['id'];
-
-        $chargeData = [
-            'chargeId' => $this->chargeId,
-            'customerId' => $customerId,
-        ];
-
-        $this->afterMakePayment($chargeData, $request);
-
-        return $this->chargeId;
     }
 }
