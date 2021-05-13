@@ -372,17 +372,7 @@ class PaymentController extends Controller
             return redirect('/');
         }
 
-        $orderStatus = '';
-        switch ($payment->payment_channel) {
-            case PaymentMethodEnum::PAYPAL:
-                $orderStatus = $this->payPalService->getOrder($payment->charge_id);
-                break;
-            default:
-
-                break;
-        }
-
-        if ($orderStatus != "COMPLETED") {
+        if ($payment->status != PaymentStatusEnum::COMPLETED) {
             $qty = (int)$request->input('qty');
             $product = app(ProductInterface::class)->findById($request->input('id'));
 
@@ -407,37 +397,41 @@ class PaymentController extends Controller
                     break;
             }
 
-            if ($patchStatus) {
-                $weight = 0;
-                if ($product) {
-                    if ($product->weight) {
-                        $weight += $product->weight * $qty;
-                    }
-                }
+            if (!$patchStatus) {
+                session()->put('upSales', []);
 
-                $weight = $weight > 0.1 ? $weight : 0.1;
-
-                $data = [
-                    'order_id' => $order->id,
-                    'product_id' => $product->id,
-                    'product_name' => $product->name,
-                    'qty' => $qty,
-                    'weight' => $weight,
-                    'price' => $product->front_sale_price,
-                    'tax_amount' => 0,
-                    'options' => [],
-                ];
-
-                app(OrderProductInterface::class)->create($data);
-
-                $order->amount = $subTotal;
-                $order->sub_total = $subTotal;
-                $order->update();
-
-                $upSales = $request->session()->pull('upSales');
-                unset($upSales[key($upSales)]);
-                $request->session()->put('upSales', $upSales);
+                return redirect()->to(route('public.checkout.success', $token))->with('error_msg','Purchase failed!');
             }
+
+            $weight = 0;
+            if ($product) {
+                if ($product->weight) {
+                    $weight += $product->weight * $qty;
+                }
+            }
+
+            $weight = $weight > 0.1 ? $weight : 0.1;
+
+            $data = [
+                'order_id' => $order->id,
+                'product_id' => $product->id,
+                'product_name' => $product->name,
+                'qty' => $qty,
+                'weight' => $weight,
+                'price' => $product->front_sale_price,
+                'tax_amount' => 0,
+                'options' => [],
+            ];
+
+            app(OrderProductInterface::class)->create($data);
+
+            $order->amount = $subTotal;
+            $order->sub_total = $subTotal;
+            $order->update();
+
+            $upSales = $request->session()->pull('upSales');
+            unset($upSales[key($upSales)]);
+            session()->put('upSales', $upSales);
         }
 
         return redirect()->to(route('public.checkout.success', $token));

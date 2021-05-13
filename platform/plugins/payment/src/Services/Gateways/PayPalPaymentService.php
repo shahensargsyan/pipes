@@ -215,18 +215,22 @@ class PayPalPaymentService extends PayPalPaymentAbstract
 
     public function patchOrder($orderId, $amount, $postRequest)
     {
-        $client = $this->client();
+        try {
+            $client = $this->client();
 
-        $request = new OrdersPatchRequest($orderId);
-        $request->body = $this->buildPatchRequestBody($amount, $postRequest);
+            $request = new OrdersPatchRequest($orderId);
+            $request->body = $this->buildPatchRequestBody($amount, $postRequest);
 
-        $response = $client->execute($request);
+            $response = $client->execute($request);
 
-        if ($response->statusCode == 204) {
-            return true;
+            if ($response->statusCode == 204) {
+                return true;
+            }
+            return false;
+
+        } catch (HttpException $ex) {
+            return false;
         }
-
-        return false;
     }
 
 

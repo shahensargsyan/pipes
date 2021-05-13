@@ -18,11 +18,11 @@
         $start  = new \Carbon\Carbon();
         $totalDuration = 0;
         if(!$order->created_at->addMinutes(15)->isPast())
-            $totalDuration = $start->diffInSeconds($order->created_at->addMinutes(15));
+            $totalDuration = $order->created_at->addMinutes(15)->timestamp.'000';
 @endphp
 <div class="gardenhose-timer-section">
 <div class="container">
-    <div id="clockdiv" seconds="<?php echo $totalDuration; ?>">
+    <div id="clockdiv" timestamp="<?php echo $totalDuration; ?>">
         <div>
             <span class="hours"></span>
             <div class="smalltext">Hours</div>
