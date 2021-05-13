@@ -181,7 +181,7 @@
                                 </div>
                             </div>
                             @if (EcommerceHelper::isCartEnabled())
-                                <button class=" single_add_to_cart_button">{{ __('Add to Order') }}</button>
+                                <button class="single_add_to_cart_button">{{ __('Add to Order') }}</button>
                             @endif
 
                         </div>

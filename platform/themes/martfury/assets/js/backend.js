@@ -675,6 +675,10 @@
             $(this).closest('form').submit();
         });
 
+        $(document).on('click', '.single_add_to_cart_button', function (event) {
+            $(this).addClass('btn-disabled').addClass('button-loading');
+        });
+
         $(document).on('click', '.form-review-product button[type=submit]', function (event) {
             event.preventDefault();
             event.stopPropagation();
