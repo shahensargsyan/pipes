@@ -261,23 +261,13 @@ class PublicProductController
 
         SeoHelper::setSeoOpenGraph($meta);
 
-
         //do_action(BASE_ACTION_PUBLIC_RENDER_SINGLE, PRODUCT_CATEGORY_MODULE_SCREEN_NAME, $product);
 
         $faqs = $this->faqRepository->all();
 
-        $reviews = $this->reviewRepository->advancedGet([
-            'condition' => [
-                'status'     => BaseStatusEnum::PUBLISHED,
-                'product_id' => $product->id,
-            ],
-            'with'  => ['user'],
-            'order_by'  => ['image' => 'desc'],
-        ]);
-
         return Theme::scope
         ('ecommerce.product',
-            compact('product', 'faqs', 'reviews'),
+            compact('product', 'faqs'),
             'plugins/ecommerce::themes.product'
         )->render();
     }
