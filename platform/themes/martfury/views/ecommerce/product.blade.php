@@ -231,7 +231,7 @@
         <div class="lnd_sect5_right">
             <h1 class="sect5_title">{{ $product->middle_title }}</h1>
             <p class="sect5_description">{!! clean($product->middle_description) !!}</p>
-            <a href="#shop_product" id="buyNowBtn" class="sect5_buyNowBtn">BUY NOW</a>
+            <a href="#" id="buyNowBtn" class="sect5_buyNowBtn">BUY NOW</a>
         </div>
     </div>
 </div>
