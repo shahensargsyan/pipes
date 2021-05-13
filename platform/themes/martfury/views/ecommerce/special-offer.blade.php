@@ -17,8 +17,8 @@
         Theme::breadcrumb(false);
         $start  = new \Carbon\Carbon();
         $totalDuration = 0;
-        if(!$order->created_at->addMinutes(15)->isPast())
-            $totalDuration = $order->created_at->addMinutes(15)->timestamp.'000';
+        if(!$order->payment->created_at->addMinutes(15)->isPast())
+            $totalDuration = $order->payment->created_at->addMinutes(15)->timestamp.'000';
 @endphp
 <div class="gardenhose-timer-section">
 <div class="container">
