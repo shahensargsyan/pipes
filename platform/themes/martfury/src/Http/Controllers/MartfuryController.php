@@ -334,7 +334,8 @@ class MartfuryController extends PublicController
                 'status'     => BaseStatusEnum::PUBLISHED,
                 'product_id' => $id,
             ],
-            'order_by'  => ['created_at' => 'desc'],
+            'with'  => ['user'],
+            'order_by'  => ['image' => 'desc'],
             'paginate'  => [
                 'per_page'      => (int)$request->input('per_page', 10),
                 'current_paged' => (int)$request->input('page', 1),
