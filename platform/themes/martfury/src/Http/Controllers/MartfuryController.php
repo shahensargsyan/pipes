@@ -337,7 +337,7 @@ class MartfuryController extends PublicController
             'with'  => ['user'],
             'order_by'  => ['image' => 'desc'],
             'paginate'  => [
-                'per_page'      => (int)$request->input('per_page', 10),
+                'per_page'      => (int)$request->input('per_page', 100),
                 'current_paged' => (int)$request->input('page', 1),
             ],
         ]);
