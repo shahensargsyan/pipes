@@ -225,7 +225,7 @@
 <div class="lnd_section5">
     <div class="container">
         <div class="lnd_sect5_left">
-            <img src="{!! Theme::asset()->url('/pipes/images/banner@2x.jpg') !!}">
+            <img src="{!! Theme::asset()->url('/pipes/images/banner@2x.webp') !!}">
         </div>
         <div class="lnd_sect5_right">
             <h1 class="sect5_title">{{ $product->middle_title }}</h1>
@@ -240,9 +240,9 @@
         <div class="lnd_section6">
             <div class="container">
                 <h2 class="reviews_title">REVIEWS</h2>
-                    <div id="app" class="reviews_div slider">
-                        <product-reviews-component url="{{ route('public.ajax.product-reviews', $product->id) }}"></product-reviews-component>
-                    </div>
+                <div id="app" class="reviews_div slider">
+                    <product-reviews-component url="{{ route('public.ajax.product-reviews', $product->id) }}"></product-reviews-component>
+                </div>
             </div>
         </div>
     </div>
