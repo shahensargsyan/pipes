@@ -15,11 +15,8 @@
 {{--    <meta name="author" content="">--}}
 {{--    <title>Wash Pipe </title>--}}
     <!-- Bootstrap core CSS -->
-{{--    <link href="{!! Theme::asset()->url('pipes/lib/bootstrap/css/bootstrap.min.css') !!}" rel="stylesheet">--}}
-    <link href="{!! Theme::asset()->url('http://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css') !!}" rel="stylesheet">
-{{--    <link href="{!! Theme::asset()->url('pipes/lib/css/font-awesome.css') !!}" rel="stylesheet">--}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.min.css" integrity="sha512-IJ+BZHGlT4K43sqBGUzJ90pcxfkREDVZPZxeexRigVL8rzdw/gyJIflDahMdNzBww4k0WxpyaWpC2PLQUWmMUQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-{{--    <link href="{!! Theme::asset()->url('pipes/lib/css/font-awesome.css') !!}" rel="stylesheet">--}}
+    <link href="{!! Theme::asset()->url('pipes/lib/bootstrap/css/bootstrap.min.css') !!}" rel="stylesheet">
+    <link href="{!! Theme::asset()->url('pipes/lib/css/font-awesome.css') !!}" rel="stylesheet">
     <link href="{!! Theme::asset()->url('pipes/lib/css/slick.css') !!}" rel="stylesheet">
     <link href="{!! Theme::asset()->url('pipes/lib/css/slick-theme.css') !!}/" rel="stylesheet">
     <!-- Font Awesome -->
