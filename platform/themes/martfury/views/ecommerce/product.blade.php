@@ -226,7 +226,7 @@
 <div class="lnd_section5">
     <div class="container">
         <div class="lnd_sect5_left">
-            <img src="{!! Theme::asset()->url('/pipes/images/banner@2x.jpg') !!}">
+            <img src="{!! Theme::asset()->url('/pipes/images/banner@2x.webp') !!}">
         </div>
         <div class="lnd_sect5_right">
             <h1 class="sect5_title">{{ $product->middle_title }}</h1>
