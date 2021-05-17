@@ -15,12 +15,24 @@
 {{--    <meta name="author" content="">--}}
 {{--    <title>Wash Pipe </title>--}}
     <!-- Bootstrap core CSS -->
-
-{{--    <link href="{!! Theme::asset()->url('http://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css') !!}" rel="stylesheet">--}}
+{{--    <link href="{!! Theme::asset()->url('pipes/lib/bootstrap/css/bootstrap.min.css') !!}" rel="stylesheet">--}}
+    <link href="{!! Theme::asset()->url('http://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css') !!}" rel="stylesheet">
 {{--    <link href="{!! Theme::asset()->url('pipes/lib/css/font-awesome.css') !!}" rel="stylesheet">--}}
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.min.css" integrity="sha512-IJ+BZHGlT4K43sqBGUzJ90pcxfkREDVZPZxeexRigVL8rzdw/gyJIflDahMdNzBww4k0WxpyaWpC2PLQUWmMUQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 {{--    <link href="{!! Theme::asset()->url('pipes/lib/css/font-awesome.css') !!}" rel="stylesheet">--}}
+{{--    <link href="{!! Theme::asset()->url('pipes/lib/css/slick.css') !!}" rel="stylesheet">--}}
+{{--    <link href="{!! Theme::asset()->url('pipes/lib/css/slick-theme.css') !!}/" rel="stylesheet">--}}
+    <!-- Font Awesome -->
+    <style>
+        @charset 'UTF-8';@font-face{font-family:slick;font-weight:400;font-style:normal;src:url(fonts/slick.eot);src:url(fonts/slick.eot?#iefix) format('embedded-opentype'),url(fonts/slick.woff) format('woff'),url(fonts/slick.ttf) format('truetype'),url(fonts/slick.svg#slick) format('svg')}.slick-next,.slick-prev{font-size:0;line-height:0;position:absolute;top:50%;display:block;width:20px;height:20px;padding:0;-webkit-transform:translate(0,-50%);-ms-transform:translate(0,-50%);transform:translate(0,-50%);cursor:pointer;color:transparent;border:none;outline:0;background:0 0}.slick-next:focus,.slick-next:hover,.slick-prev:focus,.slick-prev:hover{color:transparent;outline:0;background:0 0}.slick-next:focus:before,.slick-next:hover:before,.slick-prev:focus:before,.slick-prev:hover:before{opacity:1}.slick-next.slick-disabled:before,.slick-prev.slick-disabled:before{opacity:.25}.slick-next:before,.slick-prev:before{font-family:slick;font-size:20px;line-height:1;opacity:.75;color:#fff;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.slick-prev{left:-25px}[dir=rtl] .slick-prev{right:-25px;left:auto}.slick-prev:before{content:url(../../images/left-arrow.svg)}[dir=rtl] .slick-prev:before{content:url(../../images/left-arrow.svg)}.slick-next{right:-25px}[dir=rtl] .slick-next{right:auto;left:-25px}.slick-next:before{content:url(../../images/right-arrow.svg)}[dir=rtl] .slick-next:before{content:url(../../images/right-arrow.svg)}.slick-slider{margin-bottom:30px}.slick-dots{position:absolute;bottom:-45px;display:block;width:100%;padding:0;list-style:none;text-align:center}.slick-dots li{position:relative;display:inline-block;width:20px;height:20px;margin:0 5px;padding:0;cursor:pointer}.slick-dots li button{font-size:0;line-height:0;display:block;width:20px;height:20px;padding:5px;cursor:pointer;color:transparent;border:0;outline:0;background:0 0}.slick-dots li button:focus,.slick-dots li button:hover{outline:0}.slick-dots li button:focus:before,.slick-dots li button:hover:before{opacity:1}.slick-dots li button:before{font-family:slick;font-size:6px;line-height:20px;position:absolute;top:0;left:0;width:20px;height:20px;content:'•';text-align:center;opacity:.25;color:#000;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.slick-dots li.slick-active button:before{opacity:.75;color:#000}
+    </style>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
+    <!-- Main CSS -->
+    <link href="{!! Theme::asset()->url('pipes/css/style.css') !!}" rel="stylesheet">
+
+    <link href="{!! Theme::asset()->url('css/custom.css') !!}" rel="stylesheet">
 
     @if(Route::current()->uri == "/")
         <meta name="google-site-verification" content="Xi_Czs87DyVw5hBF4bpmmkpxI6pemlG-pvMpBevlDvw" />
@@ -85,18 +97,6 @@
 
 </head>
 
-<link href="{!! Theme::asset()->url('pipes/lib/bootstrap/css/bootstrap.min.css') !!}" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.min.css" integrity="sha512-IJ+BZHGlT4K43sqBGUzJ90pcxfkREDVZPZxeexRigVL8rzdw/gyJIflDahMdNzBww4k0WxpyaWpC2PLQUWmMUQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link href="{!! Theme::asset()->url('pipes/lib/css/slick.css') !!}" rel="stylesheet">
-<link href="{!! Theme::asset()->url('pipes/lib/css/slick-theme.css') !!}/" rel="stylesheet">
-<!-- Font Awesome -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-      integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-
-<!-- Main CSS -->
-<link href="{!! Theme::asset()->url('pipes/css/style.css') !!}" rel="stylesheet">
-
-<link href="{!! Theme::asset()->url('css/custom.css') !!}" rel="stylesheet">
 <body>
 <div id="alert-container"></div>
 @if(!in_array(Route::current()->uri, ["cart","checkout/{token}", "checkout/{token}/success", ]))
