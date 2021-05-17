@@ -40,7 +40,7 @@ return [
             $version = '1.0.9';
 
 //            $theme->asset()->usePath()->add('linearicons', 'fonts/Linearicons/Linearicons/Font/demo-files/demo.css');
-            $theme->asset()->usePath()->add('bootstrap-css', 'plugins/bootstrap/css/bootstrap.min.css');
+//            $theme->asset()->usePath()->add('bootstrap-css', 'plugins/bootstrap/css/bootstrap.min.css');
 //            $theme->asset()->usePath()->add('owl-carousel-css', 'plugins/owl-carousel/assets/owl.carousel.min.css');
 //            $theme->asset()->usePath()
 //                ->add('owl-carousel-theme-css', 'plugins/owl-carousel/assets/owl.theme.default.min.css');
