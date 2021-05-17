@@ -51,6 +51,7 @@ return [
 //                ->add('jquery-bar-rating-css', 'plugins/jquery-bar-rating/themes/fontawesome-stars.css');
 //            $theme->asset()->usePath()->add('select2-css', 'plugins/select2/css/select2.min.css');
 //            $theme->asset()->usePath()->add('fontawesome', 'plugins/font-awesome/css/font-awesome.min.css');
+//            $theme->asset()->usePath()->add('fontawesome', 'plugins/font-awesome/css/font-awesome.min.css');
 //            $theme->asset()->usePath()->add('style', 'css/style.css', [], [], $version);
 //            $theme->asset()->usePath()->add('custom', 'css/custom.css', [], [], $version);
 
@@ -86,8 +87,8 @@ return [
             $theme->asset()->container('footer')->usePath()
                 ->add('backend', 'js/backend.js', ['jquery'], [], $version);
 
-//            $theme->asset()->container('footer')->usePath()
-//                ->add('app', 'js/app.js', ['jquery'], [], $version);
+            $theme->asset()->container('footer')->usePath()
+                ->add('app', 'js/app.js', ['jquery'], [], $version);
 
 //            $theme->asset()->container('footer')
 //                ->add('change-product-swatches', 'vendor/core/plugins/ecommerce/js/change-product-swatches.js',
