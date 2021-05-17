@@ -1,4 +1,4 @@
-let mix = require('laravel-mix');
+plet mix = require('laravel-mix');
 
 const path = require('path');
 let directory = path.basename(path.resolve(__dirname));
