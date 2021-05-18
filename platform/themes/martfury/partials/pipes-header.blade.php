@@ -29,7 +29,7 @@
 {{--    <link href="{!! Theme::asset()->url('pipes/lib/css/slick-theme.css') !!}/" rel="stylesheet">--}}
     <!-- Font Awesome -->
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+    <link rel="preload" as="style" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 
@@ -40,7 +40,7 @@
     <link href="{!! Theme::asset()->url('pipes/css/style.css?family=slick') !!}" rel="preload stylesheet" as="style">
 
 
-    <link href="{!! Theme::asset()->url('pipes/css/style.min.css') !!}" rel="stylesheet">
+    <link rel="preload" as="style" href="{!! Theme::asset()->url('pipes/css/style.min.css') !!}" >
 
 {{--    <link href="{!! Theme::asset()->url('css/custom.css') !!}" rel="stylesheet">--}}
 <style>
