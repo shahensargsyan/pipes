@@ -24,14 +24,21 @@
         /*# sourceMappingURL=bootstrap.min.css.map */</style>
 {{--    <link href="{!! Theme::asset()->url('pipes/lib/bootstrap/css/bootstrap.min.css') !!}" rel="stylesheet">--}}
     <link href="{!! Theme::asset()->url('pipes/lib/css/font-awesome.css') !!}" rel="stylesheet">
+
 {{--    <link href="{!! Theme::asset()->url('pipes/lib/css/slick.css') !!}" rel="stylesheet">--}}
 {{--    <link href="{!! Theme::asset()->url('pipes/lib/css/slick-theme.css') !!}/" rel="stylesheet">--}}
     <!-- Font Awesome -->
+
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
-    <!-- Main CSS -->
-    <link rel="preload" href="{!! Theme::asset()->url('pipes/css/pipe-fonts.css') !!}">
+
+    <link href="{!! Theme::asset()->url('pipes/css/style.css?family=oboto-Bold') !!}" rel="preload stylesheet" as="style">
+    <link href="{!! Theme::asset()->url('pipes/css/style.css?family=RobotoCondensed-Regular') !!}" rel="preload stylesheet" as="style">
+    <link href="{!! Theme::asset()->url('pipes/css/style.css?family=RobotoCondensed-Bold') !!}" rel="preload stylesheet" as="style">
+    <link href="{!! Theme::asset()->url('pipes/css/style.css?family=Roboto-Regular') !!}" rel="preload stylesheet" as="style">
+
+
     <link href="{!! Theme::asset()->url('pipes/css/style.css') !!}" rel="stylesheet">
 
 {{--    <link href="{!! Theme::asset()->url('css/custom.css') !!}" rel="stylesheet">--}}
