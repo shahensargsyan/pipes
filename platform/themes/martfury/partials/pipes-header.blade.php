@@ -31,6 +31,7 @@
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
     <!-- Main CSS -->
+    <link rel="preload" href="{!! Theme::asset()->url('pipes/css/pipe-fonts.css') !!}">
     <link href="{!! Theme::asset()->url('pipes/css/style.css') !!}" rel="stylesheet">
 
 {{--    <link href="{!! Theme::asset()->url('css/custom.css') !!}" rel="stylesheet">--}}
