@@ -40,7 +40,7 @@
     <link href="{!! Theme::asset()->url('pipes/css/style.css?family=slick') !!}" rel="preload stylesheet" as="style">
 
 
-    <link href="{!! Theme::asset()->url('pipes/css/style.css') !!}" rel="stylesheet">
+    <link href="{!! Theme::asset()->url('pipes/css/style.min.css') !!}" rel="stylesheet">
 
 {{--    <link href="{!! Theme::asset()->url('css/custom.css') !!}" rel="stylesheet">--}}
 <style>
