@@ -60,7 +60,7 @@
     <div class="footer_bottom_div">
         <div class="container">
             <div class="copyright_text"><p>{{ theme_option('copyright') }}</p></div>
-            <div class="payments_img"><img src="{!! Theme::asset()->url('/pipes/images/payment-menthods@2x.png') !!}"></div>
+            <div class="payments_img"><img src="{!! Theme::asset()->url('/pipes/images/payment-menthods@2x.webp') !!}"></div>
         </div>
     </div>
 </footer>
