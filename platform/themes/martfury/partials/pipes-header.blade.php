@@ -37,7 +37,7 @@
     <link href="{!! Theme::asset()->url('pipes/css/style.css?family=RobotoCondensed-Regular') !!}" rel="preload stylesheet" as="style">
     <link href="{!! Theme::asset()->url('pipes/css/style.css?family=RobotoCondensed-Bold') !!}" rel="preload stylesheet" as="style">
     <link href="{!! Theme::asset()->url('pipes/css/style.css?family=Roboto-Regular') !!}" rel="preload stylesheet" as="style">
-    <link href="{!! Theme::asset()->url('pipes/css/style.css?family=RobotoCondensed-Bold') !!}" rel="preload stylesheet" as="style">
+    <link href="{!! Theme::asset()->url('pipes/css/style.css?family=slick') !!}" rel="preload stylesheet" as="style">
 
 
     <link href="{!! Theme::asset()->url('pipes/css/style.css') !!}" rel="stylesheet">
