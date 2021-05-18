@@ -33,11 +33,11 @@
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 
-    <link href="{!! Theme::asset()->url('pipes/css/style.css?family=Roboto-Bold') !!}" rel="preload stylesheet" as="style">
-    <link href="{!! Theme::asset()->url('pipes/css/style.css?family=RobotoCondensed-Regular') !!}" rel="preload stylesheet" as="style">
-    <link href="{!! Theme::asset()->url('pipes/css/style.css?family=RobotoCondensed-Bold') !!}" rel="preload stylesheet" as="style">
-    <link href="{!! Theme::asset()->url('pipes/css/style.css?family=Roboto-Regular') !!}" rel="preload stylesheet" as="style">
-    <link href="{!! Theme::asset()->url('pipes/css/style.css?family=slick') !!}" rel="preload stylesheet" as="style">
+    <link href="{!! Theme::asset()->url('pipes/css/style.css?family=Roboto-Bold') !!}&display=swap" rel="preload stylesheet" as="style">
+    <link href="{!! Theme::asset()->url('pipes/css/style.css?family=RobotoCondensed-Regular') !!}&display=swap" rel="preload stylesheet" as="style">
+    <link href="{!! Theme::asset()->url('pipes/css/style.css?family=RobotoCondensed-Bold') !!}&display=swap" rel="preload stylesheet" as="style">
+    <link href="{!! Theme::asset()->url('pipes/css/style.css?family=Roboto-Regular') !!}&display=swap" rel="preload stylesheet" as="style">
+    <link href="{!! Theme::asset()->url('pipes/css/style.css?family=slick') !!}&display=swap" rel="preload stylesheet" as="style">
 
 
     <link rel="preload" as="style" href="{!! Theme::asset()->url('pipes/css/style.min.css') !!}" >
