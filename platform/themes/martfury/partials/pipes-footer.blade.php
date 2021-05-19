@@ -141,7 +141,7 @@
             host: "https://wchat.freshchat.com"
         });
     }
-
+    setTimeout(function(){
     (function(d, id) {
         var fcJS;
         if (d.getElementById(id)) {
@@ -155,6 +155,7 @@
         fcJS.onload = initFreshChat;
         d.head.appendChild(fcJS);
     }(document, 'freshchat-js-sdk'));
+    }, 5000);
 </script>
 <!-- End Facebook Pixel Code -->
 </body>
