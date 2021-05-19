@@ -106,7 +106,7 @@
 <!-- Main JS -->
 <script src="{!! Theme::asset()->url('pipes/js/main-js.js') !!}"></script>
 
-{{--<script src="https://wchat.freshchat.com/js/widget.js"></script>--}}
+
 <script>
     jQuery(function(){
 
@@ -125,12 +125,7 @@
         @endif
 
     });
-    // $(document).ready(function(){
-    //     window.fcWidget.init({
-    //         token: "677676e1-0a48-4440-8476-e5ae23b28f04",
-    //         host: "https://wchat.freshchat.com"
-    //     });
-    // });
+
 
 
 
@@ -142,22 +137,22 @@
         });
     }
     setTimeout(function(){
-    (function(d, id) {
-        var fcJS;
-        if (d.getElementById(id)) {
-            initFreshChat();
-            return;
-        }
-        fcJS = d.createElement('script');
-        fcJS.id = id;
-        fcJS.async = true;
-        fcJS.src = 'https://wchat.freshchat.com/js/widget.js';
-        fcJS.onload = initFreshChat;
-        d.head.appendChild(fcJS);
-    }(document, 'freshchat-js-sdk'));
+        (function(d, id) {
+            var fcJS;
+            if (d.getElementById(id)) {
+                initFreshChat();
+                return;
+            }
+            fcJS = d.createElement('script');
+            fcJS.id = id;
+            fcJS.async = true;
+            fcJS.src = 'https://wchat.freshchat.com/js/widget.js';
+            fcJS.onload = initFreshChat;
+            d.head.appendChild(fcJS);
+        }(document, 'freshchat-js-sdk'));
     }, 5000);
 </script>
-<!-- End Facebook Pixel Code -->
+
 </body>
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXX"
