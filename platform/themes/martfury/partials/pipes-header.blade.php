@@ -38,6 +38,7 @@
     <link href="{!! Theme::asset()->url('pipes/css/style.min.css?family=RobotoCondensed-Bold') !!}&display=swap" rel="preload stylesheet" as="style">
     <link href="{!! Theme::asset()->url('pipes/css/style.min.css?family=Roboto-Regular') !!}&display=swap" rel="preload stylesheet" as="style">
     <link href="{!! Theme::asset()->url('pipes/css/style.min.css?family=slick') !!}&display=swap" rel="preload stylesheet" as="style">
+    <link href="{!! Theme::asset()->url('pipes/css/style.min.css?family=fontawesome-webfont') !!}&display=swap" rel="preload stylesheet" as="style">
 
 
     <link rel="preload" as="style" href="{!! Theme::asset()->url('pipes/css/style.min.css') !!}" >
@@ -68,7 +69,7 @@
                 'https://connect.facebook.net/en_US/fbevents.js');
             fbq('init', '255092163054343');
             fbq('track', 'PageView');
-        }, 3500);
+        }, 5000);
 
         /*function Load3rdPartyScripts() {
             let window = {};  // Notice!
@@ -121,7 +122,7 @@
                    src="https://www.facebook.com/tr?id=255092163054343&ev=PageView&noscript=1"
         /></noscript>
     <!-- End Facebook Pixel Code -->
-   
+
 
         <!-- This site is converting visitors into subscribers and customers with OptinMonster - https://optinmonster.com -->
 {{--        <script type="text/javascript" src="https://a.omappapi.com/app/js/api.min.js" data-account="2737" data-user="18405" async></script>--}}
