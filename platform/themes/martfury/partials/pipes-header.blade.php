@@ -11,18 +11,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-{{--    <meta name="description" content="">--}}
-{{--    <meta name="author" content="">--}}
-{{--    <title>Wash Pipe </title>--}}
     <!-- Bootstrap core CSS -->
 
     <link href="{!! Theme::asset()->url('pipes/lib/bootstrap/css/bootstrap.min.css') !!}" rel="stylesheet">
 {{--    <link rel="stylesheet" href="{!! Theme::asset()->url('pipes/lib/css/font-awesome.css') !!}">--}}
-
-{{--    <link href="{!! Theme::asset()->url('pipes/lib/css/slick.css') !!}" rel="stylesheet">--}}
-{{--    <link href="{!! Theme::asset()->url('pipes/lib/css/slick-theme.css') !!}/" rel="stylesheet">--}}
     <!-- Font Awesome -->
-
     <link rel="preload" as="style" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
@@ -38,50 +31,6 @@
     <link rel="preload" as="style" href="{!! Theme::asset()->url('pipes/css/style.min.css') !!}" >
 
 {{--    <link href="{!! Theme::asset()->url('css/custom.css') !!}" rel="stylesheet">--}}
-<style>
-
-    #alert-container {
-        top: 100px;
-        right: 5px;
-        position: fixed;
-        z-index: 9999999;
-    }
-    #alert-container .alert {
-        max-width: 450px !important;
-        min-height: 45px !important;
-        font-weight: 400;
-        position: relative;
-        padding: 15px 40px 15px 60px;
-        margin-bottom: 10px;
-        box-shadow: 0 4px 10px 0 rgba(3, 3, 3, 0.1);
-    }
-    #alert-container .alert.alert-success {
-        color: #299c77;
-        background-color: #bff9d0;
-    }
-    #alert-container .alert .message-icon {
-        position: absolute;
-        left: 5%;
-        top: 30%;
-        font-size: 20px;
-        fill: #299c77;
-        stroke: #299c77;
-    }
-    #alert-container .alert.alert-dismissible .close {
-        position: absolute;
-        top: 20px;
-        right: 15px;
-        font-size: 10px;
-        padding: 0;
-    }
-
-    body.show-admin-bar #alert-container {
-        top: 140px;
-    }
-    body.show-admin-bar .ps-panel--sidebar {
-        top: 40px;
-    }
-</style>
 
     @if(Route::current()->uri == "/")
         <meta name="google-site-verification" content="Xi_Czs87DyVw5hBF4bpmmkpxI6pemlG-pvMpBevlDvw" />
@@ -104,22 +53,6 @@
             fbq('init', '255092163054343');
             fbq('track', 'PageView');
         }, 5000);
-
-        /*function Load3rdPartyScripts() {
-            let window = {};  // Notice!
-            (function (f, b, e, v, n, t, s) {
-                if (f.fbq) return; n = f.fbq = function () {
-                    n.callMethod ?
-                        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-                }; if (!f._fbq) f._fbq = n;
-                n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
-                t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
-            })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js', undefined, undefined, undefined);
-
-            fbq('init', 'XXXXXXXXXXXXX'); //problem here
-            fbq('track', 'PageView');
-
-        }*/
 
         setTimeout(function(){
             loadOmappapiScript();
