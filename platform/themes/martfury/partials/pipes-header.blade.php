@@ -57,19 +57,20 @@
 
     <!-- Facebook Pixel Code -->
     <script>
-        // !function(f,b,e,v,n,t,s)
-        // {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        //     n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        //     if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        //     n.queue=[];t=b.createElement(e);t.async=!0;
-        //     t.src=v;s=b.getElementsByTagName(e)[0];
-        //     s.parentNode.insertBefore(t,s)}(window, document,'script',
-        //     'https://connect.facebook.net/en_US/fbevents.js');
-        // fbq('init', '255092163054343');
-        // fbq('track', 'PageView');
+        setTimeout(function(){
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                n.queue=[];t=b.createElement(e);t.async=!0;
+                t.src=v;s=b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t,s)}(window, document,'script',
+                'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '255092163054343');
+            fbq('track', 'PageView');
+        }, 3500);
 
-
-        function Load3rdPartyScripts() {
+        /*function Load3rdPartyScripts() {
             let window = {};  // Notice!
             (function (f, b, e, v, n, t, s) {
                 if (f.fbq) return; n = f.fbq = function () {
@@ -80,14 +81,39 @@
                 t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
             })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js', undefined, undefined, undefined);
 
-            fbq('init', '255092163054343'); //problem here
+            fbq('init', 'XXXXXXXXXXXXX'); //problem here
             fbq('track', 'PageView');
 
-        }
+        }*/
+
         setTimeout(function(){
-            Load3rdPartyScripts();
+            loadOmappapiScript();
+
         }, 4000);
 
+
+        function loadOmappapiScript(src, callback)
+        {
+            var s,
+                r,
+                t;
+            r = false;
+            s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.src = 'https://a.omappapi.com/app/js/api.min.js';
+            s.setAttribute("data-account", "2737");
+            s.setAttribute("data-user", "18405");
+            s.onload = s.onreadystatechange = function() {
+                //console.log( this.readyState ); //uncomment this line to see which ready states are called.
+                if ( !r && (!this.readyState || this.readyState == 'complete') )
+                {
+                    r = true;
+                    //callback();
+                }
+            };
+            t = document.getElementsByTagName('script')[0];
+            t.parentNode.insertBefore(s, t);
+        }
     </script>
 
 
@@ -95,13 +121,10 @@
                    src="https://www.facebook.com/tr?id=255092163054343&ev=PageView&noscript=1"
         /></noscript>
     <!-- End Facebook Pixel Code -->
-    <noscript><img height="1" width="1" style="display:none"
-                   src="https://www.facebook.com/tr?id=1268049090256331&ev=PageView&noscript=1"
-        /></noscript>
-    <!-- End Facebook Pixel Code -->
+   
 
         <!-- This site is converting visitors into subscribers and customers with OptinMonster - https://optinmonster.com -->
-        <script type="text/javascript" src="https://a.omappapi.com/app/js/api.min.js" data-account="2737" data-user="18405" async></script>
+{{--        <script type="text/javascript" src="https://a.omappapi.com/app/js/api.min.js" data-account="2737" data-user="18405" async></script>--}}
         <!-- / https://optinmonster.com -->
 
         @switch(Route::current()->uri)

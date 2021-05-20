@@ -128,8 +128,6 @@
 
 
 
-
-
     function initFreshChat() {
         window.fcWidget.init({
             token: "677676e1-0a48-4440-8476-e5ae23b28f04",
