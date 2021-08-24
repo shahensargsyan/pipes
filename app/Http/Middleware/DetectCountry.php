@@ -31,7 +31,7 @@ class DetectCountry
      */
     public function handle(Request $request, Closure $next)
     {
-        $geoData = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip=3.115.255.255'));
+        $geoData = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip='.get_client_ip()));
 
         if(cms_currency()->getApplicationCurrency()->title != $geoData['geoplugin_currencyCode']) {
             $currency = $this->currencyRepository->getFirstBy(['title' => $geoData['geoplugin_currencyCode']]);
