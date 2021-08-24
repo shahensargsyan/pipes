@@ -117,7 +117,7 @@
             @break
 
             @default
-            Default case...
+            <title>Garden</title>
         @endswitch
 
         {{--{{in_array(Route::current()->uri, ["cart","checkout/{token}", "checkout/{token}/success", "{slug?}"])?'nav_bar2':''}}--}}
