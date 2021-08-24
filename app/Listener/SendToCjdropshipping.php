@@ -6,16 +6,13 @@ use App\Event\OrderCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Repositories\CjDropshippingRepository;
+use CountryState;
 
 class SendToCjdropshipping
 {
     public $cjDropShippingRepository;
 
-    public $countries = [
-        "US" => "United States",
-        "UK" => "United Kingdom",
-        "IE" => "Ireland",
-    ];
+    public $countries;
 
     /**
      * Create the event listener.
@@ -25,6 +22,7 @@ class SendToCjdropshipping
     public function __construct(CjDropshippingRepository $cjDropShippingRepository)
     {
         $this->cjDropShippingRepository = $cjDropShippingRepository;
+        $this->countries = CountryState::getCountries();
     }
 
     /**

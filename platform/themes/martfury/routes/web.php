@@ -59,7 +59,7 @@ Route::group(['namespace' => 'Theme\Martfury\Http\Controllers', 'middleware' => 
 });
 
 Theme::routes();
-Route::group(['namespace' => 'Botble\Ecommerce\Http\Controllers\Fronts', 'middleware' => ['web', 'core']], function () {
+Route::group(['namespace' => 'Botble\Ecommerce\Http\Controllers\Fronts', 'middleware' => ['web', 'core', 'detect.country']], function () {
     Route::group(apply_filters(BASE_FILTER_GROUP_PUBLIC_ROUTE, []), function () {
 
 

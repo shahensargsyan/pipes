@@ -46,6 +46,7 @@ use Throwable;
 use Validator;
 use Theme;
 use Auth;
+use CountryState;
 
 class PublicCheckoutController
 {
@@ -163,6 +164,7 @@ class PublicCheckoutController
         }
         $sessionCheckoutData = OrderHelper::getOrderSessionData($token);
 
+        $countries = CountryState::getCountries();
 
         $weight = 0;
         foreach (Cart::instance('cart')->content() as $cartItem) {
@@ -248,7 +250,8 @@ class PublicCheckoutController
               'shippingAmount',
               'promotionDiscountAmount',
               'couponDiscountAmount',
-              'sessionCheckoutData'
+              'sessionCheckoutData',
+              'countries'
           )
         )->render();
 

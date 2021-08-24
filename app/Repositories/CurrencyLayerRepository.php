@@ -38,7 +38,7 @@ class CurrencyLayerRepository
 
             curl_close($ch);
 
-            return $server_output;
+            return json_decode($server_output, true);
         } catch (Exception $e) {
             echo 'Caught exception: ', $e->getMessage(), "\n";
         }

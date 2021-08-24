@@ -52,32 +52,15 @@ class UpdateCurrencyRates extends Command
      */
     public function handle()
     {
-//        $currencies = $this->currencyRepository->getAllCurrencies();
+        $currencies = $this->currencyRepository->getAllCurrencies();
+        $liveCurrencies = $this->currencyLayer->get();
 
-//dd($currencies->pluck('title')->toArray());
-//        dd($this->currencyLayer->get());
-         var_dump($this->get_client_ip());die;
-        $curr = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip='.$_SERVER['REMOTE_ADDR']));
-        'https://api.currencylayer.com/live? access_key = YOUR_ACCESS_KEY& currencies = AUD,CHF,EUR,GBP,PLN';
-    }
+         foreach ($currencies as $currency) {
+             if ($currency->is_default)
+                 continue;
 
-    function get_client_ip()
-    {
-        $ipaddress = '';
-        if (getenv('HTTP_CLIENT_IP'))
-            $ipaddress = getenv('HTTP_CLIENT_IP');
-        else if (getenv('HTTP_X_FORWARDED_FOR'))
-            $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
-        else if (getenv('HTTP_X_FORWARDED'))
-            $ipaddress = getenv('HTTP_X_FORWARDED');
-        else if (getenv('HTTP_FORWARDED_FOR'))
-            $ipaddress = getenv('HTTP_FORWARDED_FOR');
-        else if (getenv('HTTP_FORWARDED'))
-            $ipaddress = getenv('HTTP_FORWARDED');
-        else if (getenv('REMOTE_ADDR'))
-            $ipaddress = getenv('REMOTE_ADDR');
-        else
-            $ipaddress = 'UNKNOWN';
-        return $ipaddress;
+            $currency->exchange_rate = $liveCurrencies['quotes']['USD'.$currency->title];
+            $currency->save();
+        }
     }
 }
