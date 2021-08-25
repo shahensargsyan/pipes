@@ -36,7 +36,7 @@ class DetectCountry
         if(cms_currency()->getApplicationCurrency()->title != $geoData['geoplugin_currencyCode']) {
             $currency = $this->currencyRepository->getFirstBy(['title' => $geoData['geoplugin_currencyCode']]);
             if ($currency){
-                cms_currency()->setApplicationCurrency($geoData['geoplugin_currencyCode']);
+                cms_currency()->setApplicationCurrency($currency);
             }
         };
 
