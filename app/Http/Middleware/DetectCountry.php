@@ -32,11 +32,11 @@ class DetectCountry
     public function handle(Request $request, Closure $next)
     {
         $geoData = unserialize(file_get_contents('http://www.geoplugin.net/php.gp?ip='.get_client_ip()));
-//dd(cms_currency()->getApplicationCurrency()->title , $geoData);
+//dd($geoData['geoplugin_currencyCode'],!is_null($geoData['geoplugin_currencyCode']) , cms_currency()->getApplicationCurrency()->title != $geoData['geoplugin_currencyCode']);
         if(!is_null($geoData['geoplugin_currencyCode']) && cms_currency()->getApplicationCurrency()->title != $geoData['geoplugin_currencyCode']) {
             $currency = $this->currencyRepository->getFirstBy(['title' => $geoData['geoplugin_currencyCode']]);
             if ($currency){
-                cms_currency()->setApplicationCurrency($currency);
+                //cms_currency()->setApplicationCurrency($currency);
             }
         };
 
