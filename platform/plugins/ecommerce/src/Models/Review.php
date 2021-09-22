@@ -27,6 +27,7 @@ class Review extends BaseModel
         'comment',
         'status',
         'image',
+        'created_at'
     ];
 
     /**

@@ -84,8 +84,11 @@ class ReviewTable extends TableAbstract
             });
 
         return apply_filters(BASE_FILTER_GET_LIST_DATA, $data, $this->repository->getModel())
+//            ->addColumn('operations', function ($item) {
+//                return view('plugins/ecommerce::reviews.partials.actions', compact('item'))->render();
+//            })
             ->addColumn('operations', function ($item) {
-                return view('plugins/ecommerce::reviews.partials.actions', compact('item'))->render();
+                return $this->getOperations('reviews.edit', 'reviews.destroy', $item);
             })
             ->escapeColumns([])
             ->make(true);

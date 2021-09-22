@@ -14,8 +14,10 @@ return [
     'product'              => 'Product',
     'user'                 => 'User',
     'star'                 => 'Star',
+    'image'                => 'Image',
     'status'               => 'Status',
     'list_review'          => 'Customer reviews',
+    'customer_name'          => 'Name',
     'intro'                => [
         'title'       => 'Manage customer reviews',
         'description' => 'Customer reviews will be shown here and you can manage it to show/hide in product detail page.',

@@ -335,7 +335,7 @@ class MartfuryController extends PublicController
                 'product_id' => $id,
             ],
             'with'  => ['user'],
-            'order_by'  => ['image' => 'desc'],
+            'order_by'  => ['image' => 'desc', 'created_at' => 'desc'],
             'paginate'  => [
                 'per_page'      => (int)$request->input('per_page', 100),
                 'current_paged' => (int)$request->input('page', 1),

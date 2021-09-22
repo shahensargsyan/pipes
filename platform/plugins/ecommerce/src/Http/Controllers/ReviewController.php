@@ -3,8 +3,13 @@
 namespace Botble\Ecommerce\Http\Controllers;
 
 use Botble\Base\Events\DeletedContentEvent;
+use Botble\Base\Events\UpdatedContentEvent;
+use Botble\Base\Forms\FormBuilder;
 use Botble\Base\Http\Controllers\BaseController;
 use Botble\Base\Http\Responses\BaseHttpResponse;
+use Botble\Ecommerce\Forms\ReviewForm;
+use Botble\Ecommerce\Http\Requests\ReviewRequest;
+use Botble\Ecommerce\Http\Requests\TaxRequest;
 use Botble\Ecommerce\Repositories\Interfaces\ReviewInterface;
 use Botble\Ecommerce\Tables\ReviewTable;
 use Exception;
@@ -39,6 +44,36 @@ class ReviewController extends BaseController
         page_title()->setTitle(trans('plugins/ecommerce::review.name'));
 
         return $dataTable->renderTable();
+    }
+
+    /**
+     * @param int $id
+     * @return string
+     */
+    public function edit($id, FormBuilder $formBuilder)
+    {
+        $review = $this->reviewRepository->findOrFail($id);
+
+        //page_title()->setTitle(trans('plugins/ecommerce::tax.edit', ['title' => $tax->title]));
+
+        return $formBuilder->create(ReviewForm::class, ['model' => $review])->renderForm();
+    }
+
+    /**
+     * @param int $id
+     * @param TaxRequest $request
+     * @param BaseHttpResponse $response
+     * @return BaseHttpResponse
+     */
+    public function update($id, ReviewRequest $request, BaseHttpResponse $response)
+    {
+        $review = $this->reviewRepository->createOrUpdate($request->input(), ['id' => $id]);
+
+        event(new UpdatedContentEvent(REVIEW_MODULE_SCREEN_NAME, $request, $review));
+
+        return $response
+            ->setPreviousUrl(route('reviews.index'))
+            ->setMessage(trans('core/base::notices.update_success_message'));
     }
 
     /**

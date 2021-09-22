@@ -3,7 +3,7 @@
 Route::group(['namespace' => 'Botble\Ecommerce\Http\Controllers', 'middleware' => ['web', 'core']], function () {
     Route::group(['prefix' => BaseHelper::getAdminPrefix(), 'middleware' => 'auth'], function () {
         Route::group(['prefix' => 'reviews', 'as' => 'reviews.'], function () {
-            Route::resource('', 'ReviewController')->parameters(['' => 'review'])->only(['index', 'destroy']);
+            Route::resource('', 'ReviewController')->parameters(['' => 'review']);
 
             Route::delete('items/destroy', [
                 'as'         => 'deletes',
